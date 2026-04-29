@@ -1245,7 +1245,59 @@ ol {
 }
 
 .admin-grid {
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+  grid-template-areas:
+    "team google"
+    "services clients"
+    "salon salon";
+  align-items: start;
+}
+
+#team-panel {
+  grid-area: team;
+}
+
+#services-panel {
+  grid-area: services;
+}
+
+#clients-panel {
+  grid-area: clients;
+}
+
+#google-panel {
+  grid-area: google;
+}
+
+#salon-panel {
+  grid-area: salon;
+}
+
+.admin-grid > .panel {
+  min-width: 0;
+  height: 100%;
+}
+
+#clients-panel .field-grid,
+#google-panel .field-grid {
+  grid-template-columns: 1fr;
+}
+
+#team-panel .checkbox-grid {
+  grid-template-columns: 1fr;
+}
+
+#team-panel .check-row {
+  align-items: flex-start;
+}
+
+#google-panel .hint-card {
+  gap: 8px;
+}
+
+#google-panel .hint-card p,
+#clients-panel .list-card p {
+  line-height: 1.55;
 }
 
 .company-logo,
@@ -2191,6 +2243,16 @@ textarea:focus {
 
   .company-panel {
     position: static;
+  }
+
+  .admin-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "team"
+      "services"
+      "clients"
+      "google"
+      "salon";
   }
 
   .showcase-stack {
