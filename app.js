@@ -477,6 +477,58 @@ function syncOperationalAccess() {
   els.logoutButton.disabled = false;
   els.billingCheckoutButton.disabled = false;
   els.billingProfileSave.disabled = false;
+
+  if (!blocked) {
+    syncAppointmentComposerState();
+  }
+}
+
+function syncAppointmentComposerState() {
+  const form = els.appointmentForm?.elements;
+  if (!form) return;
+  const missingClients = !state.clients.length;
+  const missingServices = !state.services.length;
+  const missingProfessionals = !state.professionals.length;
+  const submitButton = els.appointmentForm.querySelector('button[type="submit"]');
+  const shouldDisable = missingClients || missingServices || missingProfessionals;
+
+  form.clientId.disabled = missingClients;
+  form.serviceId.disabled = missingServices;
+  form.professionalId.disabled = missingServices || missingProfessionals;
+  form.startAt.disabled = shouldDisable;
+  if (submitButton) submitButton.disabled = shouldDisable;
+
+  if (missingClients) {
+    els.appointmentSlotSummary.textContent = "Cadastre ao menos um cliente para criar agendamentos no painel.";
+    renderSelect(form.startAt, [], "Cadastre um cliente");
+    return;
+  }
+
+  if (missingServices) {
+    els.appointmentSlotSummary.textContent = "Cadastre ao menos um servico para liberar a agenda.";
+    renderSelect(form.startAt, [], "Cadastre um servico");
+    return;
+  }
+
+  if (missingProfessionals) {
+    els.appointmentSlotSummary.textContent = "Cadastre ao menos um profissional para distribuir os horarios.";
+    renderSelect(form.startAt, [], "Cadastre um profissional");
+    return;
+  }
+
+  if (!form.serviceId.value || !form.professionalId.value || !form.date.value) {
+    els.appointmentSlotSummary.textContent = "Escolha servico, profissional e data para listar os horarios livres.";
+    renderSelect(form.startAt, [], "Escolha um horario");
+  }
+}
+
+function renderEmptyState(container, title, description) {
+  container.innerHTML = `
+    <div class="empty-box">
+      <strong>${title}</strong>
+      <p>${description}</p>
+    </div>
+  `;
 }
 
 function setFormDisabled(form, disabled) {
@@ -791,6 +843,14 @@ function resetServiceForm() {
 
 function renderServices() {
   els.servicesList.innerHTML = "";
+  if (!state.services.length) {
+    renderEmptyState(
+      els.servicesList,
+      "Nenhum servico cadastrado.",
+      "Cadastre os primeiros servicos para liberar a agenda publica e vincular a equipe aos atendimentos."
+    );
+    return;
+  }
   state.services.forEach((service) => {
     const article = document.createElement("article");
     article.className = "list-card";
@@ -869,6 +929,15 @@ async function saveProfessional(event) {
 
 function renderProfessionalServiceCheckboxes(selectedIds = []) {
   els.professionalServices.innerHTML = "";
+  if (!state.services.length) {
+    els.professionalServices.innerHTML = `
+      <div class="empty-box">
+        <strong>Cadastre os servicos primeiro.</strong>
+        <p>Assim que houver servicos, voce podera marcar quais atendimentos cada profissional realiza.</p>
+      </div>
+    `;
+    return;
+  }
   state.services.forEach((service) => {
     const label = document.createElement("label");
     label.className = "check-row";
@@ -886,6 +955,14 @@ function resetProfessionalForm() {
 
 function renderProfessionals() {
   els.professionalsList.innerHTML = "";
+  if (!state.professionals.length) {
+    renderEmptyState(
+      els.professionalsList,
+      "Nenhum profissional cadastrado.",
+      "Adicione a equipe para liberar a escolha de profissional no link publico e organizar a disponibilidade."
+    );
+    return;
+  }
   state.professionals.forEach((professional) => {
     const article = document.createElement("article");
     article.className = "list-card";
@@ -972,6 +1049,14 @@ function resetClientForm() {
 
 function renderClients() {
   els.clientsList.innerHTML = "";
+  if (!state.clients.length) {
+    renderEmptyState(
+      els.clientsList,
+      "Nenhum cliente salvo.",
+      "Os primeiros clientes aparecem aqui quando voce cadastrar manualmente ou receber agendamentos pelo link publico."
+    );
+    return;
+  }
   state.clients.forEach((client) => {
     const article = document.createElement("article");
     article.className = "list-card";
@@ -1134,6 +1219,7 @@ function populateAppointmentSelects() {
     label: `${item.name} • ${item.duration} min`
   }));
   syncAdminProfessionals();
+  syncAppointmentComposerState();
 }
 
 function syncAdminProfessionals() {
@@ -1143,6 +1229,7 @@ function syncAdminProfessionals() {
     value: item.id,
     label: `${item.name} • ${item.specialty}`
   }));
+  syncAppointmentComposerState();
 }
 
 async function loadAdminAvailability() {

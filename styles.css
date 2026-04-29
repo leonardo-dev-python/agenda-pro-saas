@@ -242,8 +242,10 @@ ol {
 
 .owner-header {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: minmax(120px, 160px) 1fr auto;
   align-items: center;
+  gap: 24px;
+  padding: 18px 24px;
 }
 
 .owner-header-copy {
@@ -254,7 +256,7 @@ ol {
 }
 
 .owner-header-copy h1 {
-  font-size: clamp(1.55rem, 2.2vw, 2.5rem);
+  font-size: clamp(1.45rem, 2.1vw, 2.25rem);
   letter-spacing: -0.04em;
   text-align: center;
 }
@@ -271,6 +273,11 @@ ol {
   display: block;
   border-radius: 18px;
   box-shadow: 0 14px 28px rgba(16, 24, 28, 0.18);
+}
+
+.owner-header .brand-logo {
+  width: clamp(106px, 11vw, 132px);
+  box-shadow: 0 10px 22px rgba(16, 24, 28, 0.14);
 }
 
 .top-nav,
@@ -1047,8 +1054,9 @@ ol {
 }
 
 .public-grid {
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: minmax(320px, 0.92fr) minmax(360px, 1.08fr);
   align-items: start;
+  gap: 24px;
 }
 
 .panel {
@@ -1058,7 +1066,17 @@ ol {
 }
 
 .admin-area {
-  padding: 8px 0 0;
+  padding: 6px 0 0;
+}
+
+.admin-area .section-head {
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.admin-area .section-head h2 {
+  font-size: clamp(2rem, 4.2vw, 3.4rem);
+  max-width: none;
 }
 
 .login-panel {
@@ -1073,7 +1091,7 @@ ol {
 
 .login-panel-compact {
   grid-template-columns: 1fr;
-  max-width: 760px;
+  max-width: 700px;
 }
 
 .login-panel .panel-header,
@@ -1107,6 +1125,7 @@ ol {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  margin-bottom: 4px;
 }
 
 .owner-nav-link {
@@ -1147,6 +1166,11 @@ ol {
   background:
     linear-gradient(180deg, rgba(255,255,255,0.82), rgba(247,244,239,0.78));
   border: 1px solid rgba(35, 42, 45, 0.08);
+}
+
+.company-panel {
+  position: sticky;
+  top: 104px;
 }
 
 .staff-grid,
@@ -1193,20 +1217,21 @@ ol {
 }
 
 .dashboard-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
 .owner-primary-grid {
-  grid-template-columns: 0.82fr 1.18fr;
+  grid-template-columns: 1fr;
   align-items: start;
+  gap: 22px;
 }
 
 .owner-secondary-grid {
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
 }
 
 .admin-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
 .company-logo,
@@ -1417,6 +1442,7 @@ textarea:focus {
 
 .toolbar {
   justify-content: space-between;
+  align-items: end;
 }
 
 .compact-field {
@@ -1528,6 +1554,13 @@ textarea:focus {
   border: 1px solid rgba(35, 42, 45, 0.08);
 }
 
+.admin-feedback:empty,
+#copy-feedback:empty,
+#google-calendar-feedback:empty,
+#public-feedback:empty {
+  display: none;
+}
+
 .feedback.error {
   color: var(--danger);
 }
@@ -1547,6 +1580,19 @@ textarea:focus {
 .empty-box {
   color: var(--muted);
   border-style: dashed;
+  display: grid;
+  gap: 10px;
+}
+
+.empty-box strong {
+  color: var(--text);
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.empty-box p {
+  margin: 0;
+  line-height: 1.6;
 }
 
 .process-list {
@@ -1740,6 +1786,7 @@ textarea:focus {
     radial-gradient(circle at top right, rgba(156,117,87,0.14), transparent 22%),
     linear-gradient(180deg, rgba(255,255,255,0.92), rgba(246,243,238,0.84));
   box-shadow: 0 24px 56px rgba(16, 24, 28, 0.12);
+  padding: 30px;
 }
 
 .staff-card img[src=""],
@@ -1866,9 +1913,20 @@ textarea:focus {
     linear-gradient(180deg, rgba(255,255,255,0.92), rgba(247,244,239,0.8));
 }
 
+.dashboard-grid .stat-card:first-child {
+  grid-column: span 2;
+  min-height: 184px;
+}
+
 .dashboard-grid .stat-card strong {
   font-size: clamp(1.8rem, 3vw, 2.5rem);
   letter-spacing: -0.05em;
+}
+
+.dashboard-grid .stat-card:first-child strong {
+  font-size: clamp(2rem, 3.6vw, 3.1rem);
+  line-height: 1.1;
+  word-break: break-word;
 }
 
 .dashboard-grid .stat-card span {
@@ -1889,7 +1947,23 @@ textarea:focus {
 }
 
 .owner-layout {
-  gap: 18px;
+  gap: 20px;
+}
+
+.public-area .section-head h2 {
+  max-width: none;
+}
+
+.company-card {
+  align-items: start;
+}
+
+.company-card h3 {
+  font-size: clamp(1.55rem, 2vw, 2rem);
+}
+
+.panel-header h3 {
+  line-height: 1.08;
 }
 
 .subscription-card {
@@ -2089,6 +2163,14 @@ textarea:focus {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .owner-secondary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .company-panel {
+    position: static;
+  }
+
   .showcase-stack {
     grid-template-columns: 1fr;
   }
@@ -2127,6 +2209,11 @@ textarea:focus {
   .owner-header {
     grid-template-columns: 1fr;
     justify-items: start;
+    gap: 18px;
+  }
+
+  .owner-header-copy {
+    justify-content: flex-start;
   }
 }
 
@@ -2140,8 +2227,14 @@ textarea:focus {
   .checkbox-grid,
   .dashboard-grid,
   .owner-primary-grid,
+  .owner-secondary-grid,
   .schedule-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid .stat-card:first-child {
+    grid-column: auto;
+    min-height: auto;
   }
 
   .toolbar {

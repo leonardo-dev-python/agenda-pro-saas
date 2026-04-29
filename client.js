@@ -62,6 +62,8 @@ function renderCatalog() {
   els.publicCompanyPhone.textContent = company.phone || "";
   els.publicCompanyInstagram.textContent = company.instagram || "";
   els.publicCompanyFacebook.textContent = company.facebook || "";
+  els.publicCompanyInstagram.style.display = company.instagram ? "inline-flex" : "none";
+  els.publicCompanyFacebook.style.display = company.facebook ? "inline-flex" : "none";
   els.publicCompanyLogo.src = company.logoUrl || "";
   els.publicCompanyLogo.alt = company.name;
   els.publicCompanyLogo.style.display = company.logoUrl ? "block" : "none";
@@ -71,13 +73,23 @@ function renderCatalog() {
     label: `${item.name} • ${item.duration} min${item.price ? ` • ${currency(item.price)}` : ""}`
   }));
 
-    renderProfessionals(professionals, services);
+  renderProfessionals(professionals, services);
   syncProfessionals();
+  syncPublicBookingState();
 }
 
 function renderProfessionals(professionals, services) {
   const serviceMap = new Map(services.map((item) => [item.id, item.name]));
   els.publicProfessionals.innerHTML = "";
+  if (!professionals.length) {
+    els.publicProfessionals.innerHTML = `
+      <div class="empty-box">
+        <strong>Equipe em configuracao.</strong>
+        <p>Este estabelecimento ainda nao liberou os profissionais para agendamento online.</p>
+      </div>
+    `;
+    return;
+  }
   professionals.forEach((professional) => {
     const article = document.createElement("article");
     article.className = "staff-card";
@@ -107,6 +119,7 @@ function syncProfessionals() {
     value: item.id,
     label: `${item.name} • ${item.specialty}`
   }));
+  syncPublicBookingState();
 }
 
 async function loadAvailability() {
@@ -189,6 +202,34 @@ function renderSelect(select, items, placeholder, mapItem = (item) => ({ value: 
   });
   if ([...select.options].some((option) => option.value === previous)) {
     select.value = previous;
+  }
+}
+
+function syncPublicBookingState() {
+  if (!state.catalog) return;
+  const hasServices = state.catalog.services.length > 0;
+  const hasProfessionals = state.catalog.professionals.length > 0;
+  const submitButton = els.publicBookingForm.querySelector('button[type="submit"]');
+  const disabled = !hasServices || !hasProfessionals;
+
+  els.publicService.disabled = !hasServices;
+  els.publicProfessional.disabled = disabled;
+  els.publicDate.disabled = disabled;
+  els.publicSlot.disabled = disabled;
+  if (submitButton) submitButton.disabled = disabled;
+
+  if (!hasServices) {
+    renderSelect(els.publicService, [], "Agenda em configuracao");
+    renderSelect(els.publicProfessional, [], "Aguardando servicos");
+    renderSelect(els.publicSlot, [], "Aguardando liberacao");
+    els.publicSlotSummary.textContent = "Este estabelecimento ainda nao cadastrou os servicos para agendamento online.";
+    return;
+  }
+
+  if (!hasProfessionals) {
+    renderSelect(els.publicProfessional, [], "Equipe em configuracao");
+    renderSelect(els.publicSlot, [], "Aguardando liberacao");
+    els.publicSlotSummary.textContent = "Os servicos ja foram preparados, mas a equipe ainda esta sendo organizada.";
   }
 }
 
