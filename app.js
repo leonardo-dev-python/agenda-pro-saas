@@ -940,8 +940,14 @@ function renderProfessionalServiceCheckboxes(selectedIds = []) {
   }
   state.services.forEach((service) => {
     const label = document.createElement("label");
-    label.className = "check-row";
-    label.innerHTML = `<input type="checkbox" value="${service.id}" ${selectedIds.includes(service.id) ? "checked" : ""}><span>${service.name} • ${service.duration} min</span>`;
+    label.className = "check-row service-check";
+    label.innerHTML = `
+      <input type="checkbox" value="${service.id}" ${selectedIds.includes(service.id) ? "checked" : ""}>
+      <span class="service-check-copy">
+        <strong>${service.name}</strong>
+        <small>${service.duration} min</small>
+      </span>
+    `;
     els.professionalServices.appendChild(label);
   });
 }
