@@ -4,23 +4,27 @@
   "companies": [
     {
       "id": "company-default",
-      "name": "VetFlow Centro Veterinario",
-      "address": "Av. Central, 250 - Centro",
+      "name": "Meu Salao",
+      "slug": "meu-salao",
+      "address": "",
       "phone": "(11) 99999-0000",
-      "logoUrl": "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=200&q=80",
-      "instagram": "@vetflow.centrovet",
-      "facebook": "facebook.com/vetflow.centrovet",
-      "holidays": [
-        "2026-12-25",
-        "2026-01-01"
-      ],
+      "whatsappNumber": "(11) 99999-0000",
+      "email": "",
+      "logoUrl": "",
+      "instagram": "",
+      "facebook": "",
+      "holidays": [],
       "openOnSaturday": true,
       "openOnSunday": false,
       "reminderChannels": [
-        "email",
-        "sms",
         "whatsapp"
       ],
+      "googleCalendar": {
+        "connected": false,
+        "calendarId": "",
+        "accountEmail": "",
+        "lastSyncAt": null
+      },
       "createdAt": "2026-04-26T18:45:24.992Z",
       "updatedAt": "2026-04-26T18:45:24.992Z"
     }
@@ -36,256 +40,8 @@
       "createdAt": "2026-04-26T18:45:24.992Z"
     }
   ],
-  "services": [
-    {
-      "id": "service-consulta",
-      "companyId": "company-default",
-      "name": "Consulta clinica",
-      "category": "Clinica veterinaria",
-      "duration": 30,
-      "price": 220,
-      "description": "Atendimento para triagem, retorno ou acompanhamento geral do pet.",
-      "createdAt": "2026-04-26T18:45:24.992Z",
-      "updatedAt": "2026-04-26T18:45:24.992Z"
-    },
-    {
-      "id": "service-vacina",
-      "companyId": "company-default",
-      "name": "Vacina e protocolo",
-      "category": "Preventivo",
-      "duration": 20,
-      "price": 140,
-      "description": "Aplicacao com registro do protocolo e orientacoes para o tutor.",
-      "createdAt": "2026-04-26T18:45:24.992Z",
-      "updatedAt": "2026-04-26T18:45:24.992Z"
-    },
-    {
-      "id": "service-banho",
-      "companyId": "company-default",
-      "name": "Banho e tosa higienica",
-      "category": "Pet shop",
-      "duration": 75,
-      "price": 95,
-      "description": "Servico de banho com tosa higienica e observacoes operacionais para a equipe.",
-      "createdAt": "2026-04-26T18:45:24.992Z",
-      "updatedAt": "2026-04-26T18:45:24.992Z"
-    }
-  ],
-  "professionals": [
-    {
-      "id": "professional-dr-lucas",
-      "companyId": "company-default",
-      "name": "Dr. Lucas Freitas",
-      "specialty": "Clinico geral",
-      "photoUrl": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=200&q=80",
-      "bio": "Atendimento humanizado com foco em triagem rapida e acompanhamento preventivo.",
-      "serviceIds": [
-        "service-consulta",
-        "service-vacina"
-      ],
-      "workingHours": {
-        "1": [
-          {
-            "start": "08:00",
-            "end": "12:00"
-          },
-          {
-            "start": "13:00",
-            "end": "18:00"
-          }
-        ],
-        "2": [
-          {
-            "start": "08:00",
-            "end": "12:00"
-          },
-          {
-            "start": "13:00",
-            "end": "18:00"
-          }
-        ],
-        "3": [
-          {
-            "start": "08:00",
-            "end": "12:00"
-          },
-          {
-            "start": "13:00",
-            "end": "18:00"
-          }
-        ],
-        "4": [
-          {
-            "start": "08:00",
-            "end": "12:00"
-          },
-          {
-            "start": "13:00",
-            "end": "18:00"
-          }
-        ],
-        "5": [
-          {
-            "start": "08:00",
-            "end": "12:00"
-          },
-          {
-            "start": "13:00",
-            "end": "17:00"
-          }
-        ]
-      },
-      "breaks": {},
-      "daysOff": [],
-      "createdAt": "2026-04-26T18:45:24.992Z",
-      "updatedAt": "2026-04-26T18:45:24.992Z"
-    },
-    {
-      "id": "professional-dra-camila",
-      "companyId": "company-default",
-      "name": "Dra. Camila Moura",
-      "specialty": "Dermatologia e preventivo",
-      "photoUrl": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=200&q=80",
-      "bio": "Responsavel por protocolos de vacina, retornos e acompanhamento dermatologico.",
-      "serviceIds": [
-        "service-consulta",
-        "service-vacina"
-      ],
-      "workingHours": {
-        "1": [
-          {
-            "start": "09:00",
-            "end": "18:00"
-          }
-        ],
-        "3": [
-          {
-            "start": "09:00",
-            "end": "18:00"
-          }
-        ],
-        "5": [
-          {
-            "start": "09:00",
-            "end": "18:00"
-          }
-        ],
-        "6": [
-          {
-            "start": "08:00",
-            "end": "13:00"
-          }
-        ]
-      },
-      "breaks": {
-        "1": [
-          {
-            "start": "12:30",
-            "end": "13:30"
-          }
-        ],
-        "3": [
-          {
-            "start": "12:30",
-            "end": "13:30"
-          }
-        ],
-        "5": [
-          {
-            "start": "12:30",
-            "end": "13:30"
-          }
-        ]
-      },
-      "daysOff": [],
-      "createdAt": "2026-04-26T18:45:24.992Z",
-      "updatedAt": "2026-04-26T18:45:24.992Z"
-    },
-    {
-      "id": "professional-ana",
-      "companyId": "company-default",
-      "name": "Ana Paula Reis",
-      "specialty": "Banho e tosa",
-      "photoUrl": "https://images.unsplash.com/photo-1546961329-78bef0414d7c?auto=format&fit=crop&w=200&q=80",
-      "bio": "Responsavel pela agenda de banho, tosa higienica e observacoes de bem-estar do pet.",
-      "serviceIds": [
-        "service-banho"
-      ],
-      "workingHours": {
-        "1": [
-          {
-            "start": "08:00",
-            "end": "17:00"
-          }
-        ],
-        "2": [
-          {
-            "start": "08:00",
-            "end": "17:00"
-          }
-        ],
-        "3": [
-          {
-            "start": "08:00",
-            "end": "17:00"
-          }
-        ],
-        "4": [
-          {
-            "start": "08:00",
-            "end": "17:00"
-          }
-        ],
-        "5": [
-          {
-            "start": "08:00",
-            "end": "17:00"
-          }
-        ],
-        "6": [
-          {
-            "start": "08:00",
-            "end": "13:00"
-          }
-        ]
-      },
-      "breaks": {
-        "1": [
-          {
-            "start": "12:00",
-            "end": "13:00"
-          }
-        ],
-        "2": [
-          {
-            "start": "12:00",
-            "end": "13:00"
-          }
-        ],
-        "3": [
-          {
-            "start": "12:00",
-            "end": "13:00"
-          }
-        ],
-        "4": [
-          {
-            "start": "12:00",
-            "end": "13:00"
-          }
-        ],
-        "5": [
-          {
-            "start": "12:00",
-            "end": "13:00"
-          }
-        ]
-      },
-      "daysOff": [],
-      "createdAt": "2026-04-26T18:45:24.992Z",
-      "updatedAt": "2026-04-26T18:45:24.992Z"
-    }
-  ],
+  "services": [],
+  "professionals": [],
   "clients": [],
   "appointments": [],
   "notifications": []
