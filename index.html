@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Pro | Painel do proprietario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-orb orb-left"></div>
+  <div class="page-orb orb-right"></div>
+
+  <div class="app-shell owner-shell">
+    <header class="site-header glass owner-header">
+      <a href="/estabelecimento" class="brand">
+        <img class="brand-logo" src="assets/agenda-pro-logo-dark.png" alt="Agenda Pro">
+      </a>
+      <div class="owner-header-copy">
+        <h1>Painel do Proprietario</h1>
+      </div>
+      <div class="header-actions">
+        <a href="/cliente" class="ghost-btn">Abrir agendamento</a>
+      </div>
+    </header>
+
+    <main class="layout owner-layout">
+      <section id="admin-login" class="admin-area stack">
+        <div class="section-head">
+          <div>
+            <h2>Area administrativa</h2>
+          </div>
+          <div id="session-status" class="status-pill">offline</div>
+        </div>
+
+        <section id="login-view" class="panel login-panel login-panel-compact">
+          <div class="panel-header">
+            <h3>Entrar no painel</h3>
+            <p>Acesse para gerenciar o salao.</p>
+          </div>
+          <form id="login-form" class="stack">
+            <div class="field-grid">
+              <label class="field"><span>Email</span><input type="email" name="email" value="owner@agendapro.local" required></label>
+              <label class="field"><span>Senha</span><input type="password" name="password" value="agenda123" required></label>
+            </div>
+            <button type="submit" class="primary-btn">Entrar</button>
+            <p class="helper">Login padrao: owner@agendapro.local / agenda123</p>
+            <p id="login-error" class="feedback error"></p>
+          </form>
+        </section>
+
+        <div id="app-view" class="hidden stack">
+          <p id="admin-feedback" class="feedback admin-feedback"></p>
+          <section id="billing-banner" class="panel subscription-banner hidden">
+            <div class="subscription-banner-copy">
+              <span id="billing-banner-badge" class="status-pill">Assinatura</span>
+              <strong id="billing-banner-title">Seu acesso precisa ser renovado.</strong>
+              <p id="billing-banner-text">Regularize a assinatura para voltar a editar agenda, equipe e servicos.</p>
+            </div>
+            <a href="#billing-panel" class="primary-btn">Ver assinatura</a>
+          </section>
+
+          <div class="owner-metrics hidden" aria-hidden="true">
+            <span id="metric-professionals">0</span>
+            <span id="metric-services">0</span>
+            <span id="metric-appointments">0</span>
+          </div>
+
+          <nav class="owner-nav" aria-label="Atalhos do painel">
+            <a href="#resumo-panel" class="owner-nav-link">Resumo</a>
+            <a href="#agenda-panel" class="owner-nav-link">Agenda</a>
+            <a href="#client-link-panel" class="owner-nav-link">Link do cliente</a>
+            <a href="#billing-panel" class="owner-nav-link">Assinatura</a>
+            <a href="#team-panel" class="owner-nav-link">Equipe</a>
+            <a href="#services-panel" class="owner-nav-link">Servicos</a>
+            <a href="#clients-panel" class="owner-nav-link">Clientes</a>
+            <a href="#google-panel" class="owner-nav-link">Google Agenda</a>
+            <a href="#salon-panel" class="owner-nav-link">Salao</a>
+          </nav>
+
+          <section class="owner-primary-grid">
+            <section id="resumo-panel" class="dashboard-grid">
+              <article class="panel stat-card"><span>Empresa</span><strong id="admin-company-name">-</strong></article>
+              <article class="panel stat-card"><span>Profissionais</span><strong id="admin-stats-professionals">0</strong></article>
+              <article class="panel stat-card"><span>Servicos</span><strong id="admin-stats-services">0</strong></article>
+              <article class="panel stat-card"><span>Agendamentos hoje</span><strong id="admin-stats-today">0</strong></article>
+              <article class="panel stat-card stat-card-plan">
+                <span>Assinatura</span>
+                <strong id="admin-plan-name">Starter</strong>
+                <p id="admin-plan-copy" class="stat-card-copy">Teste gratis em andamento.</p>
+              </article>
+            </section>
+
+            <section id="agenda-panel" class="panel stack agenda-panel-highlight">
+              <div class="panel-header">
+                <h3>Agenda</h3>
+              </div>
+
+              <form id="appointment-form" class="stack">
+                <input type="hidden" name="id">
+                <div class="field-grid">
+                  <label class="field"><span>Cliente</span><select name="clientId" required></select></label>
+                  <label class="field"><span>Servico</span><select name="serviceId" required></select></label>
+                  <label class="field"><span>Profissional</span><select name="professionalId" required></select></label>
+                  <label class="field"><span>Status</span>
+                    <select name="status">
+                      <option value="confirmado">Confirmado</option>
+                      <option value="pendente">Pendente</option>
+                      <option value="concluido">Concluido</option>
+                      <option value="cancelado">Cancelado</option>
+                    </select>
+                  </label>
+                  <label class="field"><span>Data</span><input name="date" type="date" required></label>
+                  <label class="field"><span>Horario</span><select name="startAt" required></select></label>
+                  <label class="field field-span-2"><span>Observacoes</span><textarea name="notes" rows="2"></textarea></label>
+                </div>
+                <div id="appointment-slot-summary" class="hint-card">Escolha servico, profissional e data para listar os horarios livres.</div>
+                <div class="action-row">
+                  <button type="submit" class="primary-btn">Salvar agendamento</button>
+                  <button id="appointment-reset" type="button" class="ghost-btn">Novo agendamento</button>
+                </div>
+              </form>
+
+              <div class="toolbar">
+                <label class="field compact-field"><span>Filtrar por data</span><input id="filter-date" type="date"></label>
+                <label class="field compact-field"><span>Status</span>
+                  <select id="filter-status">
+                    <option value="">Todos</option>
+                    <option value="confirmado">Confirmado</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="concluido">Concluido</option>
+                    <option value="cancelado">Cancelado</option>
+                  </select>
+                </label>
+                <button id="logout-button" type="button" class="ghost-btn">Sair</button>
+              </div>
+
+              <div id="appointments-list" class="appointments-list"></div>
+            </section>
+          </section>
+
+          <section class="owner-secondary-grid">
+            <section id="client-link-panel" class="panel stack">
+              <div class="panel-header">
+                <h3>Link do cliente</h3>
+              </div>
+              <div class="share-link-box">
+                <input id="client-app-link" type="text" readonly>
+                <div class="action-row">
+                  <button id="copy-client-link" type="button" class="primary-btn">Copiar link</button>
+                  <a id="open-client-link" href="/cliente" target="_blank" class="ghost-btn">Abrir link de agendamento</a>
+                </div>
+                <p id="copy-feedback" class="feedback"></p>
+              </div>
+            </section>
+
+            <section id="billing-panel" class="panel stack">
+              <div class="panel-header">
+                <h3>Assinatura</h3>
+                <p>Acompanhe o plano atual, o periodo de teste e a preparacao da cobranca da plataforma.</p>
+              </div>
+              <div class="hint-card subscription-card">
+                <div class="subscription-card-head">
+                  <strong id="billing-status-title">Teste gratis ativo</strong>
+                  <span id="billing-status-chip" class="status-pill">Trial</span>
+                </div>
+                <p id="billing-status-copy">Seu estabelecimento pode cadastrar servicos, equipe e receber agendamentos normalmente.</p>
+              </div>
+              <div class="field-grid subscription-meta-grid">
+                <div class="field subscription-meta-box">
+                  <span>Plano atual</span>
+                  <strong id="billing-plan-value">Starter</strong>
+                </div>
+                <div class="field subscription-meta-box">
+                  <span>Vigencia</span>
+                  <strong id="billing-window-value">14 dias de teste</strong>
+                </div>
+              </div>
+              <div class="subscription-provider-box">
+                <span>Provedor sugerido</span>
+                <strong id="billing-provider-value">Asaas</strong>
+                <p id="billing-provider-copy">Base preparada para integrar recorrencia com checkout e webhook.</p>
+              </div>
+              <form id="billing-profile-form" class="stack billing-profile-form">
+                <div class="field-grid">
+                  <label class="field field-span-2">
+                    <span>Nome para cobranca</span>
+                    <input id="billing-legal-name" name="legalName" type="text" placeholder="Agenda Pro Studio LTDA" required>
+                  </label>
+                  <label class="field">
+                    <span>CPF ou CNPJ</span>
+                    <input id="billing-document-id" name="billingDocumentId" type="text" placeholder="000.000.000-00 ou 00.000.000/0001-00" required>
+                  </label>
+                  <label class="field">
+                    <span>Forma de cobranca</span>
+                    <select id="billing-method" name="billingMethod">
+                      <option value="BOLETO">Boleto</option>
+                      <option value="PIX">Pix</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="action-row">
+                  <button id="billing-profile-save" type="submit" class="ghost-btn">Salvar dados de cobranca</button>
+                </div>
+              </form>
+              <div id="billing-plans-list" class="billing-plan-grid"></div>
+              <div class="action-row">
+                <button id="billing-checkout-button" type="button" class="primary-btn">Receber link de pagamento</button>
+                <a href="/criar-conta" class="ghost-btn">Ver fluxo comercial</a>
+              </div>
+              <div id="billing-checkout-result" class="hint-card billing-result hidden">
+                <strong id="billing-result-title">Link de pagamento pronto</strong>
+                <p id="billing-result-copy">A primeira cobranca da assinatura foi preparada para o seu estabelecimento.</p>
+                <a id="billing-result-link" href="#" target="_blank" rel="noreferrer" class="ghost-btn">Abrir cobranca</a>
+              </div>
+              <p id="billing-action-note" class="helper">A cobranca recorrente sera conectada na proxima etapa do produto.</p>
+            </section>
+          </section>
+
+          <section class="admin-grid">
+            <article id="team-panel" class="panel stack">
+              <div class="panel-header">
+                <h3>Equipe</h3>
+              </div>
+              <form id="professional-form" class="stack">
+                <input type="hidden" name="id">
+                <div class="field-grid">
+                  <label class="field"><span>Nome</span><input name="name" type="text" required></label>
+                  <label class="field"><span>Especialidade</span><input name="specialty" type="text" required></label>
+                  <label class="field"><span>Foto</span><input name="photoUrl" type="url" placeholder="https://..."></label>
+                  <label class="field"><span>Folgas especificas</span><input name="daysOff" type="text" placeholder="2026-05-01, 2026-05-10"></label>
+                  <label class="field field-span-2"><span>Bio</span><textarea name="bio" rows="3"></textarea></label>
+                </div>
+
+                <div class="multi-box">
+                  <p>Servicos realizados</p>
+                  <div id="professional-services" class="checkbox-grid"></div>
+                </div>
+
+                <div class="schedule-grid">
+                  <div class="schedule-head">Dia</div>
+                  <div class="schedule-head">Atendimento</div>
+                  <div class="schedule-head">Pausa</div>
+                  <div>Segunda</div><input data-day="1" data-type="working" type="text" placeholder="08:00-18:00"><input data-day="1" data-type="breaks" type="text" placeholder="12:00-13:00">
+                  <div>Terca</div><input data-day="2" data-type="working" type="text" placeholder="08:00-18:00"><input data-day="2" data-type="breaks" type="text" placeholder="12:00-13:00">
+                  <div>Quarta</div><input data-day="3" data-type="working" type="text" placeholder="08:00-18:00"><input data-day="3" data-type="breaks" type="text" placeholder="12:00-13:00">
+                  <div>Quinta</div><input data-day="4" data-type="working" type="text" placeholder="08:00-18:00"><input data-day="4" data-type="breaks" type="text" placeholder="12:00-13:00">
+                  <div>Sexta</div><input data-day="5" data-type="working" type="text" placeholder="08:00-18:00"><input data-day="5" data-type="breaks" type="text" placeholder="12:00-13:00">
+                  <div>Sabado</div><input data-day="6" data-type="working" type="text" placeholder="08:00-13:00"><input data-day="6" data-type="breaks" type="text" placeholder="">
+                  <div>Domingo</div><input data-day="0" data-type="working" type="text" placeholder=""><input data-day="0" data-type="breaks" type="text" placeholder="">
+                </div>
+
+                <div class="action-row">
+                  <button type="submit" class="primary-btn">Salvar profissional</button>
+                  <button id="professional-reset" type="button" class="ghost-btn">Limpar</button>
+                </div>
+              </form>
+              <div id="professionals-list" class="list-grid"></div>
+            </article>
+
+            <article id="services-panel" class="panel stack">
+              <div class="panel-header">
+                <h3>Servicos</h3>
+              </div>
+              <form id="service-form" class="stack">
+                <input type="hidden" name="id">
+                <div class="field-grid">
+                  <label class="field"><span>Nome</span><input name="name" type="text" required></label>
+                  <label class="field"><span>Categoria</span><input name="category" type="text" required></label>
+                  <label class="field"><span>Duracao (min)</span><input name="duration" type="number" min="5" step="5" required></label>
+                  <label class="field"><span>Preco</span><input name="price" type="number" min="0" step="0.01"></label>
+                  <label class="field field-span-2"><span>Descricao</span><textarea name="description" rows="3"></textarea></label>
+                </div>
+                <div class="action-row">
+                  <button type="submit" class="primary-btn">Salvar servico</button>
+                  <button id="service-reset" type="button" class="ghost-btn">Limpar</button>
+                </div>
+              </form>
+              <div id="services-list" class="list-grid"></div>
+            </article>
+
+            <article id="clients-panel" class="panel stack">
+              <div class="panel-header">
+                <h3>Clientes</h3>
+              </div>
+              <form id="client-form" class="stack">
+                <input type="hidden" name="id">
+                <div class="field-grid">
+                  <label class="field"><span>Nome</span><input name="name" type="text" required></label>
+                  <label class="field"><span>Telefone</span><input name="phone" type="tel" required></label>
+                  <label class="field"><span>E-mail</span><input name="email" type="email"></label>
+                  <label class="field"><span>Observacoes</span><input name="notes" type="text"></label>
+                </div>
+                <div class="action-row">
+                  <button type="submit" class="primary-btn">Salvar cliente</button>
+                  <button id="client-reset" type="button" class="ghost-btn">Limpar</button>
+                </div>
+              </form>
+              <div id="clients-list" class="list-grid"></div>
+            </article>
+
+            <article id="google-panel" class="panel stack">
+              <div class="panel-header">
+                <h3>Google Agenda</h3>
+              </div>
+              <div class="hint-card">
+                <strong id="google-calendar-status">Nao conectado</strong>
+                <p id="google-calendar-summary">Nenhuma agenda configurada ainda.</p>
+              </div>
+              <form id="google-calendar-form" class="stack">
+                <div class="field-grid">
+                  <label class="field"><span>E-mail da conta Google</span><input name="accountEmail" type="email" placeholder="agenda@seusalao.com"></label>
+                  <label class="field"><span>ID da agenda</span><input name="calendarId" type="text" placeholder="primary"></label>
+                </div>
+                <div class="action-row">
+                  <button type="submit" class="primary-btn">Salvar conexao</button>
+                  <button id="google-calendar-oauth" type="button" class="ghost-btn">Autorizar no Google</button>
+                  <button id="google-calendar-disconnect" type="button" class="ghost-btn danger">Desconectar</button>
+                </div>
+              </form>
+              <p id="google-calendar-feedback" class="feedback"></p>
+            </article>
+
+            <article id="salon-panel" class="panel stack">
+              <div class="panel-header">
+                <h3>Dados do salao</h3>
+              </div>
+              <form id="company-form" class="stack">
+                <div class="field-grid">
+                  <label class="field"><span>Nome da empresa</span><input name="name" type="text" required></label>
+                  <label class="field"><span>Telefone</span><input name="phone" type="tel" required></label>
+                  <label class="field field-span-2"><span>Endereco</span><input name="address" type="text" required></label>
+                  <label class="field"><span>Logo ou foto de perfil</span><input name="logoUrl" type="url" placeholder="https://..."></label>
+                  <label class="field"><span>Instagram</span><input name="instagram" type="text"></label>
+                  <label class="field"><span>Facebook</span><input name="facebook" type="text"></label>
+                  <label class="field"><span>Canais de lembrete</span><input name="reminderChannels" type="text" placeholder="email,sms,whatsapp"></label>
+                </div>
+
+                <div class="field-grid">
+                  <div class="field field-span-2">
+                    <span>Funcionamento no fim de semana</span>
+                    <div class="checkbox-grid weekend-grid">
+                      <label class="check-row">
+                        <input name="openOnSaturday" type="checkbox">
+                        <span>A unidade atende no sabado</span>
+                      </label>
+                      <label class="check-row">
+                        <input name="openOnSunday" type="checkbox">
+                        <span>A unidade atende no domingo</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="holiday-panel">
+                  <div class="panel-header">
+                    <p class="eyebrow">Feriados e pausas</p>
+                    <h4>Marque os dias sem atendimento</h4>
+                  </div>
+                  <input name="holidays" type="hidden">
+                  <div class="calendar-toolbar">
+                    <button id="holiday-prev-month" type="button" class="ghost-btn">Mes anterior</button>
+                    <strong id="holiday-month-label"></strong>
+                    <button id="holiday-next-month" type="button" class="ghost-btn">Proximo mes</button>
+                  </div>
+                  <div class="calendar-weekdays">
+                    <span>Dom</span>
+                    <span>Seg</span>
+                    <span>Ter</span>
+                    <span>Qua</span>
+                    <span>Qui</span>
+                    <span>Sex</span>
+                    <span>Sab</span>
+                  </div>
+                  <div id="holiday-calendar-grid" class="holiday-calendar-grid"></div>
+                  <div>
+                    <p class="mini-label">Dias selecionados</p>
+                    <div id="holiday-selected-list" class="selected-holidays"></div>
+                  </div>
+                </div>
+                <button type="submit" class="primary-btn">Salvar empresa</button>
+              </form>
+            </article>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

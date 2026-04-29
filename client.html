@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Pro | Agendamento online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-orb orb-left"></div>
+  <div class="page-orb orb-right"></div>
+
+  <div class="app-shell">
+    <header class="site-header glass">
+      <div class="header-actions">
+        <a href="/estabelecimento" class="ghost-btn">Voltar ao painel</a>
+      </div>
+    </header>
+
+    <section class="hero hero-solo">
+      <div class="hero-copy glass-dark hero-copy-wide">
+        <div class="hero-brand-lockup hero-brand-lockup-side">
+          <img class="hero-brand-logo" src="assets/agenda-pro-logo.png" alt="Agenda Pro">
+          <h2>Seu agendamento em poucos passos.</h2>
+        </div>
+      </div>
+    </section>
+
+    <main class="layout">
+      <section class="public-area stack">
+        <div class="section-head">
+          <div>
+            <h2>Marque um atendimento</h2>
+          </div>
+          <div id="public-company-chip" class="company-chip">Carregando empresa...</div>
+        </div>
+
+        <div class="public-grid">
+          <article class="panel company-panel stack">
+            <div class="company-card">
+              <img id="public-company-logo" class="company-logo" alt="Logo da empresa">
+              <div>
+                <h3 id="public-company-name">Empresa</h3>
+                <p id="public-company-address"></p>
+                <p id="public-company-phone"></p>
+                <div class="social-row">
+                  <span id="public-company-instagram"></span>
+                  <span id="public-company-facebook"></span>
+                </div>
+              </div>
+            </div>
+            <div class="panel-note">
+              <strong>Profissionais disponiveis</strong>
+              <p>Aqui o cliente visualiza rapidamente quem atende e quais servicos cada profissional realiza.</p>
+            </div>
+            <div id="public-professionals" class="staff-grid"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <p class="eyebrow">Reserva</p>
+              <h3>Escolha atendimento, profissional e horario</h3>
+            </div>
+
+            <form id="public-booking-form" class="stack">
+              <div class="field-grid">
+                <label class="field">
+                  <span>Servico</span>
+                  <select id="public-service" required></select>
+                </label>
+                <label class="field">
+                  <span>Profissional</span>
+                  <select id="public-professional" required></select>
+                </label>
+                <label class="field">
+                  <span>Data</span>
+                  <input id="public-date" type="date" required>
+                </label>
+                <label class="field">
+                  <span>Horario</span>
+                  <select id="public-slot" required></select>
+                </label>
+              </div>
+
+              <div id="public-slot-summary" class="hint-card">Selecione servico, profissional e data para carregar a disponibilidade.</div>
+
+              <div class="field-grid">
+                <label class="field"><span>Nome completo</span><input id="public-client-name" type="text" required></label>
+                <label class="field"><span>Telefone</span><input id="public-client-phone" type="tel" required></label>
+                <label class="field"><span>E-mail</span><input id="public-client-email" type="email" placeholder="Opcional"></label>
+                <label class="field"><span>Observacoes</span><input id="public-client-notes" type="text" placeholder="Opcional"></label>
+              </div>
+
+              <button type="submit" class="primary-btn">Confirmar agendamento</button>
+              <p id="public-feedback" class="feedback"></p>
+            </form>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="client.js"></script>
+</body>
+</html>
