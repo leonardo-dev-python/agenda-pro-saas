@@ -242,10 +242,10 @@ ol {
 
 .owner-header {
   display: grid;
-  grid-template-columns: minmax(120px, 160px) 1fr auto;
+  grid-template-columns: minmax(94px, 120px) 1fr auto;
   align-items: center;
-  gap: 24px;
-  padding: 18px 24px;
+  gap: 18px;
+  padding: 14px 18px;
 }
 
 .owner-header-copy {
@@ -256,7 +256,7 @@ ol {
 }
 
 .owner-header-copy h1 {
-  font-size: clamp(1.45rem, 2.1vw, 2.25rem);
+  font-size: clamp(1.28rem, 1.9vw, 2rem);
   letter-spacing: -0.04em;
   text-align: center;
 }
@@ -276,8 +276,10 @@ ol {
 }
 
 .owner-header .brand-logo {
-  width: clamp(106px, 11vw, 132px);
-  box-shadow: 0 10px 22px rgba(16, 24, 28, 0.14);
+  width: clamp(82px, 8vw, 98px);
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
 }
 
 .top-nav,
@@ -1075,8 +1077,12 @@ ol {
 }
 
 .admin-area .section-head h2 {
-  font-size: clamp(2rem, 4.2vw, 3.4rem);
+  font-size: clamp(1.6rem, 2.8vw, 2.25rem);
   max-width: none;
+}
+
+.owner-section-head {
+  margin-top: 2px;
 }
 
 .login-panel {
@@ -1216,6 +1222,13 @@ ol {
   line-height: 1.6;
 }
 
+.owner-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) minmax(300px, 0.72fr);
+  gap: 22px;
+  align-items: start;
+}
+
 .dashboard-grid {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
@@ -1227,7 +1240,8 @@ ol {
 }
 
 .owner-secondary-grid {
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  grid-template-columns: 1fr;
+  align-content: start;
 }
 
 .admin-grid {
@@ -1913,20 +1927,19 @@ textarea:focus {
     linear-gradient(180deg, rgba(255,255,255,0.92), rgba(247,244,239,0.8));
 }
 
-.dashboard-grid .stat-card:first-child {
-  grid-column: span 2;
-  min-height: 184px;
-}
-
 .dashboard-grid .stat-card strong {
   font-size: clamp(1.8rem, 3vw, 2.5rem);
   letter-spacing: -0.05em;
 }
 
-.dashboard-grid .stat-card:first-child strong {
+.dashboard-grid .stat-card-identity strong {
   font-size: clamp(2rem, 3.6vw, 3.1rem);
   line-height: 1.1;
   word-break: break-word;
+}
+
+.dashboard-grid .stat-card-identity {
+  min-height: 160px;
 }
 
 .dashboard-grid .stat-card span {
@@ -1964,6 +1977,11 @@ textarea:focus {
 
 .panel-header h3 {
   line-height: 1.08;
+}
+
+.panel-header p {
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 .subscription-card {
@@ -2167,6 +2185,10 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
+  .owner-workspace {
+    grid-template-columns: 1fr;
+  }
+
   .company-panel {
     position: static;
   }
@@ -2235,6 +2257,10 @@ textarea:focus {
   .dashboard-grid .stat-card:first-child {
     grid-column: auto;
     min-height: auto;
+  }
+
+  .dashboard-grid .stat-card-identity strong {
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
   }
 
   .toolbar {

@@ -16,21 +16,22 @@
   <div class="app-shell owner-shell">
     <header class="site-header glass owner-header">
       <a href="/estabelecimento" class="brand">
-        <img class="brand-logo" src="assets/agenda-pro-logo-dark.png" alt="Agenda Pro">
+        <img class="brand-logo" src="assets/agenda-pro-logo.png" alt="Agenda Pro">
       </a>
       <div class="owner-header-copy">
         <h1>Painel do Proprietario</h1>
       </div>
       <div class="header-actions">
-        <a href="/cliente" class="ghost-btn">Abrir agendamento</a>
+        <a href="/cliente" class="ghost-btn">Pagina do cliente</a>
       </div>
     </header>
 
     <main class="layout owner-layout">
       <section id="admin-login" class="admin-area stack">
-        <div class="section-head">
+        <div class="section-head owner-section-head">
           <div>
-            <h2>Visao geral</h2>
+            <h2>Operacao do dia</h2>
+            <p class="section-copy">Gerencie agenda, equipe, servicos e assinatura em um fluxo mais enxuto.</p>
           </div>
           <div id="session-status" class="status-pill">offline</div>
         </div>
@@ -80,9 +81,10 @@
             <a href="#salon-panel" class="owner-nav-link">Salao</a>
           </nav>
 
-          <section class="owner-primary-grid">
-            <section id="resumo-panel" class="dashboard-grid">
-              <article class="panel stat-card"><span>Salao</span><strong id="admin-company-name">-</strong></article>
+          <div class="owner-workspace">
+            <section class="owner-primary-grid">
+              <section id="resumo-panel" class="dashboard-grid">
+                <article class="panel stat-card stat-card-identity"><span>Salao</span><strong id="admin-company-name">-</strong></article>
               <article class="panel stat-card"><span>Profissionais</span><strong id="admin-stats-professionals">0</strong></article>
               <article class="panel stat-card"><span>Servicos</span><strong id="admin-stats-services">0</strong></article>
               <article class="panel stat-card"><span>Agendamentos hoje</span><strong id="admin-stats-today">0</strong></article>
@@ -91,76 +93,78 @@
                 <strong id="admin-plan-name">Starter</strong>
                 <p id="admin-plan-copy" class="stat-card-copy">Teste gratis em andamento.</p>
               </article>
-            </section>
+              </section>
 
-            <section id="agenda-panel" class="panel stack agenda-panel-highlight">
-              <div class="panel-header">
-                <h3>Agenda</h3>
-              </div>
+              <section id="agenda-panel" class="panel stack agenda-panel-highlight">
+                <div class="panel-header">
+                  <h3>Agenda</h3>
+                  <p>Cadastre novos horarios, acompanhe o dia e mantenha a operacao organizada.</p>
+                </div>
 
-              <form id="appointment-form" class="stack">
-                <input type="hidden" name="id">
-                <div class="field-grid">
-                  <label class="field"><span>Cliente</span><select name="clientId" required></select></label>
-                  <label class="field"><span>Servico</span><select name="serviceId" required></select></label>
-                  <label class="field"><span>Profissional</span><select name="professionalId" required></select></label>
-                  <label class="field"><span>Status</span>
-                    <select name="status">
+                <form id="appointment-form" class="stack">
+                  <input type="hidden" name="id">
+                  <div class="field-grid">
+                    <label class="field"><span>Cliente</span><select name="clientId" required></select></label>
+                    <label class="field"><span>Servico</span><select name="serviceId" required></select></label>
+                    <label class="field"><span>Profissional</span><select name="professionalId" required></select></label>
+                    <label class="field"><span>Status</span>
+                      <select name="status">
+                        <option value="confirmado">Confirmado</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="concluido">Concluido</option>
+                        <option value="cancelado">Cancelado</option>
+                      </select>
+                    </label>
+                    <label class="field"><span>Data</span><input name="date" type="date" required></label>
+                    <label class="field"><span>Horario</span><select name="startAt" required></select></label>
+                    <label class="field field-span-2"><span>Observacoes</span><textarea name="notes" rows="2"></textarea></label>
+                  </div>
+                  <div id="appointment-slot-summary" class="hint-card">Escolha servico, profissional e data para listar os horarios livres.</div>
+                  <div class="action-row">
+                    <button type="submit" class="primary-btn">Salvar agendamento</button>
+                    <button id="appointment-reset" type="button" class="ghost-btn">Novo agendamento</button>
+                  </div>
+                </form>
+
+                <div class="toolbar">
+                  <label class="field compact-field"><span>Filtrar por data</span><input id="filter-date" type="date"></label>
+                  <label class="field compact-field"><span>Status</span>
+                    <select id="filter-status">
+                      <option value="">Todos</option>
                       <option value="confirmado">Confirmado</option>
                       <option value="pendente">Pendente</option>
                       <option value="concluido">Concluido</option>
                       <option value="cancelado">Cancelado</option>
                     </select>
                   </label>
-                  <label class="field"><span>Data</span><input name="date" type="date" required></label>
-                  <label class="field"><span>Horario</span><select name="startAt" required></select></label>
-                  <label class="field field-span-2"><span>Observacoes</span><textarea name="notes" rows="2"></textarea></label>
+                  <button id="logout-button" type="button" class="ghost-btn">Sair</button>
                 </div>
-                <div id="appointment-slot-summary" class="hint-card">Escolha servico, profissional e data para listar os horarios livres.</div>
-                <div class="action-row">
-                  <button type="submit" class="primary-btn">Salvar agendamento</button>
-                  <button id="appointment-reset" type="button" class="ghost-btn">Novo agendamento</button>
-                </div>
-              </form>
 
-              <div class="toolbar">
-                <label class="field compact-field"><span>Filtrar por data</span><input id="filter-date" type="date"></label>
-                <label class="field compact-field"><span>Status</span>
-                  <select id="filter-status">
-                    <option value="">Todos</option>
-                    <option value="confirmado">Confirmado</option>
-                    <option value="pendente">Pendente</option>
-                    <option value="concluido">Concluido</option>
-                    <option value="cancelado">Cancelado</option>
-                  </select>
-                </label>
-                <button id="logout-button" type="button" class="ghost-btn">Sair</button>
-              </div>
-
-              <div id="appointments-list" class="appointments-list"></div>
-            </section>
-          </section>
-
-          <section class="owner-secondary-grid">
-            <section id="client-link-panel" class="panel stack">
-              <div class="panel-header">
-                <h3>Link do cliente</h3>
-              </div>
-              <div class="share-link-box">
-                <input id="client-app-link" type="text" readonly>
-                <div class="action-row">
-                  <button id="copy-client-link" type="button" class="primary-btn">Copiar link</button>
-                  <a id="open-client-link" href="/cliente" target="_blank" class="ghost-btn">Abrir link de agendamento</a>
-                </div>
-                <p id="copy-feedback" class="feedback"></p>
-              </div>
+                <div id="appointments-list" class="appointments-list"></div>
+              </section>
             </section>
 
-            <section id="billing-panel" class="panel stack">
-              <div class="panel-header">
-                <h3>Assinatura</h3>
-                <p>Acompanhe o plano atual, o periodo de teste e a preparacao da cobranca da plataforma.</p>
-              </div>
+            <section class="owner-secondary-grid">
+              <section id="client-link-panel" class="panel stack">
+                <div class="panel-header">
+                  <h3>Link do cliente</h3>
+                  <p>Compartilhe a pagina de agendamento no WhatsApp, Instagram ou bio do estabelecimento.</p>
+                </div>
+                <div class="share-link-box">
+                  <input id="client-app-link" type="text" readonly>
+                  <div class="action-row">
+                    <button id="copy-client-link" type="button" class="primary-btn">Copiar link</button>
+                    <a id="open-client-link" href="/cliente" target="_blank" class="ghost-btn">Abrir link de agendamento</a>
+                  </div>
+                  <p id="copy-feedback" class="feedback"></p>
+                </div>
+              </section>
+
+              <section id="billing-panel" class="panel stack">
+                <div class="panel-header">
+                  <h3>Assinatura</h3>
+                  <p>Acompanhe o plano atual, o periodo de teste e a preparacao da cobranca da plataforma.</p>
+                </div>
               <div class="hint-card subscription-card">
                 <div class="subscription-card-head">
                   <strong id="billing-status-title">Teste gratis ativo</strong>
@@ -215,9 +219,10 @@
                 <p id="billing-result-copy">A primeira cobranca da assinatura foi preparada para o seu estabelecimento.</p>
                 <a id="billing-result-link" href="#" target="_blank" rel="noreferrer" class="ghost-btn">Abrir cobranca</a>
               </div>
-              <p id="billing-action-note" class="helper">A cobranca recorrente sera conectada na proxima etapa do produto.</p>
+                <p id="billing-action-note" class="helper">A cobranca recorrente sera conectada na proxima etapa do produto.</p>
+              </section>
             </section>
-          </section>
+          </div>
 
           <section class="admin-grid">
             <article id="team-panel" class="panel stack">
