@@ -31,7 +31,7 @@
         <div class="section-head owner-section-head">
           <div>
             <h2>Operacao do dia</h2>
-            <p class="section-copy">Gerencie agenda, equipe, servicos e assinatura em um fluxo mais enxuto.</p>
+            <p class="section-copy">Gerencie agenda, equipe, servicos e clientes em um fluxo direto e operacional.</p>
           </div>
           <div id="session-status" class="status-pill">offline</div>
         </div>
@@ -54,14 +54,6 @@
 
         <div id="app-view" class="hidden stack">
           <p id="admin-feedback" class="feedback admin-feedback"></p>
-          <section id="billing-banner" class="panel subscription-banner hidden">
-            <div class="subscription-banner-copy">
-              <span id="billing-banner-badge" class="status-pill">Assinatura</span>
-              <strong id="billing-banner-title">Seu acesso precisa ser renovado.</strong>
-              <p id="billing-banner-text">Regularize a assinatura para voltar a editar agenda, equipe e servicos.</p>
-            </div>
-            <a href="#billing-panel" class="primary-btn">Ver assinatura</a>
-          </section>
 
           <div class="owner-metrics hidden" aria-hidden="true">
             <span id="metric-professionals">0</span>
@@ -73,7 +65,6 @@
             <a href="#resumo-panel" class="owner-nav-link">Resumo</a>
             <a href="#agenda-panel" class="owner-nav-link">Agenda</a>
             <a href="#client-link-panel" class="owner-nav-link">Link do cliente</a>
-            <a href="#billing-panel" class="owner-nav-link">Assinatura</a>
             <a href="#team-panel" class="owner-nav-link">Equipe</a>
             <a href="#services-panel" class="owner-nav-link">Servicos</a>
             <a href="#clients-panel" class="owner-nav-link">Clientes</a>
@@ -88,11 +79,6 @@
               <article class="panel stat-card"><span>Profissionais</span><strong id="admin-stats-professionals">0</strong></article>
               <article class="panel stat-card"><span>Servicos</span><strong id="admin-stats-services">0</strong></article>
               <article class="panel stat-card"><span>Agendamentos hoje</span><strong id="admin-stats-today">0</strong></article>
-              <article class="panel stat-card stat-card-plan">
-                <span>Assinatura</span>
-                <strong id="admin-plan-name">Starter</strong>
-                <p id="admin-plan-copy" class="stat-card-copy">Teste gratis em andamento.</p>
-              </article>
               </section>
 
               <section id="agenda-panel" class="panel stack agenda-panel-highlight">
@@ -160,67 +146,6 @@
                 </div>
               </section>
 
-              <section id="billing-panel" class="panel stack">
-                <div class="panel-header">
-                  <h3>Assinatura</h3>
-                  <p>Acompanhe o plano atual, o periodo de teste e a preparacao da cobranca da plataforma.</p>
-                </div>
-              <div class="hint-card subscription-card">
-                <div class="subscription-card-head">
-                  <strong id="billing-status-title">Teste gratis ativo</strong>
-                  <span id="billing-status-chip" class="status-pill">Trial</span>
-                </div>
-                <p id="billing-status-copy">Seu estabelecimento pode cadastrar servicos, equipe e receber agendamentos normalmente.</p>
-              </div>
-              <div class="field-grid subscription-meta-grid">
-                <div class="field subscription-meta-box">
-                  <span>Plano atual</span>
-                  <strong id="billing-plan-value">Starter</strong>
-                </div>
-                <div class="field subscription-meta-box">
-                  <span>Vigencia</span>
-                  <strong id="billing-window-value">14 dias de teste</strong>
-                </div>
-              </div>
-              <div class="subscription-provider-box">
-                <span>Provedor sugerido</span>
-                <strong id="billing-provider-value">Asaas</strong>
-                <p id="billing-provider-copy">Base preparada para integrar recorrencia com checkout e webhook.</p>
-              </div>
-              <form id="billing-profile-form" class="stack billing-profile-form">
-                <div class="field-grid">
-                  <label class="field field-span-2">
-                    <span>Nome para cobranca</span>
-                    <input id="billing-legal-name" name="legalName" type="text" placeholder="Agenda Pro Studio LTDA" required>
-                  </label>
-                  <label class="field">
-                    <span>CPF ou CNPJ</span>
-                    <input id="billing-document-id" name="billingDocumentId" type="text" placeholder="000.000.000-00 ou 00.000.000/0001-00" required>
-                  </label>
-                  <label class="field">
-                    <span>Forma de cobranca</span>
-                    <select id="billing-method" name="billingMethod">
-                      <option value="BOLETO">Boleto</option>
-                      <option value="PIX">Pix</option>
-                    </select>
-                  </label>
-                </div>
-                <div class="action-row">
-                  <button id="billing-profile-save" type="submit" class="ghost-btn">Salvar dados de cobranca</button>
-                </div>
-              </form>
-              <div id="billing-plans-list" class="billing-plan-grid"></div>
-              <div class="action-row">
-                <button id="billing-checkout-button" type="button" class="primary-btn">Receber link de pagamento</button>
-                <a href="/criar-conta" class="ghost-btn">Ver fluxo comercial</a>
-              </div>
-              <div id="billing-checkout-result" class="hint-card billing-result hidden">
-                <strong id="billing-result-title">Link de pagamento pronto</strong>
-                <p id="billing-result-copy">A primeira cobranca da assinatura foi preparada para o seu estabelecimento.</p>
-                <a id="billing-result-link" href="#" target="_blank" rel="noreferrer" class="ghost-btn">Abrir cobranca</a>
-              </div>
-                <p id="billing-action-note" class="helper">A cobranca recorrente sera conectada na proxima etapa do produto.</p>
-              </section>
             </section>
           </div>
 
@@ -228,6 +153,7 @@
             <article id="team-panel" class="panel stack">
               <div class="panel-header">
                 <h3>Equipe</h3>
+                <p>Vincule cada profissional apenas aos servicos criados pelo seu proprio salao.</p>
               </div>
               <form id="professional-form" class="stack">
                 <input type="hidden" name="id">
@@ -240,7 +166,7 @@
                 </div>
 
                 <div class="multi-box">
-                  <p>Servicos realizados</p>
+                  <p>Servicos deste profissional</p>
                   <div id="professional-services" class="checkbox-grid"></div>
                 </div>
 
@@ -265,10 +191,11 @@
               <div id="professionals-list" class="list-grid"></div>
             </article>
 
-            <article id="services-panel" class="panel stack">
-              <div class="panel-header">
-                <h3>Servicos</h3>
-              </div>
+              <article id="services-panel" class="panel stack">
+                <div class="panel-header">
+                  <h3>Servicos</h3>
+                  <p>Monte seu catalogo livremente. O Agenda Pro nao fixa servicos predefinidos para o seu negocio.</p>
+                </div>
               <form id="service-form" class="stack">
                 <input type="hidden" name="id">
                 <div class="field-grid">

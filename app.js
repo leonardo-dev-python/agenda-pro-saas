@@ -139,8 +139,12 @@ function bindEvents() {
   els.loginForm.addEventListener("submit", handleLogin);
   els.logoutButton.addEventListener("click", handleLogout);
   els.companyForm.addEventListener("submit", saveCompany);
-  els.billingProfileForm.addEventListener("submit", saveBillingProfile);
-  els.billingCheckoutButton.addEventListener("click", requestBillingCheckout);
+    if (els.billingProfileForm) {
+      els.billingProfileForm.addEventListener("submit", saveBillingProfile);
+    }
+    if (els.billingCheckoutButton) {
+      els.billingCheckoutButton.addEventListener("click", requestBillingCheckout);
+    }
   els.holidayPrevMonth.addEventListener("click", () => changeHolidayMonth(-1));
   els.holidayNextMonth.addEventListener("click", () => changeHolidayMonth(1));
   els.serviceForm.addEventListener("submit", saveService);
@@ -249,36 +253,34 @@ function showLoggedIn() {
 
 async function loadAdminData() {
   try {
-    const [dashboard, companyData, servicesData, professionalsData, clientsData, googleIntegrationData, billingOverviewData] = await Promise.all([
-      api("/dashboard"),
-      api("/company"),
-      api("/services"),
-      api("/professionals"),
-      api("/clients"),
-      api("/integrations/google"),
-      api("/billing")
-    ]);
+      const [dashboard, companyData, servicesData, professionalsData, clientsData, googleIntegrationData] = await Promise.all([
+        api("/dashboard"),
+        api("/company"),
+        api("/services"),
+        api("/professionals"),
+        api("/clients"),
+        api("/integrations/google")
+      ]);
 
     state.company = companyData.company;
-    state.services = servicesData.services;
-    state.professionals = professionalsData.professionals;
-    state.clients = clientsData.clients;
-    state.googleIntegration = googleIntegrationData;
-    state.billingOverview = billingOverviewData;
-    state.billingCheckout = null;
-    updateClientLink();
+      state.services = servicesData.services;
+      state.professionals = professionalsData.professionals;
+      state.clients = clientsData.clients;
+      state.googleIntegration = googleIntegrationData;
+      state.billingOverview = null;
+      state.billingCheckout = null;
+      updateClientLink();
 
     renderDashboard(dashboard.stats);
     renderCompanyForm();
     renderServices();
     renderProfessionalServiceCheckboxes();
     renderProfessionals();
-    renderClients();
-    renderGoogleIntegration();
-    populateAppointmentSelects();
-    await loadAppointments();
-    renderBillingState();
-    syncOperationalAccess();
+      renderClients();
+      renderGoogleIntegration();
+      populateAppointmentSelects();
+      await loadAppointments();
+      syncOperationalAccess();
   } catch (error) {
     setFeedback(els.adminFeedback, error.message || "Nao foi possivel atualizar o painel.", true);
   }
@@ -289,17 +291,17 @@ function renderDashboard(stats) {
   els.adminStatsProfessionals.textContent = String(stats.professionals || 0);
   els.adminStatsServices.textContent = String(stats.services || 0);
   els.adminStatsToday.textContent = String(stats.today || 0);
-  renderSubscriptionSummary();
-  els.metricProfessionals.textContent = String(stats.professionals || 0);
-  els.metricServices.textContent = String(stats.services || 0);
-  els.metricAppointments.textContent = String(stats.appointments || 0);
-}
+    els.metricProfessionals.textContent = String(stats.professionals || 0);
+    els.metricServices.textContent = String(stats.services || 0);
+    els.metricAppointments.textContent = String(stats.appointments || 0);
+  }
 
-function renderSubscriptionSummary() {
-  const subscriptionState = getSubscriptionState(state.company?.subscription);
-  els.adminPlanName.textContent = subscriptionState.planName;
-  els.adminPlanCopy.textContent = subscriptionState.summary;
-}
+  function renderSubscriptionSummary() {
+    if (!els.adminPlanName || !els.adminPlanCopy) return;
+    const subscriptionState = getSubscriptionState(state.company?.subscription);
+    els.adminPlanName.textContent = subscriptionState.planName;
+    els.adminPlanCopy.textContent = subscriptionState.summary;
+  }
 
 function renderCompanyForm() {
   if (!state.company) return;
@@ -423,9 +425,24 @@ function getSubscriptionState(subscription) {
   };
 }
 
-function renderBillingState() {
-  const subscriptionState = getSubscriptionState(state.company?.subscription);
-  const billingOverview = state.billingOverview || { providers: [], recommendedProvider: "" };
+  function renderBillingState() {
+    if (
+      !els.billingStatusTitle ||
+      !els.billingStatusChip ||
+      !els.billingStatusCopy ||
+      !els.billingPlanValue ||
+      !els.billingWindowValue ||
+      !els.billingProviderValue ||
+      !els.billingProviderCopy ||
+      !els.billingActionNote ||
+      !els.billingPlansList ||
+      !els.billingCheckoutResult ||
+      !els.billingBanner
+    ) {
+      return;
+    }
+    const subscriptionState = getSubscriptionState(state.company?.subscription);
+    const billingOverview = state.billingOverview || { providers: [], recommendedProvider: "" };
 
   els.billingStatusTitle.textContent = subscriptionState.title;
   els.billingStatusChip.textContent = subscriptionState.statusLabel;
@@ -472,11 +489,15 @@ function syncOperationalAccess() {
     button.disabled = blocked;
   });
 
-  els.copyClientLink.disabled = false;
-  els.openClientLink.classList.remove("is-disabled");
-  els.logoutButton.disabled = false;
-  els.billingCheckoutButton.disabled = false;
-  els.billingProfileSave.disabled = false;
+    els.copyClientLink.disabled = false;
+    els.openClientLink.classList.remove("is-disabled");
+    els.logoutButton.disabled = false;
+    if (els.billingCheckoutButton) {
+      els.billingCheckoutButton.disabled = false;
+    }
+    if (els.billingProfileSave) {
+      els.billingProfileSave.disabled = false;
+    }
 
   if (!blocked) {
     syncAppointmentComposerState();
@@ -574,8 +595,9 @@ function renderBillingPlans(subscriptionState) {
   });
 }
 
-async function selectBillingPlan(planCode, subscriptionState) {
-  if (!planCode) return;
+  async function selectBillingPlan(planCode, subscriptionState) {
+    if (!els.billingLegalName || !els.billingDocumentId || !els.billingMethod) return;
+    if (!planCode) return;
   try {
     const data = await api("/billing/checkout-session", {
       method: "POST",
@@ -608,14 +630,16 @@ async function selectBillingPlan(planCode, subscriptionState) {
   }
 }
 
-async function requestBillingCheckout() {
-  const currentPlan = state.company?.subscription?.planCode || "starter";
-  const subscriptionState = getSubscriptionState(state.company?.subscription);
-  await selectBillingPlan(currentPlan, subscriptionState);
-}
+  async function requestBillingCheckout() {
+    if (!els.billingLegalName || !els.billingDocumentId || !els.billingMethod) return;
+    const currentPlan = state.company?.subscription?.planCode || "starter";
+    const subscriptionState = getSubscriptionState(state.company?.subscription);
+    await selectBillingPlan(currentPlan, subscriptionState);
+  }
 
-async function saveBillingProfile(event) {
-  event.preventDefault();
+  async function saveBillingProfile(event) {
+    if (!els.billingLegalName || !els.billingDocumentId || !els.billingMethod) return;
+    event.preventDefault();
   try {
     const data = await api("/billing/profile", {
       method: "POST",
@@ -635,8 +659,11 @@ async function saveBillingProfile(event) {
   }
 }
 
-function renderBillingCheckoutResult() {
-  const checkout = state.billingCheckout;
+  function renderBillingCheckoutResult() {
+    if (!els.billingCheckoutResult || !els.billingResultTitle || !els.billingResultCopy || !els.billingResultLink) {
+      return;
+    }
+    const checkout = state.billingCheckout;
   if (!checkout) {
     els.billingCheckoutResult.classList.add("hidden");
     return;
