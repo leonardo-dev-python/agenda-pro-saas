@@ -2631,6 +2631,13 @@ textarea:focus {
   font-weight: 800;
 }
 
+.lp-feature-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}
+
 .lp-feature-card h3 {
   font-size: 1.28rem;
   letter-spacing: -0.03em;
