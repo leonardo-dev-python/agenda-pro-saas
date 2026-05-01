@@ -773,24 +773,25 @@ async function handlePublicCheckout(req, res) {
     return;
   }
 
-  const cardPayload = profile.billingMethod === "CREDIT_CARD" ? body.card || {} : null;
-  const subscriptionCheckout = await createRecurringSubscriptionCheckout({
-    asaas,
-    company: {
-      id: `checkout:${profile.email}`,
-      name: profile.salonName,
-      phone: profile.phone,
-      email: profile.email,
-      subscription: {},
-    },
-    plan: selectedPlan,
-    profile,
-    externalReference: profile.email,
-    remoteIp: readClientIp(req),
-    card: cardPayload,
-  });
-
+  let subscriptionCheckout = null;
   try {
+    const cardPayload = profile.billingMethod === "CREDIT_CARD" ? body.card || {} : null;
+    subscriptionCheckout = await createRecurringSubscriptionCheckout({
+      asaas,
+      company: {
+        id: `checkout:${profile.email}`,
+        name: profile.salonName,
+        phone: profile.phone,
+        email: profile.email,
+        subscription: {},
+      },
+      plan: selectedPlan,
+      profile,
+      externalReference: profile.email,
+      remoteIp: readClientIp(req),
+      card: cardPayload,
+    });
+
     const initialSubscription = resolveInitialSubscriptionState(subscriptionCheckout, profile.billingMethod);
 
     const authRecord = await repository.createOwnerAccount({
@@ -824,7 +825,10 @@ async function handlePublicCheckout(req, res) {
       message: buildPublicCheckoutMessage(profile.billingMethod, initialSubscription, subscriptionCheckout),
     });
   } catch (error) {
-    await cancelAsaasSubscription(asaas, subscriptionCheckout.subscriptionId).catch(() => null);
+    const subscriptionId = String(subscriptionCheckout?.subscriptionId || error?.subscriptionId || "").trim();
+    if (subscriptionId) {
+      await cancelAsaasSubscription(asaas, subscriptionId).catch(() => null);
+    }
     sendJson(res, 400, { error: error.message || "Não foi possível concluir o checkout." });
   }
 }
