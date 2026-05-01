@@ -830,14 +830,15 @@ async function handlePublicCheckout(req, res) {
 }
 
 async function createRecurringSubscriptionCheckout({ asaas, company, plan, profile, externalReference, remoteIp, card }) {
+  const contactPhones = normalizeAsaasContactPhones(profile.phone);
   const customerId =
     company.subscription?.billingCustomerId ||
     (await createAsaasCustomer(asaas, {
       name: profile.legalName,
       cpfCnpj: profile.billingDocumentId,
       email: profile.email || undefined,
-      mobilePhone: profile.phone,
-      phone: profile.phone,
+      mobilePhone: contactPhones.mobilePhone,
+      phone: contactPhones.phone,
       notificationDisabled: false,
       externalReference,
     })).id;
@@ -866,8 +867,8 @@ async function createRecurringSubscriptionCheckout({ asaas, company, plan, profi
       postalCode: profile.postalCode,
       addressNumber: profile.addressNumber,
       addressComplement: profile.addressComplement || undefined,
-      phone: profile.phone,
-      mobilePhone: profile.phone,
+      phone: contactPhones.phone,
+      mobilePhone: contactPhones.mobilePhone,
     };
     subscriptionPayload.remoteIp = remoteIp;
   }
@@ -1060,6 +1061,32 @@ function normalizeDocumentId(value) {
 
 function normalizePostalCode(value) {
   return String(value || "").replace(/\D/g, "");
+}
+
+function normalizeAsaasContactPhones(value) {
+  let digits = String(value || "").replace(/\D/g, "");
+  if (digits.startsWith("55") && digits.length >= 12) {
+    digits = digits.slice(2);
+  }
+
+  if (digits.length >= 11) {
+    return {
+      mobilePhone: digits.slice(0, 11),
+      phone: undefined,
+    };
+  }
+
+  if (digits.length === 10) {
+    return {
+      mobilePhone: undefined,
+      phone: digits,
+    };
+  }
+
+  return {
+    mobilePhone: undefined,
+    phone: digits || undefined,
+  };
 }
 
 function normalizeBillingMethod(value) {
