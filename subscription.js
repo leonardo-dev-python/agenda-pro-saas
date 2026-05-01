@@ -9,6 +9,7 @@ const els = {
   window: document.getElementById("subscription-window"),
   companyName: document.getElementById("subscription-company-name"),
   companyEmail: document.getElementById("subscription-company-email"),
+  paymentLink: document.getElementById("subscription-payment-link"),
   cancelButton: document.getElementById("subscription-cancel-button"),
   feedback: document.getElementById("subscription-feedback"),
 };
@@ -76,11 +77,27 @@ function render() {
   if (els.window) els.window.textContent = state.window;
   if (els.companyName) els.companyName.textContent = company?.name || "-";
   if (els.companyEmail) els.companyEmail.textContent = company?.email || "-";
+  renderPaymentLink();
   if (els.cancelButton) {
     const locked = state.code === "canceled";
     els.cancelButton.disabled = locked;
     els.cancelButton.textContent = locked ? "Assinatura já cancelada" : "Cancelar assinatura";
   }
+}
+
+function renderPaymentLink() {
+  if (!els.paymentLink) return;
+  const payment = billingOverview?.currentCharge || null;
+  const paymentUrl = payment?.invoiceUrl || payment?.bankSlipUrl || "";
+  const isPending = String(company?.subscription?.billingStatus || "").toLowerCase() === "past_due";
+
+  if (isPending && paymentUrl) {
+    els.paymentLink.href = paymentUrl;
+    els.paymentLink.classList.remove("hidden");
+    return;
+  }
+
+  els.paymentLink.classList.add("hidden");
 }
 
 function getSubscriptionState(subscription) {

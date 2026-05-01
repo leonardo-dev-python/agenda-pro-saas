@@ -460,7 +460,7 @@ async function handleApi(req, res, url) {
   }
 
   if (url.pathname === "/api/billing" && req.method === "GET") {
-    sendJson(res, 200, buildBillingOverview(auth.company, auth.user));
+    sendJson(res, 200, await buildBillingOverview(auth.company, auth.user));
     return;
   }
 
@@ -476,7 +476,7 @@ async function handleApi(req, res, url) {
     const updated = await repository.updateBillingProfile(auth.company.id, profilePayload);
     sendJson(res, 200, {
       company: updated.company || updated.salon,
-      billing: buildBillingOverview(updated.company || updated.salon, auth.user),
+      billing: await buildBillingOverview(updated.company || updated.salon, auth.user),
       message: "Dados de cobranca atualizados.",
     });
     return;
@@ -549,7 +549,7 @@ async function handleApi(req, res, url) {
 
     sendJson(res, 200, {
       company: updated.company || updated.salon,
-      billing: buildBillingOverview(updated.company || updated.salon, auth.user),
+      billing: await buildBillingOverview(updated.company || updated.salon, auth.user),
       checkout: buildCheckoutPayload(selectedProvider, selectedPlan, subscriptionCheckout),
       message: `Assinatura ${selectedPlan.name} criada com recorrência mensal no Asaas.`,
     });
@@ -585,7 +585,7 @@ async function handleApi(req, res, url) {
 
     sendJson(res, 200, {
       company: updated.company || updated.salon,
-      billing: buildBillingOverview(updated.company || updated.salon, auth.user),
+      billing: await buildBillingOverview(updated.company || updated.salon, auth.user),
       message: `Assinatura cancelada. O acesso do estabelecimento segue ativo até ${formatHumanDate(accessUntil)}.`,
     });
     return;
@@ -684,10 +684,11 @@ function getSubscriptionAccess(subscription, options = {}) {
   };
 }
 
-function buildBillingOverview(company) {
+async function buildBillingOverview(company) {
   const subscription = company?.subscription || {};
   const recommendedProvider = String(subscription.billingProvider || "asaas").trim().toLowerCase() || "asaas";
   const asaas = getAsaasEnvironment(env);
+  const currentCharge = await loadCurrentCharge(subscription, asaas);
   return {
     subscription,
     recommendedProvider,
@@ -711,6 +712,25 @@ function buildBillingOverview(company) {
       addressNumber: company?.addressNumber || "",
       addressComplement: company?.addressComplement || "",
     },
+    currentCharge,
+  };
+}
+
+async function loadCurrentCharge(subscription, asaas) {
+  const subscriptionId = String(subscription?.billingSubscriptionId || "").trim();
+  if (!subscriptionId || !asaas.configured) return null;
+
+  const paymentsResponse = await listAsaasSubscriptionPayments(asaas, subscriptionId).catch(() => ({ data: [] }));
+  const payments = Array.isArray(paymentsResponse?.data) ? paymentsResponse.data : [];
+  const current = payments.find((item) => ["PENDING", "OVERDUE"].includes(String(item?.status || "").toUpperCase())) || payments[0];
+  if (!current) return null;
+
+  return {
+    id: current.id || "",
+    status: current.status || "",
+    invoiceUrl: current.invoiceUrl || "",
+    bankSlipUrl: current.bankSlipUrl || "",
+    dueDate: current.dueDate || "",
   };
 }
 
