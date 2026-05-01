@@ -819,7 +819,7 @@ async function handlePublicCheckout(req, res) {
       user: sanitizeUser(authRecord.user),
       company: salon,
       salon,
-      billing: buildBillingOverview(salon),
+      billing: await buildBillingOverview(salon),
       checkout: buildCheckoutPayload(BILLING_PROVIDERS[0], selectedPlan, subscriptionCheckout, initialSubscription),
       message: buildPublicCheckoutMessage(profile.billingMethod, initialSubscription, subscriptionCheckout),
     });
