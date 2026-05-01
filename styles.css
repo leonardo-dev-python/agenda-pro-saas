@@ -2370,7 +2370,7 @@ textarea:focus {
 
 .lp-browser {
   width: 100%;
-  max-width: 560px;
+  max-width: 580px;
   padding: 14px;
   border-radius: 30px;
   background:
@@ -2394,6 +2394,10 @@ textarea:focus {
 
 .lp-browser-body {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 208px;
+  align-items: start;
+  gap: 18px;
   min-height: 430px;
   padding: 28px;
   border-radius: 26px;
@@ -2417,7 +2421,7 @@ textarea:focus {
   z-index: 1;
   display: grid;
   gap: 14px;
-  width: min(320px, 100%);
+  width: 100%;
 }
 
 .lp-pill {
@@ -2466,12 +2470,30 @@ textarea:focus {
   gap: 10px;
 }
 
-.lp-list-card span {
-  display: block;
-  height: 42px;
+.lp-list-item {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
   border-radius: 18px;
-  background: rgba(255,255,255,0.78);
+  background: rgba(255,255,255,0.82);
   border: 1px solid rgba(35, 42, 45, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+}
+
+.lp-list-item strong {
+  font-size: 0.96rem;
+  letter-spacing: -0.02em;
+}
+
+.lp-list-item span {
+  display: block;
+  height: auto;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
 }
 
 .lp-panel-button {
@@ -2484,15 +2506,14 @@ textarea:focus {
 }
 
 .lp-floating-card {
-  position: absolute;
-  z-index: 2;
-  top: 44px;
-  right: 8px;
-  width: min(240px, 42%);
-  min-height: 180px;
+  position: relative;
+  z-index: 1;
+  align-self: start;
+  width: 100%;
+  min-height: 220px;
   display: grid;
-  gap: 12px;
-  padding: 20px 20px 18px;
+  gap: 14px;
+  padding: 22px 20px 20px;
   border-radius: 24px;
   background: linear-gradient(135deg, #1f8b95, #223336);
   color: white;
@@ -2657,49 +2678,46 @@ textarea:focus {
   line-height: 1.65;
 }
 
-.lp-chart-card {
+.lp-proof-card {
   grid-column: 1 / -1;
-  grid-template-columns: 0.42fr 1fr;
-  align-items: end;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  align-items: start;
 }
 
-.lp-chart-copy {
+.lp-proof-copy {
   display: grid;
   gap: 12px;
 }
 
-.lp-chart-copy strong {
-  font-family: "Sora", sans-serif;
-  font-size: 2.1rem;
-  letter-spacing: -0.05em;
+.lp-proof-copy h3 {
+  max-width: 12ch;
 }
 
-.lp-chart-visual {
-  position: relative;
-  min-height: 220px;
-  border-radius: 24px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(244,248,247,0.88)),
-    repeating-linear-gradient(180deg, rgba(35,42,45,0.05) 0 1px, transparent 1px 36px);
-  overflow: hidden;
+.lp-proof-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.lp-chart-visual span {
-  position: absolute;
-  bottom: 32px;
-  left: 22px;
-  height: 2px;
-  background: #1f8b95;
-  transform-origin: left center;
-  border-radius: 999px;
+.lp-proof-list article {
+  display: grid;
+  gap: 8px;
+  min-height: 100%;
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(35, 42, 45, 0.06);
 }
 
-.lp-chart-visual span:nth-child(1) { width: 90px; transform: rotate(26deg); bottom: 42px; left: 28px; }
-.lp-chart-visual span:nth-child(2) { width: 86px; transform: rotate(16deg); bottom: 76px; left: 112px; }
-.lp-chart-visual span:nth-child(3) { width: 92px; transform: rotate(10deg); bottom: 98px; left: 193px; }
-.lp-chart-visual span:nth-child(4) { width: 92px; transform: rotate(6deg); bottom: 115px; left: 280px; }
-.lp-chart-visual span:nth-child(5) { width: 82px; transform: rotate(2deg); bottom: 126px; left: 365px; }
-.lp-chart-visual span:nth-child(6) { width: 86px; transform: rotate(-8deg); bottom: 123px; left: 442px; }
+.lp-proof-list strong {
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.lp-proof-list p {
+  max-width: none;
+  font-size: 0.94rem;
+}
 
 .lp-dark-band {
   background:
@@ -2786,7 +2804,7 @@ textarea:focus {
 .lp-plan-card {
   display: grid;
   gap: 22px;
-  min-height: 240px;
+  min-height: 280px;
   padding: 26px;
   border-radius: 28px;
   background:
@@ -3271,7 +3289,8 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
-  .lp-chart-card {
+  .lp-proof-card,
+  .lp-proof-list {
     grid-template-columns: 1fr;
   }
 
@@ -3453,14 +3472,14 @@ textarea:focus {
   }
 
   .lp-browser-body {
+    grid-template-columns: 1fr;
     min-height: 360px;
     padding: 24px 22px 22px;
   }
 
   .lp-floating-card {
-    position: static;
-    width: 100%;
-    margin-top: 18px;
+    min-height: auto;
+    margin-top: 0;
   }
 
   .sales-stage-copy {
