@@ -32,6 +32,9 @@ const publicFiles = new Set([
   "/signup.html",
   "/checkout.html",
   "/subscription.html",
+  "/terms.html",
+  "/privacy.html",
+  "/billing-policy.html",
   "/styles.css",
   "/app.js",
   "/client.js",
@@ -1284,6 +1287,9 @@ async function serveStatic(res, url) {
     "/criar-conta": "/checkout.html",
     "/checkout": "/checkout.html",
     "/assinatura": "/subscription.html",
+    "/termos": "/terms.html",
+    "/privacidade": "/privacy.html",
+    "/cancelamento": "/billing-policy.html",
   };
   const pathname = url.pathname.startsWith("/agendar/")
     ? "/client.html"

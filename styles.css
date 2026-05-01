@@ -3292,6 +3292,64 @@ textarea:focus {
     linear-gradient(180deg, rgba(255,255,255,0.92), rgba(241,248,245,0.82));
 }
 
+.checkout-legal-note {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.checkout-legal-note a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.legal-shell {
+  padding: 34px;
+}
+
+.legal-section h2 {
+  font-size: 1.18rem;
+  margin-bottom: 6px;
+}
+
+.legal-section p {
+  color: var(--muted);
+  line-height: 1.72;
+  max-width: 78ch;
+}
+
+.lp-footer {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 28px;
+  padding: 28px 30px;
+  margin-top: 8px;
+}
+
+.lp-footer-brand {
+  display: grid;
+  gap: 14px;
+}
+
+.lp-footer-brand p {
+  max-width: 56ch;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.lp-footer-links {
+  display: grid;
+  gap: 12px;
+  justify-content: end;
+  align-content: start;
+}
+
+.lp-footer-links a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
 .subscription-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
@@ -3657,6 +3715,18 @@ textarea:focus {
 
   .subscription-overview-grid {
     grid-template-columns: 1fr;
+  }
+
+  .lp-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .lp-footer-links {
+    justify-content: start;
+  }
+
+  .legal-shell {
+    padding: 26px 22px;
   }
 }
 
