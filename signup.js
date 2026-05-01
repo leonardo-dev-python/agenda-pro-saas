@@ -19,6 +19,7 @@ async function handleSignup(event) {
         email: String(data.get("email") || "").trim(),
         phone: String(data.get("phone") || "").trim(),
         password: String(data.get("password") || ""),
+        plan: String(data.get("plan") || "").trim(),
       },
     });
 

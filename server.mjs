@@ -28,10 +28,12 @@ const publicFiles = new Set([
   "/index.html",
   "/client.html",
   "/signup.html",
+  "/checkout.html",
   "/styles.css",
   "/app.js",
   "/client.js",
   "/signup.js",
+  "/checkout.js",
   "/assets/agenda-pro-logo.png",
   "/assets/agenda-pro-logo-dark.png",
 ]);
@@ -975,7 +977,8 @@ async function serveStatic(res, url) {
     "/estabelecimento": "/index.html",
     "/cliente": "/client.html",
     "/agendar": "/client.html",
-    "/criar-conta": "/signup.html",
+    "/criar-conta": "/checkout.html",
+    "/checkout": "/checkout.html",
   };
   const pathname = url.pathname.startsWith("/agendar/")
     ? "/client.html"

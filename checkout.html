@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Pro | Checkout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-orb orb-left"></div>
+  <div class="page-orb orb-right"></div>
+
+  <div class="app-shell marketing-shell">
+    <header class="site-header glass">
+      <a href="/" class="brand">
+        <img class="brand-logo" src="assets/agenda-pro-logo-dark.png" alt="Agenda Pro">
+      </a>
+      <div class="header-actions">
+        <a href="/" class="ghost-btn">Voltar ao site</a>
+        <a href="/estabelecimento" class="ghost-btn">Entrar</a>
+      </div>
+    </header>
+
+    <main class="layout stack">
+      <section class="checkout-hero glass-dark">
+        <div class="checkout-hero-copy">
+          <p class="eyebrow">Checkout Agenda Pro</p>
+          <h1>Escolha o plano ideal e crie o acesso do seu estabelecimento.</h1>
+          <p class="section-copy">A camada comercial fica aqui. O painel do proprietario continua limpo, focado apenas na operacao do negocio.</p>
+        </div>
+        <div class="checkout-hero-note">
+          <strong>O que acontece depois</strong>
+          <p>Voce cria o acesso, entra no painel e configura salao, equipe, servicos e link publico de agendamento.</p>
+        </div>
+      </section>
+
+      <section class="checkout-layout">
+        <article class="panel stack checkout-plan-panel">
+          <div class="panel-header">
+            <h2>Escolha seu plano</h2>
+            <p>Selecione o formato comercial que melhor combina com o momento do seu negocio.</p>
+          </div>
+
+          <div class="checkout-plan-grid" id="checkout-plan-grid">
+            <button type="button" class="checkout-plan-card" data-plan="starter">
+              <span class="checkout-plan-tag">Essencial</span>
+              <strong>Starter</strong>
+              <div class="checkout-plan-price">R$ 79<span>/mensal</span></div>
+              <p>Para organizar a agenda e sair do improviso.</p>
+              <ul class="checkout-plan-list">
+                <li>1 estabelecimento</li>
+                <li>Equipe e servicos</li>
+                <li>Pagina publica de agendamento</li>
+              </ul>
+            </button>
+
+            <button type="button" class="checkout-plan-card is-featured" data-plan="professional">
+              <span class="checkout-plan-badge">Mais escolhido</span>
+              <span class="checkout-plan-tag">Crescimento</span>
+              <strong>Professional</strong>
+              <div class="checkout-plan-price">R$ 149<span>/mensal</span></div>
+              <p>Para operacoes com mais equipe, mais servicos e mais ritmo comercial.</p>
+              <ul class="checkout-plan-list">
+                <li>Tudo do Starter</li>
+                <li>Mais capacidade operacional</li>
+                <li>Base mais forte para clientes e recorrencia</li>
+              </ul>
+            </button>
+
+            <button type="button" class="checkout-plan-card" data-plan="multi">
+              <span class="checkout-plan-tag">Expansao</span>
+              <strong>Multiunidade</strong>
+              <div class="checkout-plan-price">Sob consulta</div>
+              <p>Para marcas com duas ou mais unidades e implantacao mais consultiva.</p>
+              <ul class="checkout-plan-list">
+                <li>Fluxo multiunidade</li>
+                <li>Escopo assistido</li>
+                <li>Implantacao comercial personalizada</li>
+              </ul>
+            </button>
+          </div>
+        </article>
+
+        <article class="panel stack checkout-form-panel">
+          <div class="panel-header">
+            <h2>Criar acesso</h2>
+            <p>Preencha os dados principais para iniciar a configuracao do estabelecimento.</p>
+          </div>
+
+          <div class="checkout-selection" id="checkout-selection">
+            <span class="eyebrow">Plano selecionado</span>
+            <div class="checkout-selection-row">
+              <strong id="selected-plan-name">Professional</strong>
+              <span id="selected-plan-price" class="status-pill">R$ 149/mensal</span>
+            </div>
+            <p id="selected-plan-description">Para operacoes com mais equipe, mais servicos e mais ritmo comercial.</p>
+          </div>
+
+          <form id="checkout-form" class="stack">
+            <input type="hidden" name="plan" value="professional">
+            <div class="field-grid">
+              <label class="field"><span>Nome do responsavel</span><input name="ownerName" type="text" required></label>
+              <label class="field"><span>Nome do estabelecimento</span><input name="salonName" type="text" required></label>
+              <label class="field"><span>E-mail</span><input name="email" type="email" required></label>
+              <label class="field"><span>Telefone</span><input name="phone" type="tel" required></label>
+              <label class="field field-span-2"><span>Senha de acesso</span><input name="password" type="password" required></label>
+            </div>
+
+            <div class="checkout-summary-box">
+              <strong>O que voce vai receber</strong>
+              <ul class="checkout-plan-list compact">
+                <li>Conta criada no Agenda Pro</li>
+                <li>Painel limpo para configurar salao, equipe e servicos</li>
+                <li>Pagina publica para comecar a receber agendamentos</li>
+              </ul>
+            </div>
+
+            <div class="action-row">
+              <button type="submit" class="primary-btn">Criar conta e continuar</button>
+              <a href="/" class="ghost-btn">Voltar</a>
+            </div>
+            <p id="checkout-feedback" class="feedback"></p>
+          </form>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="checkout.js"></script>
+</body>
+</html>

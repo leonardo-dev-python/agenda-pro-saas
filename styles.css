@@ -2279,6 +2279,355 @@ textarea:focus {
   opacity: 0.55;
 }
 
+.sales-hero {
+  grid-template-columns: minmax(0, 1.14fr) minmax(360px, 0.86fr);
+  align-items: stretch;
+  min-height: 560px;
+}
+
+.sales-hero .hero-copy {
+  padding: 42px 42px 38px;
+  align-content: center;
+}
+
+.sales-hero h1 {
+  font-size: clamp(3.1rem, 5vw, 5.6rem);
+  max-width: 11ch;
+  letter-spacing: -0.055em;
+  line-height: 0.96;
+}
+
+.sales-hero .section-copy {
+  max-width: 58ch;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.sales-showcase-card {
+  height: 100%;
+  min-height: 100%;
+  padding: 28px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(247,243,237,0.9));
+}
+
+.sales-showcase-card h3 {
+  font-size: clamp(1.6rem, 2vw, 2.3rem);
+  max-width: 11ch;
+  letter-spacing: -0.04em;
+}
+
+.sales-showcase-card .showcase-stack {
+  margin-top: 6px;
+}
+
+.sales-showcase-card .panel-note {
+  padding: 18px 18px 16px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.76);
+  border: 1px solid rgba(35, 42, 45, 0.08);
+}
+
+.sales-showcase-card .panel-note strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.sales-showcase-card .panel-note p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.sales-feature-grid,
+.sales-proof-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sales-steps-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.sales-pricing-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.plan-card {
+  position: relative;
+  gap: 16px;
+  min-height: 100%;
+  padding: 26px;
+}
+
+.plan-card .eyebrow {
+  margin-bottom: -6px;
+}
+
+.plan-card h3 {
+  font-size: clamp(1.6rem, 2vw, 2rem);
+  letter-spacing: -0.04em;
+}
+
+.plan-card p {
+  line-height: 1.65;
+}
+
+.plan-card-featured {
+  border-color: rgba(255,255,255,0.66);
+  box-shadow: 0 34px 88px rgba(16, 24, 28, 0.14);
+}
+
+.plan-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary-deep), var(--primary));
+  color: white;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.plan-price {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  letter-spacing: -0.05em;
+  color: var(--text);
+}
+
+.plan-price span {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+.sales-list,
+.checkout-plan-list {
+  display: grid;
+  gap: 10px;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.sales-list li,
+.checkout-plan-list li {
+  padding-left: 2px;
+}
+
+.sales-proof-band {
+  padding: 28px;
+}
+
+.checkout-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+  gap: 20px;
+  align-items: center;
+  padding: 34px;
+}
+
+.checkout-hero-copy {
+  display: grid;
+  gap: 14px;
+}
+
+.checkout-hero-copy h1 {
+  font-size: clamp(2.7rem, 4.3vw, 4.5rem);
+  max-width: 11ch;
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+}
+
+.checkout-hero-copy .section-copy {
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 60ch;
+}
+
+.checkout-hero-note {
+  padding: 22px 24px;
+  border-radius: 26px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.checkout-hero-note strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.checkout-hero-note p {
+  color: rgba(255,255,255,0.76);
+  line-height: 1.65;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(380px, 0.94fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.checkout-plan-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.checkout-plan-card {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  padding: 22px;
+  text-align: left;
+  border: 1px solid rgba(35, 42, 45, 0.08);
+  border-radius: 26px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.94), rgba(248,245,240,0.86));
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.checkout-plan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 56px rgba(16, 24, 28, 0.1);
+}
+
+.checkout-plan-card.is-selected {
+  border-color: rgba(34, 51, 54, 0.2);
+  box-shadow:
+    0 24px 56px rgba(16, 24, 28, 0.1),
+    inset 0 0 0 1px rgba(34, 51, 54, 0.08);
+}
+
+.checkout-plan-card.is-featured {
+  background:
+    radial-gradient(circle at top right, rgba(156,117,87,0.12), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,0.97), rgba(247,243,237,0.9));
+}
+
+.checkout-plan-card strong {
+  font-size: 1.4rem;
+  font-family: "Sora", sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.checkout-plan-card p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.checkout-plan-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(156, 117, 87, 0.12);
+  color: var(--secondary);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.checkout-plan-badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary-deep), var(--primary));
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.checkout-plan-price {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  font-family: "Sora", sans-serif;
+  font-size: 2rem;
+  letter-spacing: -0.05em;
+}
+
+.checkout-plan-price span {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.checkout-form-panel {
+  position: sticky;
+  top: 86px;
+}
+
+.checkout-selection {
+  display: grid;
+  gap: 10px;
+  padding: 18px 20px;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(156,117,87,0.08), transparent 22%),
+    linear-gradient(180deg, rgba(255,255,255,0.86), rgba(247,244,239,0.78));
+  border: 1px solid rgba(35, 42, 45, 0.08);
+}
+
+.checkout-selection-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.checkout-selection-row strong {
+  font-size: 1.2rem;
+  letter-spacing: -0.03em;
+}
+
+.checkout-selection p {
+  color: var(--muted);
+}
+
+.checkout-summary-box {
+  display: grid;
+  gap: 12px;
+  padding: 18px 20px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.84), rgba(247,243,238,0.7));
+  border: 1px solid rgba(35, 42, 45, 0.08);
+}
+
+.checkout-summary-box strong {
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.checkout-plan-list.compact {
+  gap: 8px;
+}
+
 .panel-header p + h3 + p,
 .panel-note p,
 .section-copy,
@@ -2288,6 +2637,9 @@ textarea:focus {
 
 @media (max-width: 1180px) {
   .marketing-hero,
+  .sales-hero,
+  .checkout-hero,
+  .checkout-layout,
   .hero,
   .public-grid,
   .admin-grid,
@@ -2338,6 +2690,17 @@ textarea:focus {
 
   .showcase-stack {
     grid-template-columns: 1fr;
+  }
+
+  .sales-steps-grid,
+  .sales-pricing-grid,
+  .sales-feature-grid,
+  .sales-proof-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-form-panel {
+    position: static;
   }
 }
 
@@ -2413,6 +2776,7 @@ textarea:focus {
   .hero-copy,
   .hero-panel,
   .hero-showcase,
+  .checkout-hero,
   .panel,
   .segment-card,
   .feature-card,
@@ -2453,6 +2817,18 @@ textarea:focus {
 
   .detail-visual {
     min-height: 260px;
+  }
+
+  .sales-hero .hero-copy {
+    padding: 28px 24px;
+  }
+
+  .checkout-selection-row {
+    align-items: flex-start;
+  }
+
+  .checkout-plan-card {
+    padding: 20px;
   }
 }
 
