@@ -39,15 +39,14 @@
         <section id="login-view" class="panel login-panel login-panel-compact">
           <div class="panel-header">
             <h3>Entrar no painel</h3>
-            <p>Acesse para gerenciar o salao.</p>
+            <p>Acesse com a conta do seu estabelecimento.</p>
           </div>
           <form id="login-form" class="stack">
             <div class="field-grid">
-              <label class="field"><span>Email</span><input type="email" name="email" value="owner@agendapro.local" required></label>
-              <label class="field"><span>Senha</span><input type="password" name="password" value="agenda123" required></label>
+              <label class="field"><span>Email</span><input type="email" name="email" placeholder="voce@estabelecimento.com" required></label>
+              <label class="field"><span>Senha</span><input type="password" name="password" placeholder="Sua senha" required></label>
             </div>
             <button type="submit" class="primary-btn">Entrar</button>
-            <p class="helper">Login padrao: owner@agendapro.local / agenda123</p>
             <p id="login-error" class="feedback error"></p>
           </form>
         </section>

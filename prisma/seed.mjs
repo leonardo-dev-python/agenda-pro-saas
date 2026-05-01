@@ -7,10 +7,10 @@ const TOKEN_SECRET = process.env.JWT_SECRET || "agenda-pro-local-secret";
 
 const salonSeed = {
   id: "salon-default",
-  name: "Meu Salao",
-  slug: "meu-salao",
-  phone: "(11) 99999-0000",
-  whatsappNumber: "(11) 99999-0000",
+  name: "Estabelecimento em configuracao",
+  slug: "estabelecimento-em-configuracao",
+  phone: "",
+  whatsappNumber: "",
   email: "",
   addressLine1: "",
   city: "",
@@ -40,8 +40,8 @@ async function main() {
       users: {
         create: {
           id: "user-owner",
-          name: "Leona",
-          email: "owner@agendapro.local",
+          name: "Administrador",
+          email: "admin@agendapro.local",
           passwordHash: hashPassword("agenda123", TOKEN_SECRET),
           role: "OWNER",
           isActive: true,

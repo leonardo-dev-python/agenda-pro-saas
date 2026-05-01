@@ -4,11 +4,11 @@
   "companies": [
     {
       "id": "company-default",
-      "name": "Meu Salao",
-      "slug": "meu-salao",
+      "name": "Estabelecimento em configuracao",
+      "slug": "estabelecimento-em-configuracao",
       "address": "",
-      "phone": "(11) 99999-0000",
-      "whatsappNumber": "(11) 99999-0000",
+      "phone": "",
+      "whatsappNumber": "",
       "email": "",
       "logoUrl": "",
       "instagram": "",
@@ -33,8 +33,8 @@
     {
       "id": "user-owner",
       "companyId": "company-default",
-      "name": "Leona",
-      "email": "owner@agendapro.local",
+      "name": "Administrador",
+      "email": "admin@agendapro.local",
       "passwordHash": "07e730756d283797f29f6ebe05d6794cd46c7bcd92e31ecacff4ab1ae01f9c4e",
       "role": "owner",
       "createdAt": "2026-04-26T18:45:24.992Z"

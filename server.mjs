@@ -110,12 +110,11 @@ const server = createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log(`AgendaPro local em http://localhost:${PORT}`);
-  console.log("Login padrao: owner@agendapro.local / agenda123");
 });
 
 async function handleApi(req, res, url) {
   if (req.method === "GET" && url.pathname === "/api/health") {
-    sendJson(res, 200, { ok: true, app: "AgendaPro Beauty" });
+    sendJson(res, 200, { ok: true, app: "Agenda Pro" });
     return;
   }
 
