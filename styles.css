@@ -2801,6 +2801,11 @@ textarea:focus {
   gap: 18px;
 }
 
+.lp-plan-card-single {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
 .lp-plan-card {
   display: grid;
   gap: 22px;
@@ -3051,6 +3056,10 @@ textarea:focus {
   gap: 16px;
 }
 
+.checkout-plan-grid-single {
+  max-width: 760px;
+}
+
 .checkout-plan-card {
   position: relative;
   display: grid;
@@ -3064,6 +3073,10 @@ textarea:focus {
     linear-gradient(180deg, rgba(255,255,255,0.94), rgba(248,245,240,0.86));
   cursor: pointer;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.checkout-plan-card-single {
+  min-height: 320px;
 }
 
 .checkout-plan-card:hover {

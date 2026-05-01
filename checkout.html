@@ -28,57 +28,34 @@
       <section class="checkout-hero glass-dark">
         <div class="checkout-hero-copy">
           <p class="eyebrow">Checkout Agenda Pro</p>
-          <h1>Escolha o plano ideal e crie o acesso do seu estabelecimento.</h1>
-          <p class="section-copy">A camada comercial fica aqui. O painel do proprietario continua limpo, focado apenas na operacao do negocio.</p>
+          <h1>Ative seu acesso e comece a configurar o seu estabelecimento.</h1>
+          <p class="section-copy">A jornada comercial acontece aqui. O painel do proprietário continua limpo, focado apenas na operação do negócio.</p>
         </div>
         <div class="checkout-hero-note">
           <strong>O que acontece depois</strong>
-          <p>Voce cria o acesso, entra no painel e configura salao, equipe, servicos e link publico de agendamento.</p>
+          <p>Você cria o acesso, entra no painel e configura salão, equipe, serviços e o link público de agendamento.</p>
         </div>
       </section>
 
       <section class="checkout-layout">
         <article class="panel stack checkout-plan-panel">
           <div class="panel-header">
-            <h2>Escolha seu plano</h2>
-            <p>Selecione o formato comercial que melhor combina com o momento do seu negocio.</p>
+            <h2>Seu plano</h2>
+            <p>Comece com uma assinatura única para estruturar a operação e publicar seu agendamento online.</p>
           </div>
 
-          <div class="checkout-plan-grid" id="checkout-plan-grid">
-            <button type="button" class="checkout-plan-card" data-plan="starter">
-              <span class="checkout-plan-tag">Essencial</span>
-              <strong>Starter</strong>
-              <div class="checkout-plan-price">R$ 79<span>/mensal</span></div>
-              <p>Para organizar a agenda e sair do improviso.</p>
+          <div class="checkout-plan-grid checkout-plan-grid-single" id="checkout-plan-grid">
+            <button type="button" class="checkout-plan-card checkout-plan-card-single is-featured is-selected" data-plan="professional" aria-pressed="true">
+              <span class="checkout-plan-badge">Plano atual</span>
+              <span class="checkout-plan-tag">Assinatura mensal</span>
+              <strong>Agenda Pro</strong>
+              <div class="checkout-plan-price">R$ 129,90<span>/mês</span></div>
+              <p>Para organizar agenda, equipe, serviços, clientes e o link público em uma experiência profissional.</p>
               <ul class="checkout-plan-list">
                 <li>1 estabelecimento</li>
-                <li>Equipe e servicos</li>
-                <li>Pagina publica de agendamento</li>
-              </ul>
-            </button>
-
-            <button type="button" class="checkout-plan-card is-featured" data-plan="professional">
-              <span class="checkout-plan-badge">Mais escolhido</span>
-              <span class="checkout-plan-tag">Crescimento</span>
-              <strong>Professional</strong>
-              <div class="checkout-plan-price">R$ 149<span>/mensal</span></div>
-              <p>Para operacoes com mais equipe, mais servicos e mais ritmo comercial.</p>
-              <ul class="checkout-plan-list">
-                <li>Tudo do Starter</li>
-                <li>Mais capacidade operacional</li>
-                <li>Base mais forte para clientes e recorrencia</li>
-              </ul>
-            </button>
-
-            <button type="button" class="checkout-plan-card" data-plan="multi">
-              <span class="checkout-plan-tag">Expansao</span>
-              <strong>Multiunidade</strong>
-              <div class="checkout-plan-price">Sob consulta</div>
-              <p>Para marcas com duas ou mais unidades e implantacao mais consultiva.</p>
-              <ul class="checkout-plan-list">
-                <li>Fluxo multiunidade</li>
-                <li>Escopo assistido</li>
-                <li>Implantacao comercial personalizada</li>
+                <li>Agenda, equipe, serviços e clientes</li>
+                <li>Link público de agendamento</li>
+                <li>Integração com Google Agenda</li>
               </ul>
             </button>
           </div>
@@ -87,22 +64,22 @@
         <article class="panel stack checkout-form-panel">
           <div class="panel-header">
             <h2>Criar acesso</h2>
-            <p>Preencha os dados principais para iniciar a configuracao do estabelecimento.</p>
+            <p>Preencha os dados principais para iniciar a configuração do estabelecimento.</p>
           </div>
 
           <div class="checkout-selection" id="checkout-selection">
             <span class="eyebrow">Plano selecionado</span>
             <div class="checkout-selection-row">
-              <strong id="selected-plan-name">Professional</strong>
-              <span id="selected-plan-price" class="status-pill">R$ 149/mensal</span>
+              <strong id="selected-plan-name">Agenda Pro</strong>
+              <span id="selected-plan-price" class="status-pill">R$ 129,90/mês</span>
             </div>
-            <p id="selected-plan-description">Para operacoes com mais equipe, mais servicos e mais ritmo comercial.</p>
+            <p id="selected-plan-description">Uma assinatura única para centralizar agenda, equipe, serviços, clientes e o link público de agendamento.</p>
           </div>
 
           <form id="checkout-form" class="stack">
             <input type="hidden" name="plan" value="professional">
             <div class="field-grid">
-              <label class="field"><span>Nome do responsavel</span><input name="ownerName" type="text" required></label>
+              <label class="field"><span>Nome do responsável</span><input name="ownerName" type="text" required></label>
               <label class="field"><span>Nome do estabelecimento</span><input name="salonName" type="text" required></label>
               <label class="field"><span>E-mail</span><input name="email" type="email" required></label>
               <label class="field"><span>Telefone</span><input name="phone" type="tel" required></label>
@@ -110,11 +87,11 @@
             </div>
 
             <div class="checkout-summary-box">
-              <strong>O que voce vai receber</strong>
+              <strong>O que você vai receber</strong>
               <ul class="checkout-plan-list compact">
                 <li>Conta criada no Agenda Pro</li>
-                <li>Painel limpo para configurar salao, equipe e servicos</li>
-                <li>Pagina publica para comecar a receber agendamentos</li>
+                <li>Painel limpo para configurar salão, equipe e serviços</li>
+                <li>Página pública para começar a receber agendamentos</li>
               </ul>
             </div>
 

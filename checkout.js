@@ -2,20 +2,10 @@ const API_BASE = "/api";
 const TOKEN_KEY = "agendapro-token";
 
 const PLAN_CONFIG = {
-  starter: {
-    name: "Starter",
-    price: "R$ 79/mensal",
-    description: "Para organizar a agenda e sair do improviso.",
-  },
   professional: {
-    name: "Professional",
-    price: "R$ 149/mensal",
-    description: "Para operacoes com mais equipe, mais servicos e mais ritmo comercial.",
-  },
-  multi: {
-    name: "Multiunidade",
-    price: "Sob consulta",
-    description: "Para marcas com duas ou mais unidades e implantacao mais consultiva.",
+    name: "Agenda Pro",
+    price: "R$ 129,90/mês",
+    description: "Uma assinatura única para centralizar agenda, equipe, serviços, clientes e o link público de agendamento.",
   },
 };
 
@@ -87,7 +77,7 @@ async function handleCheckoutSubmit(event) {
       window.location.href = "/estabelecimento";
     }, 900);
   } catch (error) {
-    feedback.textContent = error.message || "Nao foi possivel criar a conta.";
+    feedback.textContent = error.message || "Não foi possível criar a conta.";
     feedback.className = "feedback error";
   } finally {
     if (submitButton) submitButton.disabled = false;
@@ -101,6 +91,6 @@ async function request(path, options = {}) {
     body: options.body ? JSON.stringify(options.body) : undefined,
   });
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || "Falha na requisicao.");
+  if (!response.ok) throw new Error(data.error || "Falha na requisição.");
   return data;
 }
