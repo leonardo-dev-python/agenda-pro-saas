@@ -2291,79 +2291,87 @@ textarea:focus {
   border: 0;
 }
 
-.sales-header {
-  padding: 16px 20px;
-  border-radius: 26px;
-}
-
-.sales-layout {
-  gap: 26px;
-}
-
-.sales-stage {
+.lp-shell {
   display: grid;
-  grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.98fr);
-  gap: 28px;
-  padding: 34px 8px 10px;
-  align-items: center;
+  gap: 24px;
+  margin-top: 22px;
 }
 
-.sales-stage-copy {
+.lp-header {
+  padding: 16px 20px;
+  border-radius: 28px;
+}
+
+.lp-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--secondary);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.lp-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(420px, 0.98fr);
+  gap: 24px;
+  align-items: center;
+  padding: 12px 4px 8px;
+}
+
+.lp-hero-copy {
   display: grid;
   gap: 18px;
-  padding: 20px 10px 20px 8px;
+  padding: 10px 8px;
 }
 
-.sales-stage-copy h1 {
-  font-size: clamp(3rem, 5vw, 5.25rem);
+.lp-hero-copy h1 {
+  font-size: clamp(3rem, 5vw, 5.2rem);
   line-height: 0.95;
   letter-spacing: -0.055em;
   max-width: 10ch;
 }
 
-.sales-stage-copy .section-copy {
+.lp-hero-copy p {
   max-width: 58ch;
   color: var(--muted);
+  line-height: 1.65;
 }
 
-.sales-inline-form {
+.lp-hero-form {
   display: flex;
-  align-items: center;
   gap: 12px;
+  align-items: center;
   flex-wrap: wrap;
-  margin-top: 4px;
 }
 
-.sales-inline-field {
+.lp-hero-form input {
   flex: 1 1 280px;
-}
-
-.sales-inline-field input {
   min-height: 56px;
   border-radius: 999px;
   padding-inline: 20px;
 }
 
-.sales-logo-row {
+.lp-brand-row {
   display: flex;
   flex-wrap: wrap;
   gap: 22px;
   align-items: center;
-  margin-top: 8px;
-  color: var(--primary);
   font-weight: 800;
+  color: var(--primary);
 }
 
-.sales-stage-visual {
-  position: relative;
+.lp-hero-visual {
   display: grid;
   place-items: center;
 }
 
-.sales-browser-frame {
+.lp-browser {
   width: 100%;
   max-width: 560px;
-  padding: 14px 14px 16px;
+  padding: 14px;
   border-radius: 30px;
   background:
     linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,245,240,0.94));
@@ -2371,48 +2379,48 @@ textarea:focus {
   box-shadow: 0 34px 90px rgba(16, 24, 28, 0.12);
 }
 
-.sales-browser-top {
+.lp-browser-top {
   display: flex;
   gap: 8px;
   padding: 8px 4px 16px;
 }
 
-.sales-browser-top span {
+.lp-browser-top span {
   width: 10px;
   height: 10px;
-  border-radius: 999px;
+  border-radius: 50%;
   background: rgba(34, 51, 54, 0.18);
 }
 
-.sales-app-preview {
+.lp-browser-body {
   position: relative;
-  padding: 30px 28px 24px;
   min-height: 430px;
+  padding: 28px;
   border-radius: 26px;
   background:
     linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(244,248,247,0.9) 65%, rgba(225,238,235,0.88) 100%);
   overflow: hidden;
 }
 
-.sales-app-preview::after {
+.lp-browser-body::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, transparent 0 70%, rgba(34, 51, 54, 0.04) 70% 78%, transparent 78% 100%),
-    linear-gradient(135deg, transparent 0 76%, rgba(34, 51, 54, 0.035) 76% 84%, transparent 84% 100%);
+    linear-gradient(135deg, transparent 0 72%, rgba(34, 51, 54, 0.04) 72% 80%, transparent 80% 100%),
+    linear-gradient(135deg, transparent 0 78%, rgba(34, 51, 54, 0.03) 78% 86%, transparent 86% 100%);
   pointer-events: none;
 }
 
-.sales-preview-left {
+.lp-browser-panel {
   position: relative;
   z-index: 1;
   display: grid;
   gap: 14px;
-  width: min(310px, 100%);
+  width: min(320px, 100%);
 }
 
-.sales-chip {
+.lp-pill {
   display: inline-flex;
   align-items: center;
   width: fit-content;
@@ -2421,16 +2429,12 @@ textarea:focus {
   border-radius: 999px;
   background: rgba(255,255,255,0.95);
   border: 1px solid rgba(35, 42, 45, 0.08);
+  color: var(--primary);
   font-size: 0.8rem;
   font-weight: 800;
-  color: var(--primary);
 }
 
-.sales-chip.soft {
-  background: rgba(222, 231, 225, 0.76);
-}
-
-.sales-preview-card {
+.lp-value-card {
   display: grid;
   gap: 10px;
   padding: 22px;
@@ -2439,30 +2443,38 @@ textarea:focus {
   box-shadow: 0 18px 40px rgba(16, 24, 28, 0.08);
 }
 
-.sales-preview-card strong {
+.lp-value-card small {
+  color: var(--secondary);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.lp-value-card strong {
   font-family: "Sora", sans-serif;
   font-size: 2.2rem;
   letter-spacing: -0.05em;
 }
 
-.sales-preview-card span {
+.lp-value-card p {
   color: var(--muted);
   line-height: 1.55;
 }
 
-.sales-preview-list {
+.lp-list-card {
   display: grid;
   gap: 10px;
 }
 
-.sales-preview-list div {
+.lp-list-card span {
+  display: block;
   height: 42px;
   border-radius: 18px;
   background: rgba(255,255,255,0.78);
   border: 1px solid rgba(35, 42, 45, 0.06);
 }
 
-.sales-preview-pay {
+.lp-panel-button {
   min-height: 52px;
   border: none;
   border-radius: 18px;
@@ -2471,7 +2483,7 @@ textarea:focus {
   font-weight: 800;
 }
 
-.sales-floating-card {
+.lp-floating-card {
   position: absolute;
   z-index: 2;
   top: 44px;
@@ -2487,23 +2499,31 @@ textarea:focus {
   box-shadow: 0 26px 60px rgba(16, 24, 28, 0.22);
 }
 
-.sales-floating-card strong {
-  font-size: 1.2rem;
+.lp-floating-card small {
+  color: rgba(255,255,255,0.74);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lp-floating-card strong {
+  font-size: 1.18rem;
   letter-spacing: -0.03em;
 }
 
-.sales-floating-card p {
+.lp-floating-card p {
   color: rgba(255,255,255,0.82);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
-.sales-floating-meta {
+.lp-floating-tags {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
 
-.sales-floating-meta span {
+.lp-floating-tags span {
   display: inline-flex;
   align-items: center;
   min-height: 28px;
@@ -2514,61 +2534,71 @@ textarea:focus {
   font-weight: 800;
 }
 
-.sales-feature-shell {
+.lp-surface,
+.lp-dark-band,
+.lp-final-cta {
   padding: 30px;
+  border-radius: 30px;
 }
 
-.sales-section-head {
+.lp-surface {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.88), rgba(247,243,238,0.78));
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  box-shadow: var(--shadow);
+}
+
+.lp-section-head {
   display: flex;
   justify-content: space-between;
   align-items: end;
   gap: 18px;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
-.sales-section-head.center {
-  justify-content: center;
-  text-align: center;
-}
-
-.sales-section-head.dark {
-  margin-bottom: 28px;
-}
-
-.sales-section-head.dark h2,
-.sales-section-head.dark p,
-.sales-dark-band .eyebrow {
-  color: white;
-}
-
-.sales-section-head h2 {
-  font-size: clamp(2.2rem, 3vw, 3.4rem);
+.lp-section-head h2 {
+  font-size: clamp(2.15rem, 3vw, 3.3rem);
   letter-spacing: -0.05em;
   max-width: 14ch;
 }
 
-.sales-section-head > p {
+.lp-section-head p {
   max-width: 40ch;
   color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
-.sales-feature-grid {
+.lp-section-head-center {
+  justify-content: center;
+  text-align: center;
+}
+
+.lp-section-head-center p {
+  max-width: 54ch;
+}
+
+.lp-section-head-dark h2,
+.lp-section-head-dark p,
+.lp-section-head-dark .lp-kicker {
+  color: white;
+}
+
+.lp-feature-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 
-.sales-feature-card {
+.lp-feature-card {
   display: grid;
   gap: 14px;
   padding: 24px;
   border-radius: 26px;
-  background: rgba(255,255,255,0.76);
+  background: rgba(255,255,255,0.78);
   border: 1px solid rgba(35, 42, 45, 0.08);
 }
 
-.sales-feature-icon {
+.lp-feature-icon {
   display: inline-grid;
   place-items: center;
   width: 46px;
@@ -2580,23 +2610,23 @@ textarea:focus {
   font-weight: 800;
 }
 
-.sales-feature-card h3 {
-  font-size: 1.3rem;
+.lp-feature-card h3 {
+  font-size: 1.28rem;
   letter-spacing: -0.03em;
 }
 
-.sales-feature-card p {
+.lp-feature-card p {
   color: var(--muted);
   line-height: 1.6;
 }
 
-.sales-mosaic {
+.lp-mosaic {
   display: grid;
-  grid-template-columns: 0.84fr 1.16fr;
+  grid-template-columns: 0.85fr 1.15fr;
   gap: 18px;
 }
 
-.sales-mosaic-card {
+.lp-mosaic-card {
   display: grid;
   gap: 14px;
   padding: 26px;
@@ -2608,49 +2638,43 @@ textarea:focus {
   box-shadow: 0 24px 56px rgba(16, 24, 28, 0.08);
 }
 
-.sales-mosaic-highlight strong {
+.lp-mosaic-stat strong {
   font-family: "Sora", sans-serif;
   font-size: clamp(3rem, 5vw, 4.6rem);
   letter-spacing: -0.06em;
   color: #1f8b95;
 }
 
-.sales-mosaic-card h3 {
-  font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+.lp-mosaic-card h3 {
+  font-size: clamp(1.6rem, 2.4vw, 2.35rem);
   letter-spacing: -0.04em;
   max-width: 12ch;
 }
 
-.sales-mosaic-card p {
+.lp-mosaic-card p {
   max-width: 34ch;
   color: var(--muted);
   line-height: 1.65;
 }
 
-.sales-chart-card {
+.lp-chart-card {
   grid-column: 1 / -1;
-  grid-template-columns: 0.4fr 1fr;
+  grid-template-columns: 0.42fr 1fr;
   align-items: end;
 }
 
-.sales-chart-copy {
+.lp-chart-copy {
   display: grid;
   gap: 12px;
 }
 
-.sales-chart-copy strong {
-  display: block;
+.lp-chart-copy strong {
   font-family: "Sora", sans-serif;
   font-size: 2.1rem;
   letter-spacing: -0.05em;
 }
 
-.sales-chart-copy small,
-.sales-chart-copy span {
-  color: var(--muted);
-}
-
-.sales-chart {
+.lp-chart-visual {
   position: relative;
   min-height: 220px;
   border-radius: 24px;
@@ -2660,7 +2684,7 @@ textarea:focus {
   overflow: hidden;
 }
 
-.sales-chart span {
+.lp-chart-visual span {
   position: absolute;
   bottom: 32px;
   left: 22px;
@@ -2670,29 +2694,27 @@ textarea:focus {
   border-radius: 999px;
 }
 
-.sales-chart span:nth-child(1) { width: 90px; transform: rotate(26deg); bottom: 42px; left: 28px; }
-.sales-chart span:nth-child(2) { width: 86px; transform: rotate(16deg); bottom: 76px; left: 112px; }
-.sales-chart span:nth-child(3) { width: 92px; transform: rotate(10deg); bottom: 98px; left: 193px; }
-.sales-chart span:nth-child(4) { width: 92px; transform: rotate(6deg); bottom: 115px; left: 280px; }
-.sales-chart span:nth-child(5) { width: 82px; transform: rotate(2deg); bottom: 126px; left: 365px; }
-.sales-chart span:nth-child(6) { width: 86px; transform: rotate(-8deg); bottom: 123px; left: 442px; }
+.lp-chart-visual span:nth-child(1) { width: 90px; transform: rotate(26deg); bottom: 42px; left: 28px; }
+.lp-chart-visual span:nth-child(2) { width: 86px; transform: rotate(16deg); bottom: 76px; left: 112px; }
+.lp-chart-visual span:nth-child(3) { width: 92px; transform: rotate(10deg); bottom: 98px; left: 193px; }
+.lp-chart-visual span:nth-child(4) { width: 92px; transform: rotate(6deg); bottom: 115px; left: 280px; }
+.lp-chart-visual span:nth-child(5) { width: 82px; transform: rotate(2deg); bottom: 126px; left: 365px; }
+.lp-chart-visual span:nth-child(6) { width: 86px; transform: rotate(-8deg); bottom: 123px; left: 442px; }
 
-.sales-dark-band {
-  padding: 34px;
-  border-radius: 34px;
+.lp-dark-band {
   background:
     radial-gradient(circle at top right, rgba(31,139,149,0.14), transparent 24%),
     linear-gradient(135deg, #13292d 0%, #17363b 56%, #0f2428 100%);
   box-shadow: 0 34px 88px rgba(16, 24, 28, 0.18);
 }
 
-.sales-steps-grid-refined {
+.lp-step-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
-.sales-step-card {
+.lp-step-card {
   display: grid;
   gap: 14px;
   padding: 24px;
@@ -2701,67 +2723,67 @@ textarea:focus {
   border: 1px solid rgba(255,255,255,0.06);
 }
 
-.sales-step-card strong {
+.lp-step-card strong {
   font-family: "Sora", sans-serif;
   font-size: 3rem;
   letter-spacing: -0.06em;
   color: rgba(255,255,255,0.42);
 }
 
-.sales-step-card h3 {
+.lp-step-card h3 {
   color: white;
   font-size: 1.18rem;
   letter-spacing: -0.03em;
 }
 
-.sales-step-card p {
+.lp-step-card p {
   color: rgba(255,255,255,0.72);
   line-height: 1.6;
 }
 
-.sales-numbers {
+.lp-metric-band {
   display: grid;
   gap: 24px;
-  padding: 24px 6px;
+  padding: 22px 6px;
 }
 
-.sales-number-grid {
+.lp-metric-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 
-.sales-number-grid article {
+.lp-metric-row article {
   display: grid;
   gap: 10px;
   justify-items: center;
   text-align: center;
 }
 
-.sales-number-grid strong {
+.lp-metric-row strong {
   font-family: "Sora", sans-serif;
   font-size: clamp(2.3rem, 4vw, 3.2rem);
   letter-spacing: -0.06em;
 }
 
-.sales-number-grid span {
+.lp-metric-row span {
   max-width: 18ch;
   color: var(--muted);
   line-height: 1.5;
 }
 
-.sales-plan-band {
+.lp-plan-section {
   display: grid;
   gap: 22px;
 }
 
-.sales-plan-grid {
+.lp-plan-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 
-.sales-plan-tile {
+.lp-plan-card {
   display: grid;
   gap: 22px;
   min-height: 240px;
@@ -2773,30 +2795,32 @@ textarea:focus {
   box-shadow: 0 24px 56px rgba(16, 24, 28, 0.08);
 }
 
-.sales-plan-tile.featured {
+.lp-plan-card-featured {
   background:
     linear-gradient(135deg, rgba(31,139,149,0.96), rgba(34,51,54,0.96));
   color: white;
 }
 
-.sales-plan-tile h3 {
+.lp-plan-copy h3 {
   font-size: 2rem;
   letter-spacing: -0.05em;
+  margin-top: 12px;
 }
 
-.sales-plan-tile p {
+.lp-plan-copy p {
   margin-top: 10px;
   color: var(--muted);
   line-height: 1.6;
 }
 
-.sales-plan-tile.featured p,
-.sales-plan-tile.featured strong,
-.sales-plan-tile.featured h3 {
+.lp-plan-card-featured .lp-plan-copy p,
+.lp-plan-card-featured .lp-plan-copy h3,
+.lp-plan-card-featured .lp-plan-meta strong,
+.lp-plan-card-featured .lp-kicker {
   color: white;
 }
 
-.sales-plan-footer {
+.lp-plan-meta {
   display: flex;
   justify-content: space-between;
   align-items: end;
@@ -2805,18 +2829,17 @@ textarea:focus {
   flex-wrap: wrap;
 }
 
-.sales-plan-footer strong {
+.lp-plan-meta strong {
   font-family: "Sora", sans-serif;
   font-size: 1.8rem;
   letter-spacing: -0.05em;
 }
 
-.sales-plan-flag {
+.lp-plan-badge {
   display: inline-flex;
   align-items: center;
   min-height: 32px;
   width: fit-content;
-  margin-bottom: 16px;
   padding: 6px 12px;
   border-radius: 999px;
   background: rgba(255,255,255,0.16);
@@ -2827,107 +2850,55 @@ textarea:focus {
   text-transform: uppercase;
 }
 
-.sales-cta-final {
+.lp-final-cta {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  padding: 34px;
-  border-radius: 30px;
   background: linear-gradient(135deg, #13292d 0%, #17363b 58%, #0f2428 100%);
   color: white;
   box-shadow: 0 34px 88px rgba(16, 24, 28, 0.18);
 }
 
-.sales-cta-final h2 {
+.lp-final-cta h2 {
   font-size: clamp(2rem, 3vw, 3rem);
   letter-spacing: -0.05em;
   max-width: 11ch;
   margin-top: 10px;
 }
 
-.sales-cta-final p:last-child {
+.lp-final-cta p:last-child {
   max-width: 52ch;
   margin-top: 12px;
   color: rgba(255,255,255,0.74);
   line-height: 1.6;
 }
 
-.sales-faq-grid {
+.lp-faq-row {
+  display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
 }
 
-.sales-hero {
-  grid-template-columns: minmax(0, 1.14fr) minmax(360px, 0.86fr);
-  align-items: stretch;
-  min-height: 560px;
-}
-
-.sales-hero .hero-copy {
-  padding: 42px 42px 38px;
-  align-content: center;
-}
-
-.sales-hero h1 {
-  font-size: clamp(3.1rem, 5vw, 5.6rem);
-  max-width: 11ch;
-  letter-spacing: -0.055em;
-  line-height: 0.96;
-}
-
-.sales-hero .section-copy {
-  max-width: 58ch;
-  color: rgba(255, 255, 255, 0.78);
-}
-
-.sales-showcase-card {
-  height: 100%;
-  min-height: 100%;
-  padding: 28px;
+.lp-faq-card {
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+  border-radius: 24px;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(247,243,237,0.9));
-}
-
-.sales-showcase-card h3 {
-  font-size: clamp(1.6rem, 2vw, 2.3rem);
-  max-width: 11ch;
-  letter-spacing: -0.04em;
-}
-
-.sales-showcase-card .showcase-stack {
-  margin-top: 6px;
-}
-
-.sales-showcase-card .panel-note {
-  padding: 18px 18px 16px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.76);
+    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(247,243,238,0.88));
   border: 1px solid rgba(35, 42, 45, 0.08);
+  box-shadow: 0 20px 48px rgba(16, 24, 28, 0.08);
 }
 
-.sales-showcase-card .panel-note strong {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 1rem;
+.lp-faq-card h3 {
+  font-size: 1.08rem;
   letter-spacing: -0.02em;
 }
 
-.sales-showcase-card .panel-note p {
+.lp-faq-card p {
   color: var(--muted);
   line-height: 1.6;
-}
-
-.sales-feature-grid,
-.sales-proof-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.sales-steps-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.sales-pricing-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .plan-card {
@@ -3217,6 +3188,7 @@ textarea:focus {
   .marketing-hero,
   .sales-hero,
   .sales-stage,
+  .lp-hero,
   .checkout-hero,
   .checkout-layout,
   .hero,
@@ -3271,6 +3243,11 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
+  .lp-feature-row,
+  .lp-metric-row,
+  .lp-plan-grid,
+  .lp-faq-row,
+  .lp-step-row,
   .sales-feature-grid,
   .sales-number-grid,
   .sales-plan-grid,
@@ -3286,11 +3263,24 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
+  .lp-mosaic {
+    grid-template-columns: 1fr;
+  }
+
   .sales-chart-card {
     grid-template-columns: 1fr;
   }
 
+  .lp-chart-card {
+    grid-template-columns: 1fr;
+  }
+
   .sales-cta-final {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lp-final-cta {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -3317,6 +3307,12 @@ textarea:focus {
   }
 
   .cta-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lp-section-head,
+  .lp-plan-meta {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -3379,6 +3375,9 @@ textarea:focus {
   .hero-panel,
   .hero-showcase,
   .checkout-hero,
+  .lp-surface,
+  .lp-dark-band,
+  .lp-final-cta,
   .sales-feature-shell,
   .sales-dark-band,
   .sales-cta-final,
@@ -3430,6 +3429,38 @@ textarea:focus {
 
   .sales-stage {
     padding: 20px 0 8px;
+  }
+
+  .lp-hero {
+    padding: 8px 0 4px;
+  }
+
+  .lp-hero-copy {
+    padding: 8px 2px;
+  }
+
+  .lp-hero-copy h1 {
+    max-width: 100%;
+  }
+
+  .lp-hero-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lp-brand-row {
+    gap: 14px;
+  }
+
+  .lp-browser-body {
+    min-height: 360px;
+    padding: 24px 22px 22px;
+  }
+
+  .lp-floating-card {
+    position: static;
+    width: 100%;
+    margin-top: 18px;
   }
 
   .sales-stage-copy {

@@ -14,7 +14,7 @@
   <div class="page-orb orb-right"></div>
 
   <div class="app-shell marketing-shell">
-    <header class="site-header glass sales-header">
+    <header class="site-header glass lp-header">
       <a href="/" class="brand">
         <img class="brand-logo" src="assets/agenda-pro-logo-dark.png" alt="Agenda Pro">
       </a>
@@ -26,27 +26,24 @@
       </nav>
       <div class="header-actions">
         <a href="/estabelecimento" class="ghost-btn">Entrar</a>
-        <a href="/checkout" class="primary-btn">Comecar agora</a>
+        <a href="/checkout?plan=professional" class="primary-btn">Comecar agora</a>
       </div>
     </header>
 
-    <main class="layout stack sales-layout">
-      <section class="sales-stage">
-        <div class="sales-stage-copy">
-          <p class="eyebrow">Agenda online para beleza e bem-estar</p>
-          <h1>Organize sua agenda, equipe e clientes com uma experiencia muito mais profissional.</h1>
-          <p class="section-copy">Agenda Pro ajuda saloes, barbearias e studios a receber agendamentos online, reduzir atrito operacional e transformar o link da bio em um canal real de captacao.</p>
+    <main class="lp-shell">
+      <section class="lp-hero">
+        <div class="lp-hero-copy">
+          <span class="lp-kicker">Agenda online para beleza e bem-estar</span>
+          <h1>Transforme seu link de agendamento em uma experiencia profissional para o cliente.</h1>
+          <p>Agenda Pro centraliza agenda, equipe, servicos e clientes em um fluxo mais claro para o estabelecimento e muito mais simples para quem quer reservar um horario.</p>
 
-          <form class="sales-inline-form" action="/checkout" method="get">
+          <form class="lp-hero-form" action="/checkout" method="get">
             <input type="hidden" name="plan" value="professional">
-            <label class="sales-inline-field" for="sales-email">
-              <span class="sr-only">Seu e-mail comercial</span>
-              <input id="sales-email" name="lead" type="email" placeholder="Seu melhor e-mail comercial">
-            </label>
+            <input type="email" name="lead" placeholder="Seu melhor e-mail comercial">
             <button type="submit" class="primary-btn">Ver checkout</button>
           </form>
 
-          <div class="sales-logo-row">
+          <div class="lp-brand-row">
             <span>Instagram</span>
             <span>WhatsApp</span>
             <span>Google Agenda</span>
@@ -54,34 +51,34 @@
           </div>
         </div>
 
-        <div class="sales-stage-visual">
-          <div class="sales-browser-frame">
-            <div class="sales-browser-top">
+        <div class="lp-hero-visual">
+          <div class="lp-browser">
+            <div class="lp-browser-top">
               <span></span>
               <span></span>
               <span></span>
             </div>
-            <div class="sales-app-preview">
-              <div class="sales-preview-left">
-                <div class="sales-chip">Link publico ativo</div>
-                <div class="sales-chip soft">Equipe organizada</div>
-                <div class="sales-preview-card">
-                  <p class="mini-kicker">Agendamento do dia</p>
+            <div class="lp-browser-body">
+              <div class="lp-browser-panel">
+                <div class="lp-pill">Link publico ativo</div>
+                <div class="lp-value-card">
+                  <small>Agendamento do dia</small>
                   <strong>R$ 1.980</strong>
-                  <span>Recepcao mais clara, menos conversa operacional.</span>
+                  <p>Mais visibilidade operacional e menos dependencia de conversa manual.</p>
                 </div>
-                <div class="sales-preview-list">
-                  <div></div>
-                  <div></div>
-                  <div></div>
+                <div class="lp-list-card">
+                  <span></span>
+                  <span></span>
+                  <span></span>
                 </div>
-                <button class="sales-preview-pay">Abrir painel</button>
+                <button class="lp-panel-button" type="button">Abrir painel</button>
               </div>
-              <div class="sales-floating-card">
-                <span class="mini-kicker">Agenda Pro</span>
+
+              <div class="lp-floating-card">
+                <small>Agenda Pro</small>
                 <strong>Studio Aura</strong>
-                <p>Cliente escolhe servico, profissional e horario sem depender da recepcao.</p>
-                <div class="sales-floating-meta">
+                <p>Cliente escolhe servico, profissional e horario em poucos passos.</p>
+                <div class="lp-floating-tags">
                   <span>Google</span>
                   <span>Agenda</span>
                 </div>
@@ -91,57 +88,54 @@
         </div>
       </section>
 
-      <section id="produto" class="sales-feature-shell glass">
-        <div class="sales-section-head">
+      <section id="produto" class="lp-surface">
+        <div class="lp-section-head">
           <div>
-            <p class="eyebrow">Produto</p>
-            <h2>Uma experiencia que cresce com a operacao do estabelecimento.</h2>
+            <span class="lp-kicker">Produto</span>
+            <h2>Uma operacao mais organizada, com visual mais profissional e menos atrito no dia a dia.</h2>
           </div>
-          <p>Da agenda do dia ate o link publico de agendamento, tudo foi pensado para reduzir atrito e aumentar clareza operacional.</p>
+          <p>O foco do Agenda Pro e facilitar rotina, melhorar percepcao de valor e tornar o agendamento um ativo do estabelecimento.</p>
         </div>
 
-        <div class="sales-feature-grid">
-          <article class="sales-feature-card">
-            <div class="sales-feature-icon">A</div>
+        <div class="lp-feature-row">
+          <article class="lp-feature-card">
+            <div class="lp-feature-icon">A</div>
             <h3>Agenda centralizada</h3>
-            <p>Cadastre, confirme e acompanhe os horarios em uma tela mais clara para o time.</p>
+            <p>Cadastre, confirme e acompanhe os horarios do dia em um painel mais claro para quem opera.</p>
           </article>
-          <article class="sales-feature-card">
-            <div class="sales-feature-icon">E</div>
+          <article class="lp-feature-card">
+            <div class="lp-feature-icon">E</div>
             <h3>Equipe configuravel</h3>
-            <p>O salao define os servicos de cada profissional sem depender de opcoes impostas pelo sistema.</p>
+            <p>O estabelecimento define seus servicos e escolhe exatamente o que cada profissional realiza.</p>
           </article>
-          <article class="sales-feature-card">
-            <div class="sales-feature-icon">C</div>
+          <article class="lp-feature-card">
+            <div class="lp-feature-icon">C</div>
             <h3>Clientes organizados</h3>
-            <p>Nome, telefone, observacoes e historico em um fluxo mais limpo para relacionamento e retorno.</p>
+            <p>Nome, telefone, observacoes e historico ficam mais acessiveis para atendimento e retorno.</p>
           </article>
         </div>
       </section>
 
-      <section id="vantagens" class="sales-mosaic">
-        <article class="sales-mosaic-card sales-mosaic-highlight">
-          <span class="eyebrow">Resultados</span>
+      <section id="vantagens" class="lp-mosaic">
+        <article class="lp-mosaic-card lp-mosaic-stat">
+          <span class="lp-kicker">Resultados</span>
           <strong>3x+</strong>
-          <p>Mais clareza na operacao diaria quando agenda, equipe e servicos conversam no mesmo produto.</p>
+          <p>Mais clareza de operacao quando agenda, equipe e servicos conversam em uma unica experiencia.</p>
         </article>
 
-        <article class="sales-mosaic-card">
-          <span class="eyebrow">Fluxo</span>
-          <h3>Link publico para Instagram, WhatsApp e QR Code</h3>
-          <p>O cliente encontra horario com menos atrito e o estabelecimento reduz dependencias manuais.</p>
+        <article class="lp-mosaic-card">
+          <span class="lp-kicker">Vantagem</span>
+          <h3>Um link publico pronto para Instagram, WhatsApp e QR Code.</h3>
+          <p>O cliente encontra horario com menos atrito e o salao reduz dependencia manual para preencher agenda.</p>
         </article>
 
-        <article class="sales-mosaic-card sales-chart-card">
-          <span class="eyebrow">Crescimento operacional</span>
-          <div class="sales-chart-copy">
-            <div>
-              <strong>R$ 1.876</strong>
-              <small>Visibilidade do dia</small>
-            </div>
-            <span>6 meses</span>
+        <article class="lp-mosaic-card lp-chart-card">
+          <div class="lp-chart-copy">
+            <span class="lp-kicker">Crescimento operacional</span>
+            <strong>R$ 1.876</strong>
+            <p>Visibilidade melhor do dia, do fluxo da equipe e do comportamento dos agendamentos.</p>
           </div>
-          <div class="sales-chart">
+          <div class="lp-chart-visual">
             <span></span>
             <span></span>
             <span></span>
@@ -152,42 +146,42 @@
         </article>
       </section>
 
-      <section class="sales-dark-band">
-        <div class="sales-section-head dark">
+      <section class="lp-dark-band">
+        <div class="lp-section-head lp-section-head-dark">
           <div>
-            <p class="eyebrow">Como funciona</p>
-            <h2>Uma jornada simples para tirar o salao do improviso.</h2>
+            <span class="lp-kicker">Como funciona</span>
+            <h2>Uma jornada simples para sair do improviso e comecar a vender melhor.</h2>
           </div>
         </div>
 
-        <div class="sales-steps-grid-refined">
-          <article class="sales-step-card">
+        <div class="lp-step-row">
+          <article class="lp-step-card">
             <strong>1</strong>
-            <h3>Escolha seu plano</h3>
+            <h3>Escolha o plano</h3>
             <p>Comece pelo checkout e crie o acesso do estabelecimento.</p>
           </article>
-          <article class="sales-step-card">
+          <article class="lp-step-card">
             <strong>2</strong>
             <h3>Configure a operacao</h3>
             <p>Cadastre equipe, servicos, agenda, clientes e Google Agenda.</p>
           </article>
-          <article class="sales-step-card">
+          <article class="lp-step-card">
             <strong>3</strong>
             <h3>Compartilhe o link</h3>
-            <p>Publique a pagina do cliente e transforme seus canais em captacao.</p>
+            <p>Publique sua pagina de agendamento e transforme os canais do negocio em captacao.</p>
           </article>
         </div>
       </section>
 
-      <section class="sales-numbers">
-        <div class="sales-section-head center">
+      <section class="lp-metric-band">
+        <div class="lp-section-head lp-section-head-center">
           <div>
-            <p class="eyebrow">Por que Agenda Pro</p>
-            <h2>Menos complexidade no sistema. Mais clareza para vender, atender e voltar a agenda a funcionar melhor.</h2>
+            <span class="lp-kicker">Por que Agenda Pro</span>
+            <h2>Menos complexidade no sistema. Mais clareza para vender, atender e manter a agenda em movimento.</h2>
           </div>
         </div>
 
-        <div class="sales-number-grid">
+        <div class="lp-metric-row">
           <article>
             <strong>24%</strong>
             <span>Mais clareza operacional</span>
@@ -203,33 +197,35 @@
         </div>
       </section>
 
-      <section id="planos" class="sales-plan-band">
-        <div class="sales-section-head">
+      <section id="planos" class="lp-plan-section">
+        <div class="lp-section-head">
           <div>
-            <p class="eyebrow">Planos</p>
-            <h2>Escolha o formato comercial ideal para o seu momento.</h2>
+            <span class="lp-kicker">Planos</span>
+            <h2>Escolha o formato comercial ideal para o momento do seu estabelecimento.</h2>
           </div>
         </div>
 
-        <div class="sales-plan-grid">
-          <article class="sales-plan-tile">
-            <div>
+        <div class="lp-plan-grid">
+          <article class="lp-plan-card">
+            <div class="lp-plan-copy">
+              <span class="lp-kicker">Essencial</span>
               <h3>Starter</h3>
-              <p>Essencial para organizar agenda, equipe e servicos.</p>
+              <p>Para organizar agenda, equipe e servicos sem adicionar complexidade na rotina.</p>
             </div>
-            <div class="sales-plan-footer">
+            <div class="lp-plan-meta">
               <strong>R$ 79/mensal</strong>
               <a href="/checkout?plan=starter" class="ghost-btn">Escolher</a>
             </div>
           </article>
 
-          <article class="sales-plan-tile featured">
-            <div>
-              <span class="sales-plan-flag">Mais escolhido</span>
+          <article class="lp-plan-card lp-plan-card-featured">
+            <div class="lp-plan-copy">
+              <span class="lp-plan-badge">Mais escolhido</span>
+              <span class="lp-kicker">Crescimento</span>
               <h3>Professional</h3>
-              <p>Para operacoes com mais equipe, mais servicos e mais ritmo comercial.</p>
+              <p>Para operacoes com mais equipe, mais servicos e mais necessidade de ritmo comercial.</p>
             </div>
-            <div class="sales-plan-footer">
+            <div class="lp-plan-meta">
               <strong>R$ 149/mensal</strong>
               <a href="/checkout?plan=professional" class="primary-btn">Escolher</a>
             </div>
@@ -237,11 +233,11 @@
         </div>
       </section>
 
-      <section class="sales-cta-final">
+      <section class="lp-final-cta">
         <div>
-          <p class="eyebrow">Pronto para vender melhor</p>
+          <span class="lp-kicker">Pronto para comecar</span>
           <h2>Leve seu agendamento para um nivel mais profissional.</h2>
-          <p>Crie o acesso do seu estabelecimento e comece a estruturar agenda, equipe e link publico em uma unica operacao.</p>
+          <p>Crie o acesso do seu estabelecimento e comece a estruturar agenda, equipe, servicos e o link publico em uma unica operacao.</p>
         </div>
         <div class="header-actions">
           <a href="/checkout?plan=professional" class="primary-btn">Comecar agora</a>
@@ -249,16 +245,16 @@
         </div>
       </section>
 
-      <section id="faq" class="faq-grid sales-faq-grid">
-        <article class="faq-card">
+      <section id="faq" class="lp-faq-row">
+        <article class="lp-faq-card">
           <h3>O Agenda Pro define os servicos do salao?</h3>
           <p>Nao. Cada estabelecimento cria o proprio catalogo e decide o que cada profissional faz.</p>
         </article>
-        <article class="faq-card">
+        <article class="lp-faq-card">
           <h3>O cliente consegue agendar sem criar conta?</h3>
           <p>Sim. A pagina publica foi pensada para ser direta e simples para o cliente final.</p>
         </article>
-        <article class="faq-card">
+        <article class="lp-faq-card">
           <h3>Consigo compartilhar no Instagram e WhatsApp?</h3>
           <p>Sim. O sistema gera um link publico proprio do estabelecimento para usar em bio, direct e QR Code.</p>
         </article>
