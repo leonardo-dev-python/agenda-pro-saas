@@ -36,6 +36,9 @@ const publicFiles = new Set([
   "/checkout.js",
   "/assets/agenda-pro-logo.png",
   "/assets/agenda-pro-logo-dark.png",
+  "/assets/agenda_centralizada_icon.png",
+  "/assets/equipe_configuravel_icon.png",
+  "/assets/clientes_organizados_icon.png",
 ]);
 
 const db = createDatabaseGateway({
