@@ -2622,9 +2622,10 @@ textarea:focus {
 .lp-feature-icon {
   display: inline-grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
+  width: 60px;
+  height: 60px;
+  padding: 8px;
+  border-radius: 18px;
   background: rgba(31, 139, 149, 0.12);
   color: #1f8b95;
   font-family: "Sora", sans-serif;
@@ -2632,8 +2633,8 @@ textarea:focus {
 }
 
 .lp-feature-icon img {
-  width: 24px;
-  height: 24px;
+  width: 42px;
+  height: 42px;
   object-fit: contain;
   display: block;
 }
