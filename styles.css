@@ -3216,6 +3216,117 @@ textarea:focus {
   gap: 8px;
 }
 
+.checkout-form-block {
+  padding: 18px 20px;
+  border-radius: 22px;
+  border: 1px solid rgba(35, 42, 45, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.86), rgba(247,243,238,0.72));
+}
+
+.compact-header {
+  gap: 6px;
+}
+
+.compact-header h3 {
+  font-size: 1.1rem;
+  letter-spacing: -0.03em;
+}
+
+.checkout-payment-methods {
+  display: grid;
+  gap: 12px;
+}
+
+.checkout-method-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 16px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(35, 42, 45, 0.08);
+  background: rgba(255,255,255,0.72);
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.checkout-method-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(34, 51, 54, 0.16);
+  box-shadow: 0 18px 30px rgba(16, 24, 28, 0.06);
+}
+
+.checkout-method-card.is-selected {
+  border-color: rgba(34, 51, 54, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(34, 51, 54, 0.08);
+}
+
+.checkout-method-card input {
+  margin-top: 2px;
+}
+
+.checkout-method-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.checkout-method-copy strong {
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.checkout-method-copy small {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.checkout-success {
+  display: grid;
+  gap: 14px;
+  padding: 20px 22px;
+  border-radius: 22px;
+  border: 1px solid rgba(53, 124, 104, 0.16);
+  background:
+    radial-gradient(circle at top right, rgba(53,124,104,0.1), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,0.92), rgba(241,248,245,0.82));
+}
+
+.subscription-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.subscription-overview-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.field-card {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(35, 42, 45, 0.08);
+  background: rgba(255,255,255,0.72);
+}
+
+.field-card span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.field-card strong {
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.subscription-action-panel {
+  position: sticky;
+  top: 86px;
+}
+
 .panel-header p + h3 + p,
 .panel-note p,
 .section-copy,
@@ -3230,6 +3341,7 @@ textarea:focus {
   .lp-hero,
   .checkout-hero,
   .checkout-layout,
+  .subscription-layout,
   .hero,
   .public-grid,
   .admin-grid,
@@ -3326,6 +3438,10 @@ textarea:focus {
   }
 
   .checkout-form-panel {
+    position: static;
+  }
+
+  .subscription-action-panel {
     position: static;
   }
 }
@@ -3537,6 +3653,10 @@ textarea:focus {
 
   .checkout-plan-card {
     padding: 20px;
+  }
+
+  .subscription-overview-grid {
+    grid-template-columns: 1fr;
   }
 }
 

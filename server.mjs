@@ -8,8 +8,10 @@ import { Buffer } from "node:buffer";
 import { hashPassword, safeCompare, signToken, verifyToken } from "./lib/auth.js";
 import { createDatabaseGateway } from "./lib/database.js";
 import {
+  cancelAsaasSubscription,
   createAsaasCustomer,
   createAsaasSubscription,
+  getAsaasSubscription,
   getAsaasEnvironment,
   listAsaasSubscriptionPayments,
 } from "./lib/asaas.js";
@@ -29,11 +31,13 @@ const publicFiles = new Set([
   "/client.html",
   "/signup.html",
   "/checkout.html",
+  "/subscription.html",
   "/styles.css",
   "/app.js",
   "/client.js",
   "/signup.js",
   "/checkout.js",
+  "/subscription.js",
   "/assets/agenda-pro-logo.png",
   "/assets/agenda-pro-logo-dark.png",
   "/assets/agenda_centralizada_icon.png",
@@ -62,39 +66,22 @@ await db.ensureDatabase();
 
 const BILLING_PLANS = [
   {
-    code: "starter",
-    name: "Starter",
-    priceLabel: "R$ 79/mensal",
-    priceCents: 7900,
-    description: "Para saloes, barbearias e studios que querem comecar a organizar o operacional sem complicacao.",
-    features: ["1 estabelecimento", "Agenda e equipe", "Google Agenda", "Link publico de agendamento"],
-  },
-  {
     code: "professional",
-    name: "Professional",
-    priceLabel: "R$ 149/mensal",
-    priceCents: 14900,
-    description: "Para operacoes em crescimento que precisam de mais ritmo comercial, mais equipe e mais controle da rotina.",
-    features: ["Tudo do Starter", "Mais profissionais", "Relacao com clientes", "Prioridade na evolucao comercial"],
-  },
-  {
-    code: "multi",
-    name: "Multiunidade",
-    priceLabel: "Sob consulta",
-    priceCents: 0,
-    description: "Para marcas com duas ou mais unidades, fluxo comercial consultivo e implantacao assistida.",
-    features: ["Multiplas unidades", "Expansao comercial", "Suporte consultivo", "Setup assistido"],
+    name: "Agenda Pro",
+    priceLabel: "R$ 129,90/mês",
+    priceCents: 12990,
+    description: "Assinatura única para organizar agenda, equipe, serviços, clientes e o link público do estabelecimento.",
+    features: ["1 estabelecimento", "Equipe e serviços ilimitados", "Google Agenda", "Página pública de agendamento"],
   },
 ];
 
 const BILLING_PROVIDERS = [
   { code: "asaas", name: "Asaas", recommended: true },
-  { code: "mercado_pago", name: "Mercado Pago", recommended: false },
 ];
 
 const BILLING_METHODS = [
-  { code: "BOLETO", name: "Boleto" },
-  { code: "PIX", name: "Pix" },
+  { code: "BOLETO", name: "Boleto bancário recorrente" },
+  { code: "CREDIT_CARD", name: "Cartão de crédito recorrente" },
 ];
 
 const server = createServer(async (req, res) => {
@@ -237,6 +224,11 @@ async function handleApi(req, res, url) {
     } catch (error) {
       sendJson(res, 400, { error: error.message || "Nao foi possivel concluir o agendamento." });
     }
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/api/public/checkout/subscribe") {
+    await handlePublicCheckout(req, res);
     return;
   }
 
@@ -492,16 +484,19 @@ async function handleApi(req, res, url) {
 
   if (url.pathname === "/api/billing/checkout-session" && req.method === "POST") {
     const body = await readJson(req);
-    const planCode = String(body.planCode || auth.company?.subscription?.planCode || "starter").trim().toLowerCase();
-    const provider = String(body.provider || "asaas").trim().toLowerCase();
+    const planCode = String(body.planCode || auth.company?.subscription?.planCode || "professional").trim().toLowerCase();
+    const provider = "asaas";
     const selectedPlan = BILLING_PLANS.find((plan) => plan.code === planCode) || BILLING_PLANS[0];
-    const selectedProvider = BILLING_PROVIDERS.find((item) => item.code === provider) || BILLING_PROVIDERS[0];
+    const selectedProvider = BILLING_PROVIDERS[0];
     const profilePayload = {
       legalName: body.legalName,
       billingDocumentId: body.billingDocumentId,
       billingMethod: body.billingMethod,
       email: body.email,
       phone: body.phone,
+      postalCode: body.postalCode,
+      addressNumber: body.addressNumber,
+      addressComplement: body.addressComplement,
     };
     const profileSource = {
       ...auth.company,
@@ -510,119 +505,88 @@ async function handleApi(req, res, url) {
       billingMethod: normalizeBillingMethod(profilePayload.billingMethod || auth.company.billingMethod || "BOLETO"),
       phone: String(profilePayload.phone || auth.company.phone || "").trim(),
       email: String(profilePayload.email || auth.user?.email || "").trim().toLowerCase(),
+      postalCode: normalizePostalCode(profilePayload.postalCode || auth.company.postalCode || ""),
+      addressNumber: String(profilePayload.addressNumber || auth.company.addressNumber || "").trim(),
+      addressComplement: String(profilePayload.addressComplement || auth.company.addressComplement || "").trim(),
     };
 
-    if (selectedPlan.code === "multi") {
-      const updated = await repository.updateSubscription(auth.company.id, {
-        planCode: selectedPlan.code,
-        billingProvider: selectedProvider.code,
-      });
-      sendJson(res, 200, {
-        company: updated.company || updated.salon,
-        checkout: {
-          mode: "sales_contact",
-          provider: selectedProvider.code,
-          providerName: selectedProvider.name,
-          planCode: selectedPlan.code,
-          planName: selectedPlan.name,
-          amountLabel: selectedPlan.priceLabel,
-        },
-        message: "Plano Multiunidade segue por fluxo consultivo. Vamos tratar a cobranca junto com a implantacao.",
-      });
+    if (!profileSource.legalName || !profileSource.billingDocumentId || !profileSource.phone) {
+      sendJson(res, 400, { error: "Preencha nome de cobrança, CPF/CNPJ e telefone antes de gerar a assinatura." });
       return;
     }
 
-    if (!profileSource.legalName || !profileSource.billingDocumentId || !profileSource.phone) {
-      sendJson(res, 400, { error: "Preencha nome de cobranca, CPF/CNPJ e telefone antes de gerar a assinatura." });
+    if (profileSource.billingMethod === "CREDIT_CARD" && (!profileSource.postalCode || !profileSource.addressNumber)) {
+      sendJson(res, 400, { error: "Para cartão de crédito, informe CEP e número do endereço de cobrança." });
       return;
     }
 
     const billingProfileUpdate = await repository.updateBillingProfile(auth.company.id, profileSource);
     const currentCompany = billingProfileUpdate.company || billingProfileUpdate.salon;
 
-    if (selectedProvider.code !== "asaas") {
-      const updated = await repository.updateSubscription(auth.company.id, {
-        planCode: selectedPlan.code,
-        billingProvider: selectedProvider.code,
-      });
-      sendJson(res, 200, {
-        company: updated.company || updated.salon,
-        checkout: {
-          mode: "manual_preparation",
-          provider: selectedProvider.code,
-          providerName: selectedProvider.name,
-          planCode: selectedPlan.code,
-          planName: selectedPlan.name,
-          amountLabel: selectedPlan.priceLabel,
-        },
-        message: `Fluxo de cobranca preparado para o plano ${selectedPlan.name} com ${selectedProvider.name}.`,
-      });
-      return;
-    }
-
     const asaas = getAsaasEnvironment(env);
     if (!asaas.configured) {
-      sendJson(res, 400, { error: "Asaas ainda nao esta configurado no ambiente." });
+      sendJson(res, 400, { error: "Asaas ainda não está configurado no ambiente." });
       return;
     }
-
-    const customerId =
-      currentCompany.subscription?.billingCustomerId ||
-      (await createAsaasCustomer(asaas, {
-        name: profileSource.legalName,
-        cpfCnpj: profileSource.billingDocumentId,
-        email: profileSource.email || undefined,
-        mobilePhone: profileSource.phone,
-        phone: profileSource.phone,
-        notificationDisabled: false,
-        externalReference: currentCompany.id,
-      })).id;
-
-    const nextDueDate = resolveFirstDueDate(currentCompany.subscription);
-    const subscription = await createAsaasSubscription(asaas, {
-      customer: customerId,
-      billingType: profileSource.billingMethod,
-      value: selectedPlan.priceCents / 100,
-      nextDueDate,
-      cycle: "MONTHLY",
-      description: `Assinatura ${selectedPlan.name} - Agenda Pro`,
+    const cardPayload = profileSource.billingMethod === "CREDIT_CARD" ? body.card || {} : null;
+    const subscriptionCheckout = await createRecurringSubscriptionCheckout({
+      asaas,
+      company: currentCompany,
+      plan: selectedPlan,
+      profile: profileSource,
       externalReference: currentCompany.id,
+      remoteIp: readClientIp(req),
+      card: cardPayload,
     });
-
-    const paymentsResponse = await listAsaasSubscriptionPayments(asaas, subscription.id).catch(() => ({ data: [] }));
-    const firstPayment = Array.isArray(paymentsResponse?.data) ? paymentsResponse.data[0] : null;
 
     const updated = await repository.updateSubscription(auth.company.id, {
       planCode: selectedPlan.code,
       billingProvider: selectedProvider.code,
-      billingCustomerId: customerId,
-      billingSubscriptionId: subscription.id,
+      billingCustomerId: subscriptionCheckout.customerId,
+      billingSubscriptionId: subscriptionCheckout.subscriptionId,
       billingStatus: "trialing",
     });
 
     sendJson(res, 200, {
       company: updated.company || updated.salon,
       billing: buildBillingOverview(updated.company || updated.salon, auth.user),
-      checkout: {
-        mode: "asaas_subscription",
-        provider: selectedProvider.code,
-        providerName: selectedProvider.name,
-        planCode: selectedPlan.code,
-        planName: selectedPlan.name,
-        amountLabel: selectedPlan.priceLabel,
-        nextDueDate,
-        subscriptionId: subscription.id,
-        payment: firstPayment
-          ? {
-              id: firstPayment.id || "",
-              status: firstPayment.status || "",
-              invoiceUrl: firstPayment.invoiceUrl || "",
-              bankSlipUrl: firstPayment.bankSlipUrl || "",
-              dueDate: firstPayment.dueDate || "",
-            }
-          : null,
-      },
-      message: `Assinatura ${selectedPlan.name} criada no Asaas Sandbox.`,
+      checkout: buildCheckoutPayload(selectedProvider, selectedPlan, subscriptionCheckout),
+      message: `Assinatura ${selectedPlan.name} criada com recorrência mensal no Asaas.`,
+    });
+    return;
+  }
+
+  if (url.pathname === "/api/billing/cancel-subscription" && req.method === "POST") {
+    const currentSubscriptionId = String(auth.company?.subscription?.billingSubscriptionId || "").trim();
+    if (!currentSubscriptionId) {
+      sendJson(res, 400, { error: "Nenhuma assinatura recorrente foi encontrada para este estabelecimento." });
+      return;
+    }
+
+    const provider = String(auth.company?.subscription?.billingProvider || "asaas").trim().toLowerCase();
+    if (provider !== "asaas") {
+      sendJson(res, 400, { error: "O cancelamento automático está disponível apenas para assinaturas ligadas ao Asaas." });
+      return;
+    }
+
+    const asaas = getAsaasEnvironment(env);
+    if (!asaas.configured) {
+      sendJson(res, 400, { error: "Asaas ainda não está configurado no ambiente." });
+      return;
+    }
+
+    await cancelAsaasSubscription(asaas, currentSubscriptionId);
+    const subscriptionSnapshot = await getAsaasSubscription(asaas, currentSubscriptionId).catch(() => null);
+    const accessUntil = resolveCancellationWindow(auth.company?.subscription, subscriptionSnapshot);
+    const updated = await repository.updateSubscription(auth.company.id, {
+      billingStatus: "canceled",
+      subscriptionEndsAt: accessUntil.toISOString(),
+    });
+
+    sendJson(res, 200, {
+      company: updated.company || updated.salon,
+      billing: buildBillingOverview(updated.company || updated.salon, auth.user),
+      message: `Assinatura cancelada. O acesso do estabelecimento segue ativo até ${formatHumanDate(accessUntil)}.`,
     });
     return;
   }
@@ -696,6 +660,14 @@ function getSubscriptionAccess(subscription, options = {}) {
   }
 
   if (billingStatus === "canceled") {
+    if (subscriptionEndsAt && subscriptionEndsAt >= now) {
+      return {
+        allowed: true,
+        message: publicBooking
+          ? "Este estabelecimento segue ativo até o fim do ciclo já pago."
+          : "A assinatura foi cancelada, mas o acesso segue ativo até o fim do ciclo já pago.",
+      };
+    }
     return {
       allowed: false,
       message: publicBooking
@@ -735,7 +707,180 @@ function buildBillingOverview(company) {
       billingDocumentId: company?.billingDocumentId || "",
       billingMethod: company?.billingMethod || "BOLETO",
       email: company?.email || "",
+      postalCode: company?.postalCode || "",
+      addressNumber: company?.addressNumber || "",
+      addressComplement: company?.addressComplement || "",
     },
+  };
+}
+
+async function handlePublicCheckout(req, res) {
+  const body = await readJson(req);
+  const planCode = String(body.planCode || body.plan || "professional").trim().toLowerCase();
+  const selectedPlan = BILLING_PLANS.find((plan) => plan.code === planCode) || BILLING_PLANS[0];
+  const profile = {
+    ownerName: String(body.ownerName || "").trim(),
+    salonName: String(body.salonName || "").trim(),
+    email: String(body.email || "").trim().toLowerCase(),
+    phone: String(body.phone || "").trim(),
+    password: String(body.password || ""),
+    legalName: String(body.legalName || body.salonName || "").trim(),
+    billingDocumentId: normalizeDocumentId(body.billingDocumentId || ""),
+    billingMethod: normalizeBillingMethod(body.billingMethod || "BOLETO"),
+    postalCode: normalizePostalCode(body.postalCode || ""),
+    addressNumber: String(body.addressNumber || "").trim(),
+    addressComplement: String(body.addressComplement || "").trim(),
+  };
+
+  if (!profile.ownerName || !profile.salonName || !profile.email || !profile.phone || !profile.password) {
+    sendJson(res, 400, { error: "Preencha os dados principais da conta para continuar." });
+    return;
+  }
+
+  if (!profile.legalName || !profile.billingDocumentId) {
+    sendJson(res, 400, { error: "Informe o nome de cobrança e o CPF ou CNPJ do estabelecimento." });
+    return;
+  }
+
+  if (profile.billingMethod === "CREDIT_CARD" && (!profile.postalCode || !profile.addressNumber)) {
+    sendJson(res, 400, { error: "Para pagar com cartão de crédito, informe CEP e número do endereço de cobrança." });
+    return;
+  }
+
+  const asaas = getAsaasEnvironment(env);
+  if (!asaas.configured) {
+    sendJson(res, 400, { error: "Asaas ainda não está configurado no ambiente." });
+    return;
+  }
+
+  const cardPayload = profile.billingMethod === "CREDIT_CARD" ? body.card || {} : null;
+  const subscriptionCheckout = await createRecurringSubscriptionCheckout({
+    asaas,
+    company: {
+      id: `checkout:${profile.email}`,
+      name: profile.salonName,
+      phone: profile.phone,
+      email: profile.email,
+      subscription: {},
+    },
+    plan: selectedPlan,
+    profile,
+    externalReference: profile.email,
+    remoteIp: readClientIp(req),
+    card: cardPayload,
+  });
+
+  try {
+    const authRecord = await repository.createOwnerAccount({
+      ownerName: profile.ownerName,
+      salonName: profile.salonName,
+      email: profile.email,
+      phone: profile.phone,
+      passwordHash: hashPassword(profile.password, TOKEN_SECRET),
+      plan: selectedPlan.code,
+      legalName: profile.legalName,
+      billingDocumentId: profile.billingDocumentId,
+      billingMethod: profile.billingMethod,
+      billingProvider: "asaas",
+      billingCustomerId: subscriptionCheckout.customerId,
+      billingSubscriptionId: subscriptionCheckout.subscriptionId,
+      billingStatus: "trialing",
+    });
+
+    const salon = authRecord.salon || authRecord.company;
+    const token = signToken({ sub: authRecord.user.id, companyId: authRecord.user.companyId }, TOKEN_SECRET);
+    sendJson(res, 201, {
+      token,
+      user: sanitizeUser(authRecord.user),
+      company: salon,
+      salon,
+      billing: buildBillingOverview(salon),
+      checkout: buildCheckoutPayload(BILLING_PROVIDERS[0], selectedPlan, subscriptionCheckout),
+      message:
+        profile.billingMethod === "BOLETO"
+          ? "Conta criada. Agora é só abrir o primeiro boleto e concluir o pagamento da assinatura."
+          : "Conta criada. A assinatura mensal no cartão foi registrada e seu acesso já pode ser configurado.",
+    });
+  } catch (error) {
+    await cancelAsaasSubscription(asaas, subscriptionCheckout.subscriptionId).catch(() => null);
+    sendJson(res, 400, { error: error.message || "Não foi possível concluir o checkout." });
+  }
+}
+
+async function createRecurringSubscriptionCheckout({ asaas, company, plan, profile, externalReference, remoteIp, card }) {
+  const customerId =
+    company.subscription?.billingCustomerId ||
+    (await createAsaasCustomer(asaas, {
+      name: profile.legalName,
+      cpfCnpj: profile.billingDocumentId,
+      email: profile.email || undefined,
+      mobilePhone: profile.phone,
+      phone: profile.phone,
+      notificationDisabled: false,
+      externalReference,
+    })).id;
+
+  const nextDueDate = resolveFirstDueDate(company.subscription);
+  const subscriptionPayload = {
+    customer: customerId,
+    billingType: profile.billingMethod,
+    value: plan.priceCents / 100,
+    nextDueDate,
+    cycle: "MONTHLY",
+    description: `Assinatura ${plan.name} - Agenda Pro`,
+    externalReference,
+  };
+
+  if (profile.billingMethod === "CREDIT_CARD") {
+    const creditCard = sanitizeCreditCardPayload(card);
+    if (!creditCard) {
+      throw new Error("Informe os dados do cartão para ativar a recorrência mensal.");
+    }
+    subscriptionPayload.creditCard = creditCard;
+    subscriptionPayload.creditCardHolderInfo = {
+      name: profile.legalName,
+      email: profile.email,
+      cpfCnpj: profile.billingDocumentId,
+      postalCode: profile.postalCode,
+      addressNumber: profile.addressNumber,
+      addressComplement: profile.addressComplement || undefined,
+      phone: profile.phone,
+      mobilePhone: profile.phone,
+    };
+    subscriptionPayload.remoteIp = remoteIp;
+  }
+
+  const subscription = await createAsaasSubscription(asaas, subscriptionPayload);
+  const paymentsResponse = await listAsaasSubscriptionPayments(asaas, subscription.id).catch(() => ({ data: [] }));
+  const firstPayment = Array.isArray(paymentsResponse?.data) ? paymentsResponse.data[0] : null;
+
+  return {
+    customerId,
+    subscriptionId: subscription.id,
+    nextDueDate,
+    payment: firstPayment
+      ? {
+          id: firstPayment.id || "",
+          status: firstPayment.status || "",
+          invoiceUrl: firstPayment.invoiceUrl || "",
+          bankSlipUrl: firstPayment.bankSlipUrl || "",
+          dueDate: firstPayment.dueDate || "",
+        }
+      : null,
+  };
+}
+
+function buildCheckoutPayload(provider, plan, subscriptionCheckout) {
+  return {
+    mode: "asaas_subscription",
+    provider: provider.code,
+    providerName: provider.name,
+    planCode: plan.code,
+    planName: plan.name,
+    amountLabel: plan.priceLabel,
+    nextDueDate: subscriptionCheckout.nextDueDate,
+    subscriptionId: subscriptionCheckout.subscriptionId,
+    payment: subscriptionCheckout.payment || null,
   };
 }
 
@@ -781,9 +926,10 @@ async function handleAsaasWebhook(req, res) {
 
 function mapAsaasEventToSubscriptionUpdate(event, payment, subscriptionPayload) {
   if (["PAYMENT_RECEIVED", "PAYMENT_CONFIRMED"].includes(event)) {
+    const paidWindowEnd = resolvePaidAccessWindow(payment?.dueDate);
     return {
       billingStatus: "active",
-      subscriptionEndsAt: null,
+      subscriptionEndsAt: paidWindowEnd.toISOString(),
       billingSubscriptionId: String(payment?.subscription || subscriptionPayload?.id || "").trim() || undefined,
     };
   }
@@ -812,6 +958,31 @@ function resolveFirstDueDate(subscription) {
   return formatDateOnly(base);
 }
 
+function resolvePaidAccessWindow(dueDate) {
+  const reference = dueDate ? new Date(`${dueDate}T12:00:00`) : new Date();
+  return addDays(reference, 30);
+}
+
+function resolveCancellationWindow(subscription, subscriptionSnapshot) {
+  const localWindow = subscription?.subscriptionEndsAt ? new Date(subscription.subscriptionEndsAt) : null;
+  if (localWindow && !Number.isNaN(localWindow.getTime()) && localWindow.getTime() > Date.now()) {
+    return localWindow;
+  }
+
+  const remoteNextDue = subscriptionSnapshot?.nextDueDate ? new Date(`${subscriptionSnapshot.nextDueDate}T12:00:00`) : null;
+  if (remoteNextDue && !Number.isNaN(remoteNextDue.getTime()) && remoteNextDue.getTime() > Date.now()) {
+    return remoteNextDue;
+  }
+
+  return addDays(new Date(), 30);
+}
+
+function addDays(date, days) {
+  const next = new Date(date);
+  next.setDate(next.getDate() + days);
+  return next;
+}
+
 function formatDateOnly(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -823,9 +994,44 @@ function normalizeDocumentId(value) {
   return String(value || "").replace(/\D/g, "");
 }
 
+function normalizePostalCode(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
 function normalizeBillingMethod(value) {
   const method = String(value || "BOLETO").trim().toUpperCase();
   return BILLING_METHODS.some((item) => item.code === method) ? method : "BOLETO";
+}
+
+function sanitizeCreditCardPayload(card) {
+  const number = String(card?.number || "").replace(/\D/g, "");
+  const holderName = String(card?.holderName || "").trim();
+  const expiryMonth = String(card?.expiryMonth || "").replace(/\D/g, "");
+  const expiryYear = String(card?.expiryYear || "").replace(/\D/g, "");
+  const ccv = String(card?.ccv || "").replace(/\D/g, "");
+
+  if (!number || !holderName || !expiryMonth || !expiryYear || !ccv) {
+    return null;
+  }
+
+  return {
+    holderName,
+    number,
+    expiryMonth,
+    expiryYear,
+    ccv,
+  };
+}
+
+function readClientIp(req) {
+  const forwarded = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim();
+  const remote = String(req.socket?.remoteAddress || "").trim();
+  return forwarded || remote || "127.0.0.1";
+}
+
+function formatHumanDate(value) {
+  const date = value instanceof Date ? value : new Date(value);
+  return date.toLocaleDateString("pt-BR");
 }
 
 async function handleGoogleOAuthCallback(res, url) {
@@ -982,6 +1188,7 @@ async function serveStatic(res, url) {
     "/agendar": "/client.html",
     "/criar-conta": "/checkout.html",
     "/checkout": "/checkout.html",
+    "/assinatura": "/subscription.html",
   };
   const pathname = url.pathname.startsWith("/agendar/")
     ? "/client.html"

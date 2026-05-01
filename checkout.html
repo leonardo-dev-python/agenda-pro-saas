@@ -27,13 +27,13 @@
     <main class="layout stack">
       <section class="checkout-hero glass-dark">
         <div class="checkout-hero-copy">
-          <p class="eyebrow">Checkout Agenda Pro</p>
-          <h1>Ative seu acesso e comece a configurar o seu estabelecimento.</h1>
-          <p class="section-copy">A jornada comercial acontece aqui. O painel do proprietário continua limpo, focado apenas na operação do negócio.</p>
+          <p class="eyebrow">Checkout público</p>
+          <h1>Assine o Agenda Pro e publique um fluxo profissional de agendamento para o seu estabelecimento.</h1>
+          <p class="section-copy">A contratação acontece aqui. O painel do proprietário continua limpo e focado apenas na operação do salão.</p>
         </div>
         <div class="checkout-hero-note">
-          <strong>O que acontece depois</strong>
-          <p>Você cria o acesso, entra no painel e configura salão, equipe, serviços e o link público de agendamento.</p>
+          <strong>Recorrência mensal simples</strong>
+          <p>Escolha boleto bancário recorrente ou cartão de crédito recorrente. O estabelecimento pode cancelar a assinatura quando quiser.</p>
         </div>
       </section>
 
@@ -41,30 +41,39 @@
         <article class="panel stack checkout-plan-panel">
           <div class="panel-header">
             <h2>Seu plano</h2>
-            <p>Comece com uma assinatura única para estruturar a operação e publicar seu agendamento online.</p>
+            <p>Uma única assinatura mensal para vender, implantar e operar o produto com clareza.</p>
           </div>
 
-          <div class="checkout-plan-grid checkout-plan-grid-single" id="checkout-plan-grid">
-            <button type="button" class="checkout-plan-card checkout-plan-card-single is-featured is-selected" data-plan="professional" aria-pressed="true">
-              <span class="checkout-plan-badge">Plano atual</span>
-              <span class="checkout-plan-tag">Assinatura mensal</span>
+          <div class="checkout-plan-grid checkout-plan-grid-single">
+            <article class="checkout-plan-card checkout-plan-card-single is-featured is-selected">
+              <span class="checkout-plan-badge">Oferta atual</span>
+              <span class="checkout-plan-tag">Recorrência mensal</span>
               <strong>Agenda Pro</strong>
               <div class="checkout-plan-price">R$ 129,90<span>/mês</span></div>
-              <p>Para organizar agenda, equipe, serviços, clientes e o link público em uma experiência profissional.</p>
+              <p>Assinatura para organizar agenda, equipe, serviços, clientes e a página pública de agendamento em um único fluxo.</p>
               <ul class="checkout-plan-list">
-                <li>1 estabelecimento</li>
-                <li>Agenda, equipe, serviços e clientes</li>
-                <li>Link público de agendamento</li>
+                <li>1 estabelecimento por assinatura</li>
+                <li>Equipe, serviços e clientes ilimitados</li>
+                <li>Página pública para agendamentos</li>
                 <li>Integração com Google Agenda</li>
               </ul>
-            </button>
+            </article>
+          </div>
+
+          <div class="checkout-summary-box">
+            <strong>Depois da contratação</strong>
+            <ul class="checkout-plan-list compact">
+              <li>Você recebe o acesso do proprietário imediatamente.</li>
+              <li>O painel fica pronto para cadastrar equipe, serviços e agenda.</li>
+              <li>O cancelamento da recorrência fica disponível em uma página separada de assinatura.</li>
+            </ul>
           </div>
         </article>
 
         <article class="panel stack checkout-form-panel">
           <div class="panel-header">
-            <h2>Criar acesso</h2>
-            <p>Preencha os dados principais para iniciar a configuração do estabelecimento.</p>
+            <h2>Contratar agora</h2>
+            <p>Preencha os dados da conta e escolha como quer pagar a recorrência mensal.</p>
           </div>
 
           <div class="checkout-selection" id="checkout-selection">
@@ -73,34 +82,95 @@
               <strong id="selected-plan-name">Agenda Pro</strong>
               <span id="selected-plan-price" class="status-pill">R$ 129,90/mês</span>
             </div>
-            <p id="selected-plan-description">Uma assinatura única para centralizar agenda, equipe, serviços, clientes e o link público de agendamento.</p>
+            <p id="selected-plan-description">Assinatura mensal com recorrência por boleto bancário ou cartão de crédito.</p>
           </div>
 
           <form id="checkout-form" class="stack">
             <input type="hidden" name="plan" value="professional">
-            <div class="field-grid">
-              <label class="field"><span>Nome do responsável</span><input name="ownerName" type="text" required></label>
-              <label class="field"><span>Nome do estabelecimento</span><input name="salonName" type="text" required></label>
-              <label class="field"><span>E-mail</span><input name="email" type="email" required></label>
-              <label class="field"><span>Telefone</span><input name="phone" type="tel" required></label>
-              <label class="field field-span-2"><span>Senha de acesso</span><input name="password" type="password" required></label>
-            </div>
 
-            <div class="checkout-summary-box">
-              <strong>O que você vai receber</strong>
-              <ul class="checkout-plan-list compact">
-                <li>Conta criada no Agenda Pro</li>
-                <li>Painel limpo para configurar salão, equipe e serviços</li>
-                <li>Página pública para começar a receber agendamentos</li>
-              </ul>
-            </div>
+            <section class="checkout-form-block stack">
+              <div class="panel-header compact-header">
+                <h3>Dados do acesso</h3>
+                <p>Essas informações criam a conta do proprietário.</p>
+              </div>
+              <div class="field-grid">
+                <label class="field"><span>Nome do responsável</span><input name="ownerName" type="text" required></label>
+                <label class="field"><span>Nome do estabelecimento</span><input name="salonName" type="text" required></label>
+                <label class="field"><span>E-mail</span><input name="email" type="email" required></label>
+                <label class="field"><span>Telefone</span><input name="phone" type="tel" required></label>
+                <label class="field field-span-2"><span>Senha de acesso</span><input name="password" type="password" required></label>
+              </div>
+            </section>
+
+            <section class="checkout-form-block stack">
+              <div class="panel-header compact-header">
+                <h3>Dados de cobrança</h3>
+                <p>Use o nome legal do estabelecimento e o CPF ou CNPJ que vai receber a recorrência.</p>
+              </div>
+              <div class="field-grid">
+                <label class="field field-span-2"><span>Nome de cobrança</span><input name="legalName" type="text" required></label>
+                <label class="field"><span>CPF ou CNPJ</span><input name="billingDocumentId" type="text" inputmode="numeric" required></label>
+                <label class="field"><span>CEP</span><input name="postalCode" type="text" inputmode="numeric" placeholder="Obrigatório para cartão"></label>
+                <label class="field"><span>Número do endereço</span><input name="addressNumber" type="text" placeholder="Obrigatório para cartão"></label>
+                <label class="field field-span-2"><span>Complemento do endereço</span><input name="addressComplement" type="text" placeholder="Opcional"></label>
+              </div>
+            </section>
+
+            <section class="checkout-form-block stack">
+              <div class="panel-header compact-header">
+                <h3>Forma de pagamento</h3>
+                <p id="checkout-cancel-anytime-copy">O boleto é renovado a cada 30 dias. Você pode cancelar a assinatura quando quiser antes da próxima emissão.</p>
+              </div>
+
+              <div class="checkout-payment-methods">
+                <label class="checkout-method-card is-selected">
+                  <input type="radio" name="billingMethod" value="BOLETO" checked>
+                  <span class="checkout-method-copy">
+                    <strong>Boleto bancário recorrente</strong>
+                    <small>Emissão mensal, ideal para quem prefere pagar fora do cartão.</small>
+                  </span>
+                </label>
+                <label class="checkout-method-card">
+                  <input type="radio" name="billingMethod" value="CREDIT_CARD">
+                  <span class="checkout-method-copy">
+                    <strong>Cartão de crédito recorrente</strong>
+                    <small>Cobrança mensal automática de 30 em 30 dias.</small>
+                  </span>
+                </label>
+              </div>
+            </section>
+
+            <section id="checkout-card-fields" class="checkout-form-block stack hidden">
+              <div class="panel-header compact-header">
+                <h3>Dados do cartão</h3>
+                <p>Os dados são usados apenas para registrar a recorrência mensal da assinatura.</p>
+              </div>
+              <div class="field-grid">
+                <label class="field field-span-2"><span>Nome impresso no cartão</span><input name="cardHolderName" type="text"></label>
+                <label class="field field-span-2"><span>Número do cartão</span><input name="cardNumber" type="text" inputmode="numeric" autocomplete="cc-number"></label>
+                <label class="field"><span>Mês de validade</span><input name="cardExpiryMonth" type="text" inputmode="numeric" placeholder="MM" maxlength="2"></label>
+                <label class="field"><span>Ano de validade</span><input name="cardExpiryYear" type="text" inputmode="numeric" placeholder="AAAA" maxlength="4"></label>
+                <label class="field"><span>CVV</span><input name="cardCcv" type="text" inputmode="numeric" maxlength="4" autocomplete="cc-csc"></label>
+              </div>
+            </section>
 
             <div class="action-row">
-              <button type="submit" class="primary-btn">Criar conta e continuar</button>
+              <button type="submit" class="primary-btn">Ativar assinatura e criar conta</button>
               <a href="/" class="ghost-btn">Voltar</a>
             </div>
             <p id="checkout-feedback" class="feedback"></p>
           </form>
+
+          <section id="checkout-success" class="checkout-success hidden">
+            <div class="panel-header compact-header">
+              <h3 id="checkout-success-title">Conta criada</h3>
+              <p id="checkout-success-copy">Seu acesso foi liberado com sucesso.</p>
+            </div>
+            <div class="action-row">
+              <a id="checkout-success-payment-link" class="primary-btn hidden" href="#" target="_blank" rel="noreferrer">Abrir cobrança</a>
+              <a id="checkout-success-dashboard-link" class="ghost-btn" href="/estabelecimento">Ir para o painel</a>
+            </div>
+          </section>
         </article>
       </section>
     </main>

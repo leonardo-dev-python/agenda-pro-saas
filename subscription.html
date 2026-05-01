@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Pro | Minha assinatura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-orb orb-left"></div>
+  <div class="page-orb orb-right"></div>
+
+  <div class="app-shell marketing-shell">
+    <header class="site-header glass">
+      <a href="/estabelecimento" class="brand">
+        <img class="brand-logo" src="assets/agenda-pro-logo-dark.png" alt="Agenda Pro">
+      </a>
+      <div class="header-actions">
+        <a href="/estabelecimento" class="ghost-btn">Voltar ao painel</a>
+      </div>
+    </header>
+
+    <main class="layout stack">
+      <section class="checkout-hero glass-dark">
+        <div class="checkout-hero-copy">
+          <p class="eyebrow">Minha assinatura</p>
+          <h1>Gerencie sua recorrência mensal sem misturar cobrança com a operação do salão.</h1>
+          <p class="section-copy">Aqui você acompanha o método de pagamento ativo e pode cancelar a assinatura quando quiser.</p>
+        </div>
+        <div class="checkout-hero-note">
+          <strong>Cancelamento a qualquer momento</strong>
+          <p>Ao cancelar, novas cobranças deixam de ser geradas e o acesso segue disponível até o fim do ciclo já pago.</p>
+        </div>
+      </section>
+
+      <section class="subscription-layout">
+        <article class="panel stack">
+          <div class="panel-header">
+            <h2>Status atual</h2>
+            <p>Resumo da assinatura ativa do estabelecimento.</p>
+          </div>
+
+          <div id="subscription-summary" class="checkout-selection">
+            <span class="eyebrow">Plano contratado</span>
+            <div class="checkout-selection-row">
+              <strong id="subscription-plan-name">Agenda Pro</strong>
+              <span id="subscription-status-pill" class="status-pill">Carregando</span>
+            </div>
+            <p id="subscription-status-copy">Buscando informações da assinatura.</p>
+          </div>
+
+          <div class="field-grid subscription-overview-grid">
+            <div class="field field-card">
+              <span>Método de pagamento</span>
+              <strong id="subscription-payment-method">-</strong>
+            </div>
+            <div class="field field-card">
+              <span>Janela atual</span>
+              <strong id="subscription-window">-</strong>
+            </div>
+            <div class="field field-card">
+              <span>Estabelecimento</span>
+              <strong id="subscription-company-name">-</strong>
+            </div>
+            <div class="field field-card">
+              <span>Contato de cobrança</span>
+              <strong id="subscription-company-email">-</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel stack subscription-action-panel">
+          <div class="panel-header">
+            <h2>Cancelar assinatura</h2>
+            <p>Se você encerrar a recorrência agora, o Agenda Pro para de gerar novas cobranças pelo Asaas.</p>
+          </div>
+
+          <div class="checkout-summary-box">
+            <strong>Antes de confirmar</strong>
+            <ul class="checkout-plan-list compact">
+              <li>O cancelamento interrompe as próximas renovações mensais.</li>
+              <li>O acesso continua ativo até o fim do ciclo já pago.</li>
+              <li>Depois disso, o painel entra em modo de leitura.</li>
+            </ul>
+          </div>
+
+          <div class="action-row">
+            <button id="subscription-cancel-button" type="button" class="ghost-btn danger">Cancelar assinatura</button>
+            <a href="/estabelecimento" class="ghost-btn">Voltar ao painel</a>
+          </div>
+          <p id="subscription-feedback" class="feedback"></p>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="subscription.js"></script>
+</body>
+</html>
