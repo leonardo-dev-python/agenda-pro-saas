@@ -140,6 +140,7 @@ async function handleCheckoutSubmit(event) {
 
 function renderSuccess(checkout, billingMethod) {
   if (!successPanel || !successTitle || !successCopy || !successDashboardLink || !successPaymentLink) return;
+  const accessAllowed = Boolean(checkout?.accessAllowed);
 
   if (billingMethod === "BOLETO") {
     successTitle.textContent = "Primeiro boleto pronto";
@@ -154,12 +155,15 @@ function renderSuccess(checkout, billingMethod) {
       successPaymentLink.classList.add("hidden");
     }
   } else {
-    successTitle.textContent = "Assinatura mensal ativada";
-    successCopy.textContent = "O cartão foi registrado para a recorrência mensal e o estabelecimento já pode seguir para a configuração do painel.";
+    successTitle.textContent = accessAllowed ? "Assinatura mensal ativada" : "Pagamento em análise";
+    successCopy.textContent = accessAllowed
+      ? "O cartão foi registrado para a recorrência mensal e o estabelecimento já pode seguir para a configuração do painel."
+      : "A recorrência foi registrada, mas o primeiro pagamento ainda precisa ser confirmado para liberar o uso completo do painel.";
     successPaymentLink.classList.add("hidden");
   }
 
-  successDashboardLink.href = "/estabelecimento";
+  successDashboardLink.href = checkout?.postCheckoutRoute || (accessAllowed ? "/estabelecimento" : "/assinatura");
+  successDashboardLink.textContent = accessAllowed ? "Ir para o painel" : "Acompanhar assinatura";
   successPanel.classList.remove("hidden");
   successPanel.scrollIntoView({ behavior: "smooth", block: "start" });
 }

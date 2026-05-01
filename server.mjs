@@ -771,6 +771,8 @@ async function handlePublicCheckout(req, res) {
   });
 
   try {
+    const initialSubscription = resolveInitialSubscriptionState(subscriptionCheckout, profile.billingMethod);
+
     const authRecord = await repository.createOwnerAccount({
       ownerName: profile.ownerName,
       salonName: profile.salonName,
@@ -784,7 +786,10 @@ async function handlePublicCheckout(req, res) {
       billingProvider: "asaas",
       billingCustomerId: subscriptionCheckout.customerId,
       billingSubscriptionId: subscriptionCheckout.subscriptionId,
-      billingStatus: "trialing",
+      billingStatus: initialSubscription.billingStatus,
+      trialStartsAt: null,
+      trialEndsAt: null,
+      subscriptionEndsAt: initialSubscription.subscriptionEndsAt,
     });
 
     const salon = authRecord.salon || authRecord.company;
@@ -795,11 +800,8 @@ async function handlePublicCheckout(req, res) {
       company: salon,
       salon,
       billing: buildBillingOverview(salon),
-      checkout: buildCheckoutPayload(BILLING_PROVIDERS[0], selectedPlan, subscriptionCheckout),
-      message:
-        profile.billingMethod === "BOLETO"
-          ? "Conta criada. Agora é só abrir o primeiro boleto e concluir o pagamento da assinatura."
-          : "Conta criada. A assinatura mensal no cartão foi registrada e seu acesso já pode ser configurado.",
+      checkout: buildCheckoutPayload(BILLING_PROVIDERS[0], selectedPlan, subscriptionCheckout, initialSubscription),
+      message: buildPublicCheckoutMessage(profile.billingMethod, initialSubscription, subscriptionCheckout),
     });
   } catch (error) {
     await cancelAsaasSubscription(asaas, subscriptionCheckout.subscriptionId).catch(() => null);
@@ -870,7 +872,7 @@ async function createRecurringSubscriptionCheckout({ asaas, company, plan, profi
   };
 }
 
-function buildCheckoutPayload(provider, plan, subscriptionCheckout) {
+function buildCheckoutPayload(provider, plan, subscriptionCheckout, initialSubscription = {}) {
   return {
     mode: "asaas_subscription",
     provider: provider.code,
@@ -880,7 +882,49 @@ function buildCheckoutPayload(provider, plan, subscriptionCheckout) {
     amountLabel: plan.priceLabel,
     nextDueDate: subscriptionCheckout.nextDueDate,
     subscriptionId: subscriptionCheckout.subscriptionId,
+    billingStatus: initialSubscription.billingStatus || "past_due",
+    accessAllowed: Boolean(initialSubscription.accessAllowed),
+    postCheckoutRoute: initialSubscription.accessAllowed ? "/estabelecimento" : "/assinatura",
     payment: subscriptionCheckout.payment || null,
+  };
+}
+
+function buildPublicCheckoutMessage(billingMethod, initialSubscription, subscriptionCheckout) {
+  if (billingMethod === "BOLETO") {
+    return subscriptionCheckout?.payment?.dueDate
+      ? `Conta criada. O primeiro boleto vence em ${formatHumanDate(subscriptionCheckout.payment.dueDate)}. O acesso operacional será liberado após a confirmação do pagamento.`
+      : "Conta criada. Abra o primeiro boleto para concluir a ativação da assinatura. O acesso operacional será liberado após a confirmação do pagamento.";
+  }
+
+  if (initialSubscription.accessAllowed) {
+    return "Conta criada. O cartão foi aprovado para a recorrência mensal e o estabelecimento já pode seguir para a configuração do painel.";
+  }
+
+  return "Conta criada. A recorrência no cartão foi registrada, mas o primeiro pagamento ainda precisa de confirmação para liberar o uso completo do painel.";
+}
+
+function resolveInitialSubscriptionState(subscriptionCheckout, billingMethod) {
+  if (billingMethod === "BOLETO") {
+    return {
+      billingStatus: "past_due",
+      subscriptionEndsAt: null,
+      accessAllowed: false,
+    };
+  }
+
+  const paymentStatus = String(subscriptionCheckout?.payment?.status || "").trim().toUpperCase();
+  if (["RECEIVED", "CONFIRMED", "RECEIVED_IN_CASH"].includes(paymentStatus)) {
+    return {
+      billingStatus: "active",
+      subscriptionEndsAt: resolvePaidAccessWindow(subscriptionCheckout?.payment?.dueDate).toISOString(),
+      accessAllowed: true,
+    };
+  }
+
+  return {
+    billingStatus: "past_due",
+    subscriptionEndsAt: null,
+    accessAllowed: false,
   };
 }
 

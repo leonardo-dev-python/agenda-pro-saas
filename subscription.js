@@ -115,7 +115,7 @@ function getSubscriptionState(subscription) {
       code: "past_due",
       label: "Pendente",
       tone: "is-danger",
-      description: "Existe uma cobrança pendente. Regularize para manter o uso do painel sem bloqueios.",
+      description: "Existe uma cobrança pendente. Quite o boleto ou aguarde a confirmação do cartão para liberar o uso completo do painel.",
       window: "Pagamento pendente",
     };
   }
@@ -125,7 +125,7 @@ function getSubscriptionState(subscription) {
     label: "Em ativação",
     tone: "is-muted",
     description: trialEndsAt
-      ? `Sua conta está em ativação e o período atual vai até ${formatDate(trialEndsAt)}.`
+      ? `Sua conta está em ativação temporária até ${formatDate(trialEndsAt)}.`
       : "Sua conta está em ativação inicial.",
     window: trialEndsAt ? `Até ${formatDate(trialEndsAt)}` : "Ativação inicial",
   };
