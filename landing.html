@@ -14,13 +14,13 @@
   <div class="page-orb orb-right"></div>
 
   <div class="app-shell marketing-shell">
-    <header class="site-header glass">
+    <header class="site-header glass sales-header">
       <a href="/" class="brand">
         <img class="brand-logo" src="assets/agenda-pro-logo-dark.png" alt="Agenda Pro">
       </a>
       <nav class="top-nav">
         <a href="#produto">Produto</a>
-        <a href="#como-funciona">Como funciona</a>
+        <a href="#vantagens">Vantagens</a>
         <a href="#planos">Planos</a>
         <a href="#faq">FAQ</a>
       </nav>
@@ -30,183 +30,237 @@
       </div>
     </header>
 
-    <main class="layout stack">
-      <section class="marketing-hero glass-dark sales-hero">
-        <div class="hero-copy">
-          <p class="eyebrow">Para saloes, barbearias e studios de beleza</p>
-          <h1>Seu agendamento online com cara profissional, operacao simples e mais conversao no dia a dia.</h1>
-          <p class="section-copy">Agenda Pro organiza agenda, equipe, servicos, clientes e pagina publica de agendamento em um unico sistema. O cliente agenda em poucos passos e o estabelecimento opera com muito menos atrito.</p>
-          <div class="hero-actions">
-            <a href="/checkout" class="primary-btn">Criar conta e escolher plano</a>
-            <a href="/cliente" class="ghost-btn">Ver pagina do cliente</a>
-          </div>
-          <div class="hero-metrics">
-            <div class="micro-panel">
-              <strong>1 link</strong>
-              <span>para Instagram, WhatsApp e bio</span>
-            </div>
-            <div class="micro-panel">
-              <strong>Equipe</strong>
-              <span>com agenda e servicos organizados</span>
-            </div>
-            <div class="micro-panel">
-              <strong>Google</strong>
-              <span>Agenda pronta para sincronizar</span>
-            </div>
+    <main class="layout stack sales-layout">
+      <section class="sales-stage">
+        <div class="sales-stage-copy">
+          <p class="eyebrow">Agenda online para beleza e bem-estar</p>
+          <h1>Organize sua agenda, equipe e clientes com uma experiencia muito mais profissional.</h1>
+          <p class="section-copy">Agenda Pro ajuda saloes, barbearias e studios a receber agendamentos online, reduzir atrito operacional e transformar o link da bio em um canal real de captacao.</p>
+
+          <form class="sales-inline-form" action="/checkout" method="get">
+            <input type="hidden" name="plan" value="professional">
+            <label class="sales-inline-field" for="sales-email">
+              <span class="sr-only">Seu e-mail comercial</span>
+              <input id="sales-email" name="lead" type="email" placeholder="Seu melhor e-mail comercial">
+            </label>
+            <button type="submit" class="primary-btn">Ver checkout</button>
+          </form>
+
+          <div class="sales-logo-row">
+            <span>Instagram</span>
+            <span>WhatsApp</span>
+            <span>Google Agenda</span>
+            <span>Agenda Pro</span>
           </div>
         </div>
-        <div class="hero-showcase">
-          <div class="showcase-card sales-showcase-card">
-            <p class="mini-kicker">O que muda na pratica</p>
-            <h3>Menos conversa operacional. Mais horario ocupado.</h3>
-            <div class="showcase-stack">
-              <div class="panel-note">
-                <strong>Cliente agenda sozinho</strong>
-                <p>Escolhe servico, profissional e horario sem depender de troca manual de mensagens.</p>
+
+        <div class="sales-stage-visual">
+          <div class="sales-browser-frame">
+            <div class="sales-browser-top">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="sales-app-preview">
+              <div class="sales-preview-left">
+                <div class="sales-chip">Link publico ativo</div>
+                <div class="sales-chip soft">Equipe organizada</div>
+                <div class="sales-preview-card">
+                  <p class="mini-kicker">Agendamento do dia</p>
+                  <strong>R$ 1.980</strong>
+                  <span>Recepcao mais clara, menos conversa operacional.</span>
+                </div>
+                <div class="sales-preview-list">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+                <button class="sales-preview-pay">Abrir painel</button>
               </div>
-              <div class="panel-note">
-                <strong>Recepcao trabalha com clareza</strong>
-                <p>Agenda do dia, equipe, clientes e servicos ficam organizados no mesmo painel.</p>
-              </div>
-              <div class="panel-note">
-                <strong>Marca ganha mais presenca</strong>
-                <p>O link de agendamento fica pronto para compartilhar no Instagram, WhatsApp e QR Code.</p>
+              <div class="sales-floating-card">
+                <span class="mini-kicker">Agenda Pro</span>
+                <strong>Studio Aura</strong>
+                <p>Cliente escolhe servico, profissional e horario sem depender da recepcao.</p>
+                <div class="sales-floating-meta">
+                  <span>Google</span>
+                  <span>Agenda</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="produto" class="feature-grid sales-feature-grid">
-        <article class="feature-card">
-          <p class="eyebrow">Agenda</p>
-          <h3>Controle do dia sem improviso</h3>
-          <p>Cadastre agendamentos, veja horarios livres, confirme atendimentos e acompanhe o fluxo do salao em uma tela mais clara.</p>
+      <section id="produto" class="sales-feature-shell glass">
+        <div class="sales-section-head">
+          <div>
+            <p class="eyebrow">Produto</p>
+            <h2>Uma experiencia que cresce com a operacao do estabelecimento.</h2>
+          </div>
+          <p>Da agenda do dia ate o link publico de agendamento, tudo foi pensado para reduzir atrito e aumentar clareza operacional.</p>
+        </div>
+
+        <div class="sales-feature-grid">
+          <article class="sales-feature-card">
+            <div class="sales-feature-icon">A</div>
+            <h3>Agenda centralizada</h3>
+            <p>Cadastre, confirme e acompanhe os horarios em uma tela mais clara para o time.</p>
+          </article>
+          <article class="sales-feature-card">
+            <div class="sales-feature-icon">E</div>
+            <h3>Equipe configuravel</h3>
+            <p>O salao define os servicos de cada profissional sem depender de opcoes impostas pelo sistema.</p>
+          </article>
+          <article class="sales-feature-card">
+            <div class="sales-feature-icon">C</div>
+            <h3>Clientes organizados</h3>
+            <p>Nome, telefone, observacoes e historico em um fluxo mais limpo para relacionamento e retorno.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="vantagens" class="sales-mosaic">
+        <article class="sales-mosaic-card sales-mosaic-highlight">
+          <span class="eyebrow">Resultados</span>
+          <strong>3x+</strong>
+          <p>Mais clareza na operacao diaria quando agenda, equipe e servicos conversam no mesmo produto.</p>
         </article>
-        <article class="feature-card">
-          <p class="eyebrow">Equipe</p>
-          <h3>Cada profissional faz o que o salao definir</h3>
-          <p>Voce cria seus servicos e decide exatamente quais deles cada membro da equipe executa. Sem catalogo imposto pelo sistema.</p>
+
+        <article class="sales-mosaic-card">
+          <span class="eyebrow">Fluxo</span>
+          <h3>Link publico para Instagram, WhatsApp e QR Code</h3>
+          <p>O cliente encontra horario com menos atrito e o estabelecimento reduz dependencias manuais.</p>
         </article>
-        <article class="feature-card">
-          <p class="eyebrow">Clientes</p>
-          <h3>Historico e contato no mesmo lugar</h3>
-          <p>Mantenha nome, telefone, observacoes e atendimentos organizados para reduzir erros e melhorar a experiencia de retorno.</p>
-        </article>
-        <article class="feature-card">
-          <p class="eyebrow">Integracoes</p>
-          <h3>Base pronta para Google Agenda e cobranca</h3>
-          <p>O produto ja nasce preparado para sincronizacao de agenda e evolucao do fluxo comercial com checkout dedicado.</p>
+
+        <article class="sales-mosaic-card sales-chart-card">
+          <span class="eyebrow">Crescimento operacional</span>
+          <div class="sales-chart-copy">
+            <div>
+              <strong>R$ 1.876</strong>
+              <small>Visibilidade do dia</small>
+            </div>
+            <span>6 meses</span>
+          </div>
+          <div class="sales-chart">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </article>
       </section>
 
-      <section id="como-funciona" class="benefit-band glass">
-        <div class="section-head">
+      <section class="sales-dark-band">
+        <div class="sales-section-head dark">
           <div>
             <p class="eyebrow">Como funciona</p>
-            <h2>Do primeiro clique ate o link de agendamento publicado</h2>
+            <h2>Uma jornada simples para tirar o salao do improviso.</h2>
           </div>
         </div>
-        <div class="feature-grid sales-steps-grid">
-          <article class="feature-card">
-            <strong>1. Escolha o plano</strong>
-            <p>O proprietario entra no checkout, seleciona o plano ideal e cria a conta do estabelecimento.</p>
+
+        <div class="sales-steps-grid-refined">
+          <article class="sales-step-card">
+            <strong>1</strong>
+            <h3>Escolha seu plano</h3>
+            <p>Comece pelo checkout e crie o acesso do estabelecimento.</p>
           </article>
-          <article class="feature-card">
-            <strong>2. Configure o ambiente</strong>
-            <p>Cadastre nome do salao, servicos, equipe, horarios, clientes e integracoes.</p>
+          <article class="sales-step-card">
+            <strong>2</strong>
+            <h3>Configure a operacao</h3>
+            <p>Cadastre equipe, servicos, agenda, clientes e Google Agenda.</p>
           </article>
-          <article class="feature-card">
-            <strong>3. Compartilhe o link</strong>
-            <p>Use a pagina publica em bio, WhatsApp, QR Code e canais de relacionamento para captar mais agendamentos.</p>
-          </article>
-          <article class="feature-card">
-            <strong>4. Organize a operacao</strong>
-            <p>O painel centraliza a agenda do dia e reduz a dependencia de atendimento manual para cada horario.</p>
+          <article class="sales-step-card">
+            <strong>3</strong>
+            <h3>Compartilhe o link</h3>
+            <p>Publique a pagina do cliente e transforme seus canais em captacao.</p>
           </article>
         </div>
       </section>
 
-      <section id="planos" class="pricing-grid sales-pricing-grid">
-        <article class="testimonial-card plan-card plan-card-starter">
-          <p class="eyebrow">Essencial</p>
-          <h3>Starter</h3>
-          <p class="plan-price">R$ 79<span>/mensal</span></p>
-          <p>Para estabelecimentos que querem sair do improviso e centralizar a agenda.</p>
-          <ul class="sales-list">
-            <li>1 estabelecimento</li>
-            <li>Agenda operacional</li>
-            <li>Cadastro de equipe e servicos</li>
-            <li>Pagina publica de agendamento</li>
-          </ul>
-          <a href="/checkout?plan=starter" class="primary-btn">Escolher Starter</a>
-        </article>
-
-        <article class="testimonial-card plan-card plan-card-featured">
-          <div class="plan-badge">Mais escolhido</div>
-          <p class="eyebrow">Crescimento</p>
-          <h3>Professional</h3>
-          <p class="plan-price">R$ 149<span>/mensal</span></p>
-          <p>Para operacoes com mais equipe, mais servicos e mais necessidade de organizacao comercial.</p>
-          <ul class="sales-list">
-            <li>Tudo do Starter</li>
-            <li>Mais profissionais na operacao</li>
-            <li>Fluxo de clientes mais forte</li>
-            <li>Prioridade na evolucao comercial</li>
-          </ul>
-          <a href="/checkout?plan=professional" class="primary-btn">Escolher Professional</a>
-        </article>
-
-        <article class="testimonial-card plan-card plan-card-multi">
-          <p class="eyebrow">Expansao</p>
-          <h3>Multiunidade</h3>
-          <p class="plan-price">Sob consulta</p>
-          <p>Para marcas com duas ou mais unidades e necessidade de implantacao comercial assistida.</p>
-          <ul class="sales-list">
-            <li>Operacao multiunidade</li>
-            <li>Estrutura comercial consultiva</li>
-            <li>Implantacao acompanhada</li>
-            <li>Escopo alinhado por necessidade</li>
-          </ul>
-          <a href="/checkout?plan=multi" class="ghost-btn">Falar sobre Multiunidade</a>
-        </article>
-      </section>
-
-      <section class="benefit-band glass sales-proof-band">
-        <div class="section-head">
+      <section class="sales-numbers">
+        <div class="sales-section-head center">
           <div>
-            <p class="eyebrow">Por que isso vende melhor</p>
-            <h2>O estabelecimento percebe valor em resultado, nao em complexidade</h2>
+            <p class="eyebrow">Por que Agenda Pro</p>
+            <h2>Menos complexidade no sistema. Mais clareza para vender, atender e voltar a agenda a funcionar melhor.</h2>
           </div>
         </div>
-        <div class="feature-grid sales-proof-grid">
-          <article class="feature-card">
-            <strong>Mais clareza no dia</strong>
-            <p>O dono do salao nao precisa aprender um sistema pesado para conseguir organizar agenda, equipe e clientes.</p>
+
+        <div class="sales-number-grid">
+          <article>
+            <strong>24%</strong>
+            <span>Mais clareza operacional</span>
           </article>
-          <article class="feature-card">
-            <strong>Mais autonomia para o cliente</strong>
-            <p>O cliente encontra servico, profissional e horario com menos atrito, o que ajuda a ocupar a agenda com mais consistencia.</p>
+          <article>
+            <strong>180K</strong>
+            <span>Potencial de rotina organizada em escala</span>
           </article>
-          <article class="feature-card">
-            <strong>Mais base para crescer</strong>
-            <p>O produto ja foi estruturado para evoluir em integracoes, cobranca e expansao comercial sem recomeçar do zero.</p>
+          <article>
+            <strong>10+</strong>
+            <span>Pontos de contato que viram canal de agendamento</span>
           </article>
         </div>
       </section>
 
-      <section id="faq" class="faq-grid">
+      <section id="planos" class="sales-plan-band">
+        <div class="sales-section-head">
+          <div>
+            <p class="eyebrow">Planos</p>
+            <h2>Escolha o formato comercial ideal para o seu momento.</h2>
+          </div>
+        </div>
+
+        <div class="sales-plan-grid">
+          <article class="sales-plan-tile">
+            <div>
+              <h3>Starter</h3>
+              <p>Essencial para organizar agenda, equipe e servicos.</p>
+            </div>
+            <div class="sales-plan-footer">
+              <strong>R$ 79/mensal</strong>
+              <a href="/checkout?plan=starter" class="ghost-btn">Escolher</a>
+            </div>
+          </article>
+
+          <article class="sales-plan-tile featured">
+            <div>
+              <span class="sales-plan-flag">Mais escolhido</span>
+              <h3>Professional</h3>
+              <p>Para operacoes com mais equipe, mais servicos e mais ritmo comercial.</p>
+            </div>
+            <div class="sales-plan-footer">
+              <strong>R$ 149/mensal</strong>
+              <a href="/checkout?plan=professional" class="primary-btn">Escolher</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="sales-cta-final">
+        <div>
+          <p class="eyebrow">Pronto para vender melhor</p>
+          <h2>Leve seu agendamento para um nivel mais profissional.</h2>
+          <p>Crie o acesso do seu estabelecimento e comece a estruturar agenda, equipe e link publico em uma unica operacao.</p>
+        </div>
+        <div class="header-actions">
+          <a href="/checkout?plan=professional" class="primary-btn">Comecar agora</a>
+          <a href="/estabelecimento" class="ghost-btn">Ver painel</a>
+        </div>
+      </section>
+
+      <section id="faq" class="faq-grid sales-faq-grid">
         <article class="faq-card">
           <h3>O Agenda Pro define os servicos do salao?</h3>
-          <p>Nao. Cada estabelecimento cria o proprio catalogo e define o que cada profissional faz.</p>
+          <p>Nao. Cada estabelecimento cria o proprio catalogo e decide o que cada profissional faz.</p>
         </article>
         <article class="faq-card">
           <h3>O cliente consegue agendar sem criar conta?</h3>
-          <p>Sim. A pagina publica foi pensada para ser direta, leve e simples para o cliente final.</p>
+          <p>Sim. A pagina publica foi pensada para ser direta e simples para o cliente final.</p>
         </article>
         <article class="faq-card">
-          <h3>Consigo compartilhar no WhatsApp e Instagram?</h3>
-          <p>Sim. O sistema gera um link publico proprio do estabelecimento para usar nos canais de venda e relacionamento.</p>
+          <h3>Consigo compartilhar no Instagram e WhatsApp?</h3>
+          <p>Sim. O sistema gera um link publico proprio do estabelecimento para usar em bio, direct e QR Code.</p>
         </article>
       </section>
     </main>
