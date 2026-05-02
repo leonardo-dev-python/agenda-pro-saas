@@ -42,6 +42,8 @@ const publicFiles = new Set([
   "/signup.js",
   "/checkout.js",
   "/subscription.js",
+  "/site-meta.js",
+  "/site-meta-render.js",
   "/assets/agenda-pro-logo.png",
   "/assets/agenda-pro-logo-dark.png",
   "/assets/agenda_centralizada_icon.png",

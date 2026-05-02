@@ -3526,6 +3526,48 @@ textarea:focus {
   font-weight: 600;
 }
 
+.lp-support-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 22px;
+  align-items: center;
+  padding: 24px 28px;
+}
+
+.lp-support-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.lp-support-copy h3 {
+  font-size: clamp(1.35rem, 2vw, 1.72rem);
+  letter-spacing: -0.04em;
+}
+
+.lp-support-copy p {
+  color: var(--muted);
+  line-height: 1.62;
+  max-width: 64ch;
+}
+
+.lp-support-actions {
+  display: grid;
+  gap: 12px;
+  justify-items: end;
+}
+
+.legal-contact-box {
+  padding-top: 8px;
+  border-top: 1px solid rgba(35, 42, 45, 0.08);
+}
+
+.legal-contact-box a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .subscription-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
@@ -3669,6 +3711,14 @@ textarea:focus {
   .lp-final-cta {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .lp-support-band {
+    grid-template-columns: 1fr;
+  }
+
+  .lp-support-actions {
+    justify-items: start;
   }
 
   .checkout-form-panel {
