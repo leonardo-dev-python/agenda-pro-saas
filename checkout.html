@@ -85,79 +85,117 @@
             <p id="selected-plan-description">Assinatura mensal com recorrência por boleto bancário ou cartão de crédito.</p>
           </div>
 
+          <div class="checkout-steps" aria-label="Etapas do checkout">
+            <div class="checkout-step is-active" id="step-indicator-details">
+              <span>1</span>
+              <strong>Dados da conta</strong>
+            </div>
+            <div class="checkout-step" id="step-indicator-payment">
+              <span>2</span>
+              <strong>Pagamento</strong>
+            </div>
+          </div>
+
           <form id="checkout-form" class="stack">
             <input type="hidden" name="plan" value="professional">
 
-            <section class="checkout-form-block stack">
-              <div class="panel-header compact-header">
-                <h3>Dados do acesso</h3>
-                <p>Essas informações criam a conta do proprietário.</p>
-              </div>
-              <div class="field-grid">
-                <label class="field"><span>Nome do responsável</span><input name="ownerName" type="text" required></label>
-                <label class="field"><span>Nome do estabelecimento</span><input name="salonName" type="text" required></label>
-                <label class="field"><span>E-mail</span><input name="email" type="email" required></label>
-                <label class="field"><span>Telefone</span><input name="phone" type="tel" required></label>
-                <label class="field field-span-2"><span>Senha de acesso</span><input name="password" type="password" required></label>
-              </div>
-            </section>
+            <div id="checkout-primary-stage" class="stack">
+              <section class="checkout-form-block stack">
+                <div class="panel-header compact-header">
+                  <h3>Dados do acesso</h3>
+                  <p>Essas informações criam a conta do proprietário.</p>
+                </div>
+                <div class="field-grid">
+                  <label class="field"><span>Nome do responsável</span><input name="ownerName" type="text" required></label>
+                  <label class="field"><span>Nome do estabelecimento</span><input name="salonName" type="text" required></label>
+                  <label class="field"><span>E-mail</span><input name="email" type="email" required></label>
+                  <label class="field"><span>Telefone</span><input name="phone" type="tel" required></label>
+                  <label class="field field-span-2"><span>Senha de acesso</span><input name="password" type="password" required></label>
+                </div>
+              </section>
 
-            <section class="checkout-form-block stack">
-              <div class="panel-header compact-header">
-                <h3>Dados de cobrança</h3>
-                <p>Use o nome legal do estabelecimento e o CPF ou CNPJ que vai receber a recorrência.</p>
-              </div>
-              <div class="field-grid">
-                <label class="field field-span-2"><span>Nome de cobrança</span><input name="legalName" type="text" required></label>
-                <label class="field"><span>CPF ou CNPJ</span><input name="billingDocumentId" type="text" inputmode="numeric" required></label>
-                <label class="field"><span>CEP</span><input name="postalCode" type="text" inputmode="numeric" placeholder="Obrigatório para cartão"></label>
-                <label class="field"><span>Número do endereço</span><input name="addressNumber" type="text" placeholder="Obrigatório para cartão"></label>
-                <label class="field field-span-2"><span>Complemento do endereço</span><input name="addressComplement" type="text" placeholder="Opcional"></label>
-              </div>
-            </section>
+              <section class="checkout-form-block stack">
+                <div class="panel-header compact-header">
+                  <h3>Dados de cobrança</h3>
+                  <p>Use o nome legal do estabelecimento e o CPF ou CNPJ que vai receber a recorrência.</p>
+                </div>
+                <div class="field-grid">
+                  <label class="field field-span-2"><span>Nome de cobrança</span><input name="legalName" type="text" required></label>
+                  <label class="field"><span>CPF ou CNPJ</span><input name="billingDocumentId" type="text" inputmode="numeric" required></label>
+                  <label class="field"><span>CEP</span><input name="postalCode" type="text" inputmode="numeric" placeholder="Obrigatório para cartão"></label>
+                  <label class="field"><span>Número do endereço</span><input name="addressNumber" type="text" placeholder="Obrigatório para cartão"></label>
+                  <label class="field field-span-2"><span>Complemento do endereço</span><input name="addressComplement" type="text" placeholder="Opcional"></label>
+                </div>
+              </section>
 
-            <section class="checkout-form-block stack">
-              <div class="panel-header compact-header">
-                <h3>Forma de pagamento</h3>
-                <p id="checkout-cancel-anytime-copy">O boleto é renovado a cada 30 dias. Você pode cancelar a assinatura quando quiser antes da próxima emissão.</p>
-              </div>
+              <section class="checkout-form-block stack">
+                <div class="panel-header compact-header">
+                  <h3>Forma de pagamento</h3>
+                  <p id="checkout-cancel-anytime-copy">O boleto é renovado a cada 30 dias. Você pode cancelar a assinatura quando quiser antes da próxima emissão.</p>
+                </div>
 
-              <div class="checkout-payment-methods">
-                <label class="checkout-method-card is-selected">
-                  <input type="radio" name="billingMethod" value="BOLETO" checked>
-                  <span class="checkout-method-copy">
-                    <strong>Boleto bancário recorrente</strong>
-                    <small>Emissão mensal, ideal para quem prefere pagar fora do cartão.</small>
-                  </span>
-                </label>
-                <label class="checkout-method-card">
-                  <input type="radio" name="billingMethod" value="CREDIT_CARD">
-                  <span class="checkout-method-copy">
-                    <strong>Cartão de crédito recorrente</strong>
-                    <small>Cobrança mensal automática de 30 em 30 dias.</small>
-                  </span>
-                </label>
-              </div>
-            </section>
+                <div class="checkout-payment-methods">
+                  <label class="checkout-method-card is-selected">
+                    <input type="radio" name="billingMethod" value="BOLETO" checked>
+                    <span class="checkout-method-copy">
+                      <strong>Boleto bancário recorrente</strong>
+                      <small>Emissão mensal, ideal para quem prefere pagar fora do cartão.</small>
+                    </span>
+                  </label>
+                  <label class="checkout-method-card">
+                    <input type="radio" name="billingMethod" value="CREDIT_CARD">
+                    <span class="checkout-method-copy">
+                      <strong>Cartão de crédito recorrente</strong>
+                      <small>Cobrança mensal automática a cada 30 dias.</small>
+                    </span>
+                  </label>
+                </div>
+              </section>
 
-            <section id="checkout-card-fields" class="checkout-form-block stack hidden">
-              <div class="panel-header compact-header">
-                <h3>Dados do cartão</h3>
-                <p>Os dados são usados apenas para registrar a recorrência mensal da assinatura.</p>
+              <div class="action-row">
+                <button type="button" id="checkout-continue-button" class="primary-btn">Gerar primeiro boleto</button>
+                <a href="/" class="ghost-btn">Voltar</a>
               </div>
-              <div class="field-grid">
-                <label class="field field-span-2"><span>Nome impresso no cartão</span><input name="cardHolderName" type="text"></label>
-                <label class="field field-span-2"><span>Número do cartão</span><input name="cardNumber" type="text" inputmode="numeric" autocomplete="cc-number"></label>
-                <label class="field"><span>Mês de validade</span><input name="cardExpiryMonth" type="text" inputmode="numeric" placeholder="MM" maxlength="2"></label>
-                <label class="field"><span>Ano de validade</span><input name="cardExpiryYear" type="text" inputmode="numeric" placeholder="AAAA" maxlength="4"></label>
-                <label class="field"><span>CVV</span><input name="cardCcv" type="text" inputmode="numeric" maxlength="4" autocomplete="cc-csc"></label>
-              </div>
-            </section>
-
-            <div class="action-row">
-              <button type="submit" class="primary-btn">Ativar assinatura e criar conta</button>
-              <a href="/" class="ghost-btn">Voltar</a>
             </div>
+
+            <section id="checkout-card-step" class="checkout-card-step hidden">
+              <div class="checkout-card-step-header">
+                <div class="panel-header compact-header">
+                  <h3>Pagamento com cartão</h3>
+                  <p>Preencha os dados abaixo para ativar a recorrência mensal no cartão de crédito.</p>
+                </div>
+                <div class="checkout-card-step-summary">
+                  <span>Plano ativo</span>
+                  <strong>Agenda Pro</strong>
+                  <small>R$ 129,90 por mês</small>
+                </div>
+              </div>
+
+              <section id="checkout-card-fields" class="checkout-form-block stack">
+                <div class="panel-header compact-header">
+                  <h3>Dados do cartão</h3>
+                  <p>Os dados são usados apenas para registrar a recorrência mensal da assinatura.</p>
+                </div>
+                <div class="field-grid">
+                  <label class="field field-span-2"><span>Nome impresso no cartão</span><input name="cardHolderName" type="text"></label>
+                  <label class="field field-span-2"><span>Número do cartão</span><input name="cardNumber" type="text" inputmode="numeric" autocomplete="cc-number"></label>
+                  <label class="field"><span>Mês de validade</span><input name="cardExpiryMonth" type="text" inputmode="numeric" placeholder="MM" maxlength="2"></label>
+                  <label class="field"><span>Ano de validade</span><input name="cardExpiryYear" type="text" inputmode="numeric" placeholder="AAAA" maxlength="4"></label>
+                  <label class="field"><span>CVV</span><input name="cardCcv" type="text" inputmode="numeric" maxlength="4" autocomplete="cc-csc"></label>
+                </div>
+              </section>
+
+              <div class="checkout-card-step-note">
+                <strong>Cancelamento a qualquer momento</strong>
+                <p>Você poderá cancelar a assinatura antes da próxima cobrança mensal. O acesso pago segue até o fim do ciclo já quitado.</p>
+              </div>
+
+              <div class="action-row">
+                <button type="button" id="checkout-back-button" class="ghost-btn">Voltar</button>
+                <button type="submit" id="checkout-card-submit" class="primary-btn">Ativar assinatura no cartão</button>
+              </div>
+            </section>
+
             <p class="checkout-legal-note">Ao continuar, você concorda com os <a href="/termos">Termos de uso</a>, a <a href="/privacidade">Política de privacidade</a> e a <a href="/cancelamento">Política de cobrança e cancelamento</a>.</p>
             <p id="checkout-feedback" class="feedback"></p>
           </form>
@@ -166,6 +204,26 @@
             <div class="panel-header compact-header">
               <h3 id="checkout-success-title">Conta criada</h3>
               <p id="checkout-success-copy">Seu acesso foi liberado com sucesso.</p>
+            </div>
+            <div id="checkout-boleto-panel" class="checkout-boleto-panel hidden">
+              <div class="checkout-boleto-meta">
+                <div class="checkout-boleto-field">
+                  <span>Vencimento</span>
+                  <strong id="checkout-boleto-due-date">-</strong>
+                </div>
+                <div class="checkout-boleto-field">
+                  <span>Status inicial</span>
+                  <strong id="checkout-boleto-status">Aguardando pagamento</strong>
+                </div>
+              </div>
+              <div class="checkout-boleto-code-box">
+                <span>Linha digitável</span>
+                <code id="checkout-boleto-identification-field">-</code>
+              </div>
+              <div class="action-row">
+                <button type="button" id="checkout-copy-boleto-button" class="ghost-btn">Copiar linha digitável</button>
+                <a id="checkout-download-boleto-link" class="ghost-btn hidden" href="#" target="_blank" rel="noreferrer">Baixar boleto</a>
+              </div>
             </div>
             <div class="action-row">
               <a id="checkout-success-payment-link" class="primary-btn hidden" href="#" target="_blank" rel="noreferrer">Abrir cobrança</a>

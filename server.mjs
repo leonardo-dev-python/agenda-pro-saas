@@ -10,6 +10,7 @@ import { createDatabaseGateway } from "./lib/database.js";
 import {
   cancelAsaasSubscription,
   createAsaasCustomer,
+  getAsaasPaymentIdentificationField,
   createAsaasSubscription,
   getAsaasSubscription,
   getAsaasEnvironment,
@@ -728,13 +729,13 @@ async function loadCurrentCharge(subscription, asaas) {
   const current = payments.find((item) => ["PENDING", "OVERDUE"].includes(String(item?.status || "").toUpperCase())) || payments[0];
   if (!current) return null;
 
-  return {
+  return await enrichAsaasPaymentDetails(asaas, {
     id: current.id || "",
     status: current.status || "",
     invoiceUrl: current.invoiceUrl || "",
     bankSlipUrl: current.bankSlipUrl || "",
     dueDate: current.dueDate || "",
-  };
+  });
 }
 
 async function handlePublicCheckout(req, res) {
@@ -883,21 +884,38 @@ async function createRecurringSubscriptionCheckout({ asaas, company, plan, profi
   const subscription = await createAsaasSubscription(asaas, subscriptionPayload);
   const paymentsResponse = await listAsaasSubscriptionPayments(asaas, subscription.id).catch(() => ({ data: [] }));
   const firstPayment = Array.isArray(paymentsResponse?.data) ? paymentsResponse.data[0] : null;
+  const enrichedPayment = firstPayment
+    ? await enrichAsaasPaymentDetails(asaas, {
+        id: firstPayment.id || "",
+        status: firstPayment.status || "",
+        invoiceUrl: firstPayment.invoiceUrl || "",
+        bankSlipUrl: firstPayment.bankSlipUrl || "",
+        dueDate: firstPayment.dueDate || "",
+      })
+    : null;
 
   return {
     customerId,
     subscriptionId: subscription.id,
     nextDueDate,
-    payment: firstPayment
-      ? {
-          id: firstPayment.id || "",
-          status: firstPayment.status || "",
-          invoiceUrl: firstPayment.invoiceUrl || "",
-          bankSlipUrl: firstPayment.bankSlipUrl || "",
-          dueDate: firstPayment.dueDate || "",
-        }
-      : null,
+    payment: enrichedPayment,
   };
+}
+
+async function enrichAsaasPaymentDetails(asaas, payment) {
+  if (!payment?.id) return payment;
+  const enriched = { ...payment };
+
+  if (payment.bankSlipUrl || payment.invoiceUrl) {
+    const identification = await getAsaasPaymentIdentificationField(asaas, payment.id).catch(() => null);
+    if (identification) {
+      enriched.identificationField = identification.identificationField || "";
+      enriched.nossoNumero = identification.nossoNumero || "";
+      enriched.barCode = identification.barCode || "";
+    }
+  }
+
+  return enriched;
 }
 
 function buildCheckoutPayload(provider, plan, subscriptionCheckout, initialSubscription = {}) {
