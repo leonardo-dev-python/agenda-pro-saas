@@ -155,6 +155,11 @@ ol {
   padding-bottom: 30px;
 }
 
+.marketing-shell .site-header {
+  position: relative;
+  top: auto;
+}
+
 .owner-shell {
   padding-bottom: 30px;
 }
@@ -3165,8 +3170,8 @@ textarea:focus {
 }
 
 .checkout-form-panel {
-  position: sticky;
-  top: 86px;
+  position: relative;
+  top: auto;
 }
 
 .checkout-selection {
@@ -3552,8 +3557,8 @@ textarea:focus {
 }
 
 .subscription-action-panel {
-  position: sticky;
-  top: 86px;
+  position: relative;
+  top: auto;
 }
 
 .panel-header p + h3 + p,
