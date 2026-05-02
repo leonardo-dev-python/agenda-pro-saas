@@ -957,6 +957,15 @@ function resolveInitialSubscriptionState(subscriptionCheckout, billingMethod) {
 }
 
 async function handleAsaasWebhook(req, res) {
+  const expectedToken = String(env.ASAAS_WEBHOOK_TOKEN || "").trim();
+  if (expectedToken) {
+    const receivedToken = String(req.headers["asaas-access-token"] || "").trim();
+    if (!receivedToken || receivedToken !== expectedToken) {
+      sendJson(res, 401, { error: "Webhook do Asaas sem token valido." });
+      return;
+    }
+  }
+
   const body = await readJson(req).catch(() => ({}));
   const event = String(body?.event || "").trim().toUpperCase();
   const payment = body?.payment || {};
