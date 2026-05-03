@@ -42,6 +42,10 @@ const els = {
   adminStatsProfessionals: document.getElementById("admin-stats-professionals"),
   adminStatsServices: document.getElementById("admin-stats-services"),
   adminStatsToday: document.getElementById("admin-stats-today"),
+  ownerSetupCopy: document.getElementById("owner-setup-copy"),
+  ownerSetupProgress: document.getElementById("owner-setup-progress"),
+  ownerSetupStatus: document.getElementById("owner-setup-status"),
+  ownerSetupList: document.getElementById("owner-setup-list"),
   adminPlanName: document.getElementById("admin-plan-name"),
   adminPlanCopy: document.getElementById("admin-plan-copy"),
   billingStatusTitle: document.getElementById("billing-status-title"),
@@ -183,7 +187,7 @@ async function copyClientLink() {
     await copyToClipboard(els.clientAppLink.value);
     setFeedback(els.copyFeedback, "Link copiado com sucesso.", false);
   } catch {
-    setFeedback(els.copyFeedback, "Nao foi possivel copiar o link automaticamente.", true);
+    setFeedback(els.copyFeedback, "Não foi possível copiar o link automaticamente.", true);
   }
 }
 
@@ -282,7 +286,7 @@ async function loadAdminData() {
       await loadAppointments();
       syncOperationalAccess();
   } catch (error) {
-    setFeedback(els.adminFeedback, error.message || "Nao foi possivel atualizar o painel.", true);
+    setFeedback(els.adminFeedback, error.message || "Não foi possível atualizar o painel.", true);
   }
 }
 
@@ -291,17 +295,106 @@ function renderDashboard(stats) {
   els.adminStatsProfessionals.textContent = String(stats.professionals || 0);
   els.adminStatsServices.textContent = String(stats.services || 0);
   els.adminStatsToday.textContent = String(stats.today || 0);
-    els.metricProfessionals.textContent = String(stats.professionals || 0);
-    els.metricServices.textContent = String(stats.services || 0);
-    els.metricAppointments.textContent = String(stats.appointments || 0);
-  }
+  els.metricProfessionals.textContent = String(stats.professionals || 0);
+  els.metricServices.textContent = String(stats.services || 0);
+  els.metricAppointments.textContent = String(stats.appointments || 0);
+  renderOwnerSetup(stats);
+}
 
-  function renderSubscriptionSummary() {
-    if (!els.adminPlanName || !els.adminPlanCopy) return;
-    const subscriptionState = getSubscriptionState(state.company?.subscription);
-    els.adminPlanName.textContent = subscriptionState.planName;
-    els.adminPlanCopy.textContent = subscriptionState.summary;
+function renderOwnerSetup(stats) {
+  if (!els.ownerSetupList || !els.ownerSetupCopy || !els.ownerSetupProgress || !els.ownerSetupStatus) return;
+
+  const hasSalonBase = Boolean(
+    String(state.company?.name || "").trim() &&
+    String(state.company?.phone || "").trim() &&
+    String(state.company?.address || "").trim(),
+  );
+  const hasServices = state.services.length > 0;
+  const hasProfessionals = state.professionals.length > 0;
+  const canPublishLink = Boolean(String(state.company?.slug || "").trim()) && hasServices && hasProfessionals;
+  const googleConnected = Boolean(state.googleIntegration?.googleCalendar?.connected);
+  const steps = [
+    {
+      done: hasSalonBase,
+      title: "Dados do salão",
+      description: hasSalonBase
+        ? "Nome, telefone e endereço já estão preenchidos para uso operacional."
+        : "Preencha os dados principais do estabelecimento antes de divulgar o sistema.",
+    },
+    {
+      done: hasServices,
+      title: "Catálogo de serviços",
+      description: hasServices
+        ? `${state.services.length} serviço(s) cadastrado(s) para a agenda e o link público.`
+        : "Cadastre os serviços que o salão realmente oferece, com duração e valor quando fizer sentido.",
+    },
+    {
+      done: hasProfessionals,
+      title: "Equipe configurada",
+      description: hasProfessionals
+        ? `${state.professionals.length} profissional(is) pronto(s) para receber vínculos de serviço e horários.`
+        : "Adicione a equipe e vincule o que cada profissional realiza para liberar a escolha no agendamento.",
+    },
+    {
+      done: canPublishLink,
+      title: "Link público pronto",
+      description: canPublishLink
+        ? "O estabelecimento já pode compartilhar a página de agendamento com clientes."
+        : "Assim que catálogo e equipe estiverem prontos, o link público fica preparado para divulgação.",
+    },
+  ];
+
+  const completed = steps.filter((step) => step.done).length;
+  const readinessCopy = completed === steps.length
+    ? `Tudo pronto para operar. Hoje você tem ${stats.today || 0} agendamento(s) para acompanhar no painel.`
+    : completed === 0
+      ? "Comece pelos dados do salão e pela estrutura básica do catálogo para preparar a operação."
+      : `Você já concluiu ${completed} etapa(s). Falta pouco para deixar o fluxo pronto para atendimento e divulgação.`;
+  const statusLabel = completed === steps.length
+    ? "Painel pronto"
+    : completed >= 2
+      ? "Configuração em andamento"
+      : "Configuração inicial";
+  const toneClass = completed === steps.length ? "is-success" : completed >= 2 ? "is-warn" : "is-muted";
+
+  els.ownerSetupCopy.textContent = readinessCopy;
+  els.ownerSetupProgress.textContent = `${completed} de ${steps.length} etapas concluídas`;
+  els.ownerSetupStatus.textContent = statusLabel;
+  els.ownerSetupStatus.className = `status-pill ${toneClass}`;
+  els.ownerSetupList.innerHTML = steps
+    .map((step) => `
+      <article class="owner-check-item${step.done ? " is-complete" : ""}">
+        <div class="owner-check-badge">${step.done ? "OK" : "•"}</div>
+        <div class="owner-check-copy">
+          <strong>${step.title}</strong>
+          <p>${step.description}</p>
+        </div>
+      </article>
+    `)
+    .join("");
+
+  if (googleConnected) {
+    els.ownerSetupList.insertAdjacentHTML(
+      "beforeend",
+      `
+        <article class="owner-check-item is-optional is-complete">
+          <div class="owner-check-badge">+</div>
+          <div class="owner-check-copy">
+            <strong>Google Agenda conectada</strong>
+            <p>A sincronização externa já está ativa para reduzir retrabalho na rotina do estabelecimento.</p>
+          </div>
+        </article>
+      `,
+    );
   }
+}
+
+function renderSubscriptionSummary() {
+  if (!els.adminPlanName || !els.adminPlanCopy) return;
+  const subscriptionState = getSubscriptionState(state.company?.subscription);
+  els.adminPlanName.textContent = subscriptionState.planName;
+  els.adminPlanCopy.textContent = subscriptionState.summary;
+}
 
 function renderCompanyForm() {
   if (!state.company) return;
@@ -348,12 +441,12 @@ function getSubscriptionState(subscription) {
       statusCode: "active",
       statusLabel: "Ativa",
       summary: subscriptionEndsAt
-        ? `Assinatura ativa ate ${formatShortDate(subscriptionEndsAt)}.`
+        ? `Assinatura ativa até ${formatShortDate(subscriptionEndsAt)}.`
         : "Assinatura ativa.",
       title: "Assinatura ativa",
-      description: "Seu estabelecimento pode editar agenda, equipe, servicos e continuar recebendo agendamentos normalmente.",
-      window: subscriptionEndsAt ? `Ate ${formatShortDate(subscriptionEndsAt)}` : "Renovacao ativa",
-      note: "Na proxima etapa, vamos conectar a cobranca recorrente a este status automaticamente.",
+      description: "Seu estabelecimento pode editar agenda, equipe, serviços e continuar recebendo agendamentos normalmente.",
+      window: subscriptionEndsAt ? `Até ${formatShortDate(subscriptionEndsAt)}` : "Renovação ativa",
+      note: "Na próxima etapa, vamos conectar a cobrança recorrente a este status automaticamente.",
       tone: "success",
       blocked: false,
       showBanner: false,
@@ -362,16 +455,16 @@ function getSubscriptionState(subscription) {
 
   if (billingStatus === "trialing" && !trialExpired) {
     const trialSummary =
-      daysLeft > 1 ? `Teste gratis com ${daysLeft} dias restantes.` : daysLeft === 1 ? "Teste gratis termina amanha." : "Teste gratis termina hoje.";
+      daysLeft > 1 ? `Teste grátis com ${daysLeft} dias restantes.` : daysLeft === 1 ? "Teste grátis termina amanhã." : "Teste grátis termina hoje.";
     return {
       planName,
       statusCode: "trialing",
       statusLabel: "Trial",
       summary: trialSummary,
-      title: "Teste gratis ativo",
-      description: "Seu estabelecimento pode operar normalmente durante o periodo de teste e depois seguir para a assinatura mensal.",
-      window: trialEndsAt ? `Ate ${formatShortDate(trialEndsAt)}` : "14 dias de teste",
-      note: "Use este periodo para cadastrar equipe, servicos e validar o fluxo de agendamento com clientes reais.",
+      title: "Teste grátis ativo",
+      description: "Seu estabelecimento pode operar normalmente durante o período de teste e depois seguir para a assinatura mensal.",
+      window: trialEndsAt ? `Até ${formatShortDate(trialEndsAt)}` : "14 dias de teste",
+      note: "Use este período para cadastrar equipe, serviços e validar o fluxo de agendamento com clientes reais.",
       tone: daysLeft !== null && daysLeft <= 3 ? "warn" : "success",
       blocked: false,
       showBanner: false,
@@ -385,9 +478,9 @@ function getSubscriptionState(subscription) {
       statusLabel: "Pendente",
       summary: "Pagamento pendente. Regularize para manter o acesso completo.",
       title: "Pagamento pendente",
-      description: "O painel continua visivel, mas as edicoes e novos agendamentos ficam bloqueados ate a regularizacao da assinatura.",
-      window: "Cobranca pendente",
-      note: "Quando o pagamento recorrente entrar, essa regularizacao podera acontecer automaticamente.",
+      description: "O painel continua visível, mas as edições e novos agendamentos ficam bloqueados até a regularização da assinatura.",
+      window: "Cobrança pendente",
+      note: "Quando o pagamento recorrente entrar, essa regularização poderá acontecer automaticamente.",
       tone: "danger",
       blocked: true,
       showBanner: true,
@@ -401,9 +494,9 @@ function getSubscriptionState(subscription) {
       statusLabel: "Cancelada",
       summary: "Assinatura cancelada.",
       title: "Assinatura cancelada",
-      description: "Seu estabelecimento esta em modo de leitura. Reative a assinatura para voltar a editar o painel e receber novos agendamentos.",
-      window: subscriptionEndsAt ? `Encerrada em ${formatShortDate(subscriptionEndsAt)}` : "Sem renovacao",
-      note: "A reativacao da assinatura sera a ponte entre o painel e a cobranca recorrente.",
+      description: "Seu estabelecimento está em modo de leitura. Reative a assinatura para voltar a editar o painel e receber novos agendamentos.",
+      window: subscriptionEndsAt ? `Encerrada em ${formatShortDate(subscriptionEndsAt)}` : "Sem renovação",
+      note: "A reativação da assinatura será a ponte entre o painel e a cobrança recorrente.",
       tone: "danger",
       blocked: true,
       showBanner: true,
@@ -414,11 +507,11 @@ function getSubscriptionState(subscription) {
     planName,
     statusCode: "expired",
     statusLabel: "Expirada",
-    summary: "Teste gratis encerrado.",
-    title: "Teste gratis encerrado",
-    description: "O painel continua acessivel para consulta, mas novas edicoes e novos agendamentos ficam bloqueados ate a ativacao da assinatura.",
+    summary: "Teste grátis encerrado.",
+    title: "Teste grátis encerrado",
+    description: "O painel continua acessível para consulta, mas novas edições e novos agendamentos ficam bloqueados até a ativação da assinatura.",
     window: trialEndsAt ? `Encerrado em ${formatShortDate(trialEndsAt)}` : "Trial encerrado",
-    note: "Este e o ponto ideal para ligar o status da conta ao pagamento recorrente.",
+    note: "Este é o ponto ideal para ligar o status da conta ao pagamento recorrente.",
     tone: "danger",
     blocked: true,
     showBanner: true,
@@ -526,20 +619,20 @@ function syncAppointmentComposerState() {
   }
 
   if (missingServices) {
-    els.appointmentSlotSummary.textContent = "Cadastre ao menos um servico para liberar a agenda.";
-    renderSelect(form.startAt, [], "Cadastre um servico");
+    els.appointmentSlotSummary.textContent = "Cadastre ao menos um serviço para liberar a agenda.";
+    renderSelect(form.startAt, [], "Cadastre um serviço");
     return;
   }
 
   if (missingProfessionals) {
-    els.appointmentSlotSummary.textContent = "Cadastre ao menos um profissional para distribuir os horarios.";
+    els.appointmentSlotSummary.textContent = "Cadastre ao menos um profissional para distribuir os horários.";
     renderSelect(form.startAt, [], "Cadastre um profissional");
     return;
   }
 
   if (!form.serviceId.value || !form.professionalId.value || !form.date.value) {
-    els.appointmentSlotSummary.textContent = "Escolha servico, profissional e data para listar os horarios livres.";
-    renderSelect(form.startAt, [], "Escolha um horario");
+    els.appointmentSlotSummary.textContent = "Escolha serviço, profissional e data para listar os horários livres.";
+    renderSelect(form.startAt, [], "Escolha um horário");
   }
 }
 
@@ -626,7 +719,7 @@ function renderBillingPlans(subscriptionState) {
       false,
     );
   } catch (error) {
-    setFeedback(els.adminFeedback, error.message || "Nao foi possivel preparar a cobranca.", true);
+    setFeedback(els.adminFeedback, error.message || "Não foi possível preparar a cobrança.", true);
   }
 }
 
@@ -655,7 +748,7 @@ function renderBillingPlans(subscriptionState) {
     renderBillingState();
     setFeedback(els.adminFeedback, data.message || "Dados de cobranca atualizados.", false);
   } catch (error) {
-    setFeedback(els.adminFeedback, error.message || "Nao foi possivel atualizar os dados de cobranca.", true);
+    setFeedback(els.adminFeedback, error.message || "Não foi possível atualizar os dados de cobrança.", true);
   }
 }
 
@@ -766,7 +859,7 @@ async function saveCompany(event) {
     setFeedback(els.adminFeedback, "Dados do estabelecimento atualizados com sucesso.", false);
     setFeedback(els.copyFeedback, "Cadastro salvo. O link de agendamento ja pode ser compartilhado com seus clientes.", false);
   } catch (error) {
-    setFeedback(els.adminFeedback, error.message || "Nao foi possivel salvar o estabelecimento.", true);
+    setFeedback(els.adminFeedback, error.message || "Não foi possível salvar o estabelecimento.", true);
   }
 }
 
@@ -857,9 +950,9 @@ async function saveService(event) {
     });
     resetServiceForm();
     await loadAdminData();
-    setFeedback(els.adminFeedback, id ? "Servico atualizado com sucesso." : "Servico criado com sucesso.", false);
+    setFeedback(els.adminFeedback, id ? "Serviço atualizado com sucesso." : "Serviço criado com sucesso.", false);
   } catch (error) {
-    setFeedback(els.adminFeedback, error.message || "Nao foi possivel salvar o servico.", true);
+    setFeedback(els.adminFeedback, error.message || "Não foi possível salvar o serviço.", true);
   }
 }
 
@@ -873,8 +966,8 @@ function renderServices() {
   if (!state.services.length) {
     renderEmptyState(
       els.servicesList,
-      "Nenhum servico cadastrado.",
-      "Cadastre os primeiros servicos para liberar a agenda publica e vincular a equipe aos atendimentos."
+      "Nenhum serviço cadastrado.",
+      "Cadastre os primeiros serviços para liberar a agenda pública e vincular a equipe aos atendimentos."
     );
     return;
   }
@@ -885,7 +978,7 @@ function renderServices() {
       <div class="list-card-main">
         <div class="list-card-head">
           <div>
-            <p class="card-kicker">Servico</p>
+            <p class="card-kicker">Serviço</p>
             <h4>${service.name}</h4>
           </div>
           <span class="price-pill">${service.price ? currency(service.price) : "Sob consulta"}</span>
@@ -894,7 +987,7 @@ function renderServices() {
           <span class="meta-pill">${service.category}</span>
           <span class="meta-pill">${service.duration} min</span>
         </p>
-        <small>${service.description || "Sem descricao."}</small>
+        <small>${service.description || "Sem descrição."}</small>
       </div>
       <div class="card-actions">
         <button type="button" class="ghost-btn" data-action="edit">Editar</button>
@@ -903,13 +996,13 @@ function renderServices() {
     `;
     article.querySelector('[data-action="edit"]').addEventListener("click", () => fillServiceForm(service));
     article.querySelector('[data-action="delete"]').addEventListener("click", async () => {
-      if (!window.confirm(`Excluir o servico "${service.name}"?`)) return;
+      if (!window.confirm(`Excluir o serviço "${service.name}"?`)) return;
       try {
         await api(`/services/${service.id}`, { method: "DELETE" });
         await loadAdminData();
-        setFeedback(els.adminFeedback, "Servico excluido com sucesso.", false);
+        setFeedback(els.adminFeedback, "Serviço excluído com sucesso.", false);
       } catch (error) {
-        setFeedback(els.adminFeedback, error.message || "Nao foi possivel excluir o servico.", true);
+        setFeedback(els.adminFeedback, error.message || "Não foi possível excluir o serviço.", true);
       }
     });
     els.servicesList.appendChild(article);
@@ -950,7 +1043,7 @@ async function saveProfessional(event) {
     await loadAdminData();
     setFeedback(els.adminFeedback, id ? "Profissional atualizado com sucesso." : "Profissional criado com sucesso.", false);
   } catch (error) {
-    setFeedback(els.adminFeedback, error.message || "Nao foi possivel salvar o profissional.", true);
+    setFeedback(els.adminFeedback, error.message || "Não foi possível salvar o profissional.", true);
   }
 }
 
@@ -959,8 +1052,8 @@ function renderProfessionalServiceCheckboxes(selectedIds = []) {
   if (!state.services.length) {
     els.professionalServices.innerHTML = `
       <div class="empty-box">
-        <strong>Cadastre os servicos primeiro.</strong>
-        <p>Assim que houver servicos, voce podera marcar quais atendimentos cada profissional realiza.</p>
+        <strong>Cadastre os serviços primeiro.</strong>
+        <p>Assim que houver serviços, você poderá marcar quais atendimentos cada profissional realiza.</p>
       </div>
     `;
     return;
@@ -992,7 +1085,7 @@ function renderProfessionals() {
     renderEmptyState(
       els.professionalsList,
       "Nenhum profissional cadastrado.",
-      "Adicione a equipe para liberar a escolha de profissional no link publico e organizar a disponibilidade."
+      "Adicione a equipe para liberar a escolha de profissional no link público e organizar a disponibilidade."
     );
     return;
   }
@@ -1008,10 +1101,10 @@ function renderProfessionals() {
               <p class="card-kicker">Profissional</p>
               <h4>${professional.name}</h4>
             </div>
-            <span class="meta-pill">${professional.serviceNames.length} servico(s)</span>
+            <span class="meta-pill">${professional.serviceNames.length} serviço(s)</span>
           </div>
           <p>${professional.specialty}</p>
-          <small>${professional.serviceNames.join(" • ") || "Nenhum servico associado"}</small>
+          <small>${professional.serviceNames.join(" • ") || "Nenhum serviço associado"}</small>
         </div>
       </div>
       <div class="card-actions">
@@ -1025,9 +1118,9 @@ function renderProfessionals() {
       try {
         await api(`/professionals/${professional.id}`, { method: "DELETE" });
         await loadAdminData();
-        setFeedback(els.adminFeedback, "Profissional excluido com sucesso.", false);
+        setFeedback(els.adminFeedback, "Profissional excluído com sucesso.", false);
       } catch (error) {
-        setFeedback(els.adminFeedback, error.message || "Nao foi possivel excluir o profissional.", true);
+        setFeedback(els.adminFeedback, error.message || "Não foi possível excluir o profissional.", true);
       }
     });
     els.professionalsList.appendChild(article);
@@ -1071,7 +1164,7 @@ async function saveClient(event) {
     await loadAdminData();
     setFeedback(els.adminFeedback, id ? "Cliente atualizado com sucesso." : "Cliente criado com sucesso.", false);
   } catch (error) {
-    setFeedback(els.adminFeedback, error.message || "Nao foi possivel salvar o cliente.", true);
+    setFeedback(els.adminFeedback, error.message || "Não foi possível salvar o cliente.", true);
   }
 }
 
@@ -1086,7 +1179,7 @@ function renderClients() {
     renderEmptyState(
       els.clientsList,
       "Nenhum cliente salvo.",
-      "Os primeiros clientes aparecem aqui quando voce cadastrar manualmente ou receber agendamentos pelo link publico."
+      "Os primeiros clientes aparecem aqui quando você cadastrar manualmente ou receber agendamentos pelo link público."
     );
     return;
   }
@@ -1103,7 +1196,7 @@ function renderClients() {
           <span class="meta-pill">${client.appointmentsCount} agendamento(s)</span>
         </div>
         <p>${client.phone || "Sem telefone"} • ${client.email || "Sem e-mail"}</p>
-        <small>${client.appointmentsCount} agendamento(s) • ultimo: ${client.lastServiceAt ? formatDateTime(client.lastServiceAt) : "nunca"}</small>
+        <small>${client.appointmentsCount} agendamento(s) • último: ${client.lastServiceAt ? formatDateTime(client.lastServiceAt) : "nunca"}</small>
       </div>
       <div class="card-actions">
         <button type="button" class="ghost-btn" data-action="edit">Editar</button>
@@ -1116,9 +1209,9 @@ function renderClients() {
       try {
         await api(`/clients/${client.id}`, { method: "DELETE" });
         await loadAdminData();
-        setFeedback(els.adminFeedback, "Cliente excluido com sucesso.", false);
+        setFeedback(els.adminFeedback, "Cliente excluído com sucesso.", false);
       } catch (error) {
-        setFeedback(els.adminFeedback, error.message || "Nao foi possivel excluir o cliente.", true);
+        setFeedback(els.adminFeedback, error.message || "Não foi possível excluir o cliente.", true);
       }
     });
     els.clientsList.appendChild(article);
@@ -1144,16 +1237,16 @@ function renderGoogleIntegration() {
   };
   const oauthUsable = Boolean(state.googleIntegration?.oauthUsable);
   const oauthCompleted = Boolean(integration.oauthCompleted);
-  els.googleCalendarStatus.textContent = integration.connected ? "Conectado" : "Nao conectado";
+  els.googleCalendarStatus.textContent = integration.connected ? "Conectado" : "Não conectado";
   const syncLabel = integration.lastSyncAt
-    ? ` Ultima atualizacao: ${formatTimestamp(integration.lastSyncAt)}.`
+    ? ` Última atualização: ${formatTimestamp(integration.lastSyncAt)}.`
     : "";
   const oauthStateLabel = oauthCompleted
     ? "Sincronizacao ativa."
     : integration.connected && oauthUsable
-      ? "Autorizacao pendente."
-      : integration.connected
-        ? "Conexao salva."
+        ? "Autorização pendente."
+        : integration.connected
+        ? "Conexão salva."
         : "Nenhuma agenda configurada ainda.";
   els.googleCalendarSummary.textContent = integration.connected
     ? `${integration.accountEmail || "Conta principal"} conectada.${syncLabel} ${oauthStateLabel}`.trim()
@@ -1169,7 +1262,7 @@ async function saveGoogleIntegration(event) {
   try {
     const form = els.googleCalendarForm.elements;
     if (!String(form.accountEmail.value || "").trim()) {
-      setFeedback(els.googleCalendarFeedback, "Informe o e-mail da conta Google para salvar a integracao.", true);
+      setFeedback(els.googleCalendarFeedback, "Informe o e-mail da conta Google para salvar a integração.", true);
       return;
     }
     const data = await api("/integrations/google/connect", {
@@ -1185,15 +1278,15 @@ async function saveGoogleIntegration(event) {
       googleCalendar: data.googleCalendar,
     };
     renderGoogleIntegration();
-    setFeedback(els.googleCalendarFeedback, "Conexao com Google Agenda salva com sucesso.", false);
-    setFeedback(els.adminFeedback, "Integracao do Google Agenda atualizada.", false);
+    setFeedback(els.googleCalendarFeedback, "Conexão com Google Agenda salva com sucesso.", false);
+    setFeedback(els.adminFeedback, "Integração do Google Agenda atualizada.", false);
   } catch (error) {
-    setFeedback(els.googleCalendarFeedback, error.message || "Nao foi possivel salvar a integracao do Google Agenda.", true);
+    setFeedback(els.googleCalendarFeedback, error.message || "Não foi possível salvar a integração do Google Agenda.", true);
   }
 }
 
 async function disconnectGoogleIntegration() {
-  if (!window.confirm("Desconectar a agenda Google deste salao?")) return;
+  if (!window.confirm("Desconectar a agenda Google deste salão?")) return;
   try {
     const data = await api("/integrations/google", { method: "DELETE" });
     state.googleIntegration = {
@@ -1202,9 +1295,9 @@ async function disconnectGoogleIntegration() {
     };
     renderGoogleIntegration();
     clearFeedback(els.googleCalendarFeedback);
-    setFeedback(els.adminFeedback, "Integracao do Google Agenda desconectada.", false);
+    setFeedback(els.adminFeedback, "Integração do Google Agenda desconectada.", false);
   } catch (error) {
-    setFeedback(els.googleCalendarFeedback, error.message || "Nao foi possivel desconectar a agenda Google.", true);
+    setFeedback(els.googleCalendarFeedback, error.message || "Não foi possível desconectar a agenda Google.", true);
   }
 }
 
@@ -1214,7 +1307,7 @@ async function startGoogleOAuth() {
     if (!Boolean(state.googleIntegration?.oauthUsable)) {
       setFeedback(
         els.googleCalendarFeedback,
-        state.googleIntegration?.oauthMessage || "OAuth do Google ainda nao esta pronto para uso real neste ambiente.",
+        state.googleIntegration?.oauthMessage || "OAuth do Google ainda não está pronto para uso real neste ambiente.",
         true,
       );
       return;
@@ -1236,9 +1329,9 @@ async function startGoogleOAuth() {
     };
     renderGoogleIntegration();
     window.open(data.authUrl, "_blank", "noopener,noreferrer");
-    setFeedback(els.googleCalendarFeedback, "Janela de autorizacao aberta. Conclua o login no Google e volte ao painel.", false);
+    setFeedback(els.googleCalendarFeedback, "Janela de autorização aberta. Conclua o login no Google e volte ao painel.", false);
   } catch (error) {
-    setFeedback(els.googleCalendarFeedback, error.message || "Nao foi possivel iniciar a autorizacao do Google.", true);
+    setFeedback(els.googleCalendarFeedback, error.message || "Não foi possível iniciar a autorização do Google.", true);
   }
 }
 
@@ -1247,7 +1340,7 @@ function populateAppointmentSelects() {
     value: item.id,
     label: `${item.name} • ${item.phone || item.email || "sem contato"}`
   }));
-  renderSelect(els.appointmentForm.elements.serviceId, state.services, "Selecione um servico", (item) => ({
+  renderSelect(els.appointmentForm.elements.serviceId, state.services, "Selecione um serviço", (item) => ({
     value: item.id,
     label: `${item.name} • ${item.duration} min`
   }));
@@ -1272,20 +1365,20 @@ async function loadAdminAvailability() {
   const date = form.date.value;
   if (!serviceId || !professionalId || !date) {
     renderSelect(form.startAt, [], "Selecione os filtros");
-    els.appointmentSlotSummary.textContent = "Escolha servico, profissional e data para listar os horarios livres.";
+    els.appointmentSlotSummary.textContent = "Escolha serviço, profissional e data para listar os horários livres.";
     return;
   }
   try {
     const data = await api(`/public/availability?serviceId=${serviceId}&professionalId=${professionalId}&date=${date}`);
-    renderSlotOptions(form.startAt, data.slots, "Sem horarios livres");
+    renderSlotOptions(form.startAt, data.slots, "Sem horários livres");
     const currentAppointment = state.appointments.find((item) => item.id === state.editing.appointmentId);
     if (currentAppointment?.startAt?.startsWith(date) && currentAppointment.professionalId === professionalId && currentAppointment.serviceId === serviceId) {
       ensureCurrentSlotOption(form.startAt, currentAppointment.startAt);
     }
-    els.appointmentSlotSummary.textContent = data.slots.length ? `${data.slots.length} horario(s) livres encontrados.` : "Nenhum horario livre para este filtro.";
+    els.appointmentSlotSummary.textContent = data.slots.length ? `${data.slots.length} horário(s) livres encontrados.` : "Nenhum horário livre para este filtro.";
   } catch (error) {
-    renderSelect(form.startAt, [], "Nao foi possivel carregar");
-    els.appointmentSlotSummary.textContent = error.message || "Nao foi possivel carregar a disponibilidade.";
+    renderSelect(form.startAt, [], "Não foi possível carregar");
+    els.appointmentSlotSummary.textContent = error.message || "Não foi possível carregar a disponibilidade.";
   }
 }
 
@@ -1293,7 +1386,7 @@ async function saveAppointment(event) {
   event.preventDefault();
   const form = els.appointmentForm.elements;
   if (!form.startAt.value) {
-    els.appointmentSlotSummary.textContent = "Selecione um horario valido.";
+    els.appointmentSlotSummary.textContent = "Selecione um horário válido.";
     return;
   }
   try {
@@ -1313,8 +1406,8 @@ async function saveAppointment(event) {
     await loadAdminData();
     setFeedback(els.adminFeedback, id ? "Agendamento atualizado com sucesso." : "Agendamento criado com sucesso.", false);
   } catch (error) {
-    setFeedback(els.adminFeedback, error.message || "Nao foi possivel salvar o agendamento.", true);
-    els.appointmentSlotSummary.textContent = error.message || "Nao foi possivel salvar o agendamento.";
+    setFeedback(els.adminFeedback, error.message || "Não foi possível salvar o agendamento.", true);
+    els.appointmentSlotSummary.textContent = error.message || "Não foi possível salvar o agendamento.";
   }
 }
 
@@ -1324,8 +1417,8 @@ function resetAppointmentForm() {
   state.editing.appointmentId = "";
   els.appointmentForm.elements.date.value = formatDateInput(new Date());
   populateAppointmentSelects();
-  renderSelect(els.appointmentForm.elements.startAt, [], "Escolha um horario");
-  els.appointmentSlotSummary.textContent = "Escolha servico, profissional e data para listar os horarios livres.";
+  renderSelect(els.appointmentForm.elements.startAt, [], "Escolha um horário");
+  els.appointmentSlotSummary.textContent = "Escolha serviço, profissional e data para listar os horários livres.";
 }
 
 async function loadAppointments() {
@@ -1381,7 +1474,7 @@ function renderAppointments() {
           <span class="meta-pill">${appointment.serviceDuration} min</span>
           <span class="sync-pill ${googleSyncTone}">${googleSyncLabel}</span>
         </div>
-        <p class="appointment-note">${appointment.notes || "Sem observacoes."}</p>
+        <p class="appointment-note">${appointment.notes || "Sem observações."}</p>
       </div>
       <div class="card-actions appointment-actions">
         <button type="button" class="ghost-btn" data-action="edit">Reagendar</button>
@@ -1415,7 +1508,7 @@ async function updateAppointmentStatus(appointment, status, successMessage, requ
     await loadAdminData();
     setFeedback(els.adminFeedback, successMessage, false);
   } catch (error) {
-    setFeedback(els.adminFeedback, error.message || "Nao foi possivel atualizar o status do agendamento.", true);
+    setFeedback(els.adminFeedback, error.message || "Não foi possível atualizar o status do agendamento.", true);
   }
 }
 
@@ -1473,7 +1566,7 @@ function ensureCurrentSlotOption(select, startAt) {
   if ([...select.options].some((option) => option.value === startAt)) return;
   const option = document.createElement("option");
   option.value = startAt;
-  option.textContent = `${startAt.slice(11, 16)} - horario atual`;
+  option.textContent = `${startAt.slice(11, 16)} - horário atual`;
   select.appendChild(option);
 }
 
@@ -1505,7 +1598,7 @@ function formatStatusLabel(status) {
   return {
     pendente: "Pendente",
     confirmado: "Confirmado",
-    concluido: "Concluido",
+    concluido: "Concluído",
     cancelado: "Cancelado",
     faltou: "Faltou"
   }[status] || status;
@@ -1514,10 +1607,10 @@ function formatStatusLabel(status) {
 function formatGoogleSyncSummary(googleSync) {
   if (!googleSync) return "Google Agenda: sem configuracao.";
   const labels = {
-    not_configured: "Google Agenda: nao configurado.",
+    not_configured: "Google Agenda: não configurado.",
     pending_oauth: "Google Agenda: aguardando autorizacao OAuth.",
     pending_create: "Google Agenda: criacao pendente.",
-    pending_update: "Google Agenda: atualizacao pendente.",
+    pending_update: "Google Agenda: atualização pendente.",
     pending_cancel: "Google Agenda: cancelamento pendente.",
     synced: "Google Agenda: sincronizado.",
     sync_error: `Google Agenda: erro ${googleSync.error || "na sincronizacao"}.`

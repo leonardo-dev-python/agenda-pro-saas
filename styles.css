@@ -1234,8 +1234,19 @@ ol {
   align-items: start;
 }
 
+.owner-overview-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
 .dashboard-grid {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.owner-dashboard-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .owner-primary-grid {
@@ -1314,6 +1325,138 @@ ol {
 #google-panel .hint-card p,
 #clients-panel .list-card p {
   line-height: 1.55;
+}
+
+.owner-summary-card,
+.owner-guidance-card {
+  min-height: 100%;
+}
+
+.owner-summary-card {
+  background:
+    radial-gradient(circle at top right, rgba(156,117,87,0.12), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,0.94), rgba(247,244,239,0.82));
+}
+
+.owner-setup-progress-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.66);
+  border: 1px solid rgba(35, 42, 45, 0.08);
+}
+
+.owner-setup-progress-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.owner-setup-progress-copy strong {
+  font-size: 1.06rem;
+  letter-spacing: -0.03em;
+}
+
+.owner-setup-progress-copy p {
+  color: var(--muted);
+}
+
+.owner-checklist {
+  display: grid;
+  gap: 12px;
+}
+
+.owner-check-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.92), rgba(247,243,238,0.78));
+  border: 1px solid rgba(35, 42, 45, 0.08);
+}
+
+.owner-check-item.is-complete {
+  border-color: rgba(45, 124, 91, 0.18);
+  background:
+    radial-gradient(circle at top right, rgba(45,124,91,0.08), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(243,249,246,0.84));
+}
+
+.owner-check-item.is-optional {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.9), rgba(241,247,245,0.8));
+}
+
+.owner-check-badge {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(34, 51, 54, 0.08);
+  color: var(--primary);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.owner-check-item.is-complete .owner-check-badge {
+  background: rgba(45, 124, 91, 0.14);
+  color: var(--success);
+}
+
+.owner-check-copy {
+  display: grid;
+  gap: 5px;
+}
+
+.owner-check-copy strong {
+  font-size: 0.98rem;
+  letter-spacing: -0.02em;
+}
+
+.owner-check-copy p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.owner-guidance-links {
+  display: grid;
+  gap: 10px;
+}
+
+.owner-guidance-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 15px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(35, 42, 45, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.9), rgba(246,243,238,0.78));
+  font-weight: 700;
+  color: var(--primary);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.owner-guidance-link::after {
+  content: "→";
+  color: var(--secondary);
+  font-size: 1rem;
+}
+
+.owner-guidance-link:hover {
+  transform: translateY(-2px);
+  border-color: rgba(34, 51, 54, 0.16);
+  box-shadow: 0 16px 30px rgba(16, 24, 28, 0.06);
 }
 
 #google-panel {
@@ -3621,6 +3764,7 @@ textarea:focus {
   .hero,
   .public-grid,
   .admin-grid,
+  .owner-overview-grid,
   .owner-primary-grid,
   .segment-grid,
   .feature-grid,
@@ -3798,6 +3942,7 @@ textarea:focus {
   .field-grid,
   .checkbox-grid,
   .dashboard-grid,
+  .owner-overview-grid,
   .owner-primary-grid,
   .owner-secondary-grid,
   .schedule-grid {
@@ -3815,6 +3960,11 @@ textarea:focus {
 
   .toolbar {
     justify-content: flex-start;
+  }
+
+  .owner-setup-progress-row {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .hero-copy,

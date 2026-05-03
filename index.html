@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agenda Pro | Painel do proprietario</title>
+  <title>Agenda Pro | Painel do proprietário</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -19,11 +19,10 @@
         <img class="brand-logo" src="assets/agenda-pro-logo.png" alt="Agenda Pro">
       </a>
       <div class="owner-header-copy">
-        <h1>Painel do Proprietario</h1>
+        <h1>Painel do Proprietário</h1>
       </div>
       <div class="header-actions">
-        <a href="/cliente" class="ghost-btn">Pagina do cliente</a>
-        <a href="/assinatura" class="ghost-btn">Minha assinatura</a>
+        <a href="/cliente" class="ghost-btn">Página do cliente</a>
       </div>
     </header>
 
@@ -31,8 +30,8 @@
       <section id="admin-login" class="admin-area stack">
         <div class="section-head owner-section-head">
           <div>
-            <h2>Operacao do dia</h2>
-            <p class="section-copy">Gerencie agenda, equipe, servicos e clientes em um fluxo direto e operacional.</p>
+            <h2>Operação do painel</h2>
+            <p class="section-copy">Organize agenda, equipe, serviços e clientes em um fluxo claro para a rotina do estabelecimento.</p>
           </div>
           <div id="session-status" class="status-pill">offline</div>
         </div>
@@ -66,46 +65,78 @@
             <a href="#agenda-panel" class="owner-nav-link">Agenda</a>
             <a href="#client-link-panel" class="owner-nav-link">Link do cliente</a>
             <a href="#team-panel" class="owner-nav-link">Equipe</a>
-            <a href="#services-panel" class="owner-nav-link">Servicos</a>
+            <a href="#services-panel" class="owner-nav-link">Serviços</a>
             <a href="#clients-panel" class="owner-nav-link">Clientes</a>
             <a href="#google-panel" class="owner-nav-link">Google Agenda</a>
-            <a href="#salon-panel" class="owner-nav-link">Salao</a>
+            <a href="#salon-panel" class="owner-nav-link">Salão</a>
           </nav>
 
           <div class="owner-workspace">
             <section class="owner-primary-grid">
-              <section id="resumo-panel" class="dashboard-grid">
-                <article class="panel stat-card stat-card-identity"><span>Salao</span><strong id="admin-company-name">-</strong></article>
-              <article class="panel stat-card"><span>Profissionais</span><strong id="admin-stats-professionals">0</strong></article>
-              <article class="panel stat-card"><span>Servicos</span><strong id="admin-stats-services">0</strong></article>
-              <article class="panel stat-card"><span>Agendamentos hoje</span><strong id="admin-stats-today">0</strong></article>
+              <section class="owner-overview-grid">
+                <article id="resumo-panel" class="panel owner-summary-card stack">
+                  <div class="panel-header compact-header">
+                    <p class="eyebrow">Resumo</p>
+                    <h3>Seu painel pronto para operar</h3>
+                    <p id="owner-setup-copy">Complete as etapas principais para publicar o link de agendamento com segurança e começar a atender.</p>
+                  </div>
+                  <div class="owner-setup-progress-row">
+                    <div class="owner-setup-progress-copy">
+                      <strong id="owner-setup-progress">0 de 4 etapas concluídas</strong>
+                      <p class="helper">O objetivo é deixar o salão preparado para receber clientes sem ajustes de última hora.</p>
+                    </div>
+                    <span id="owner-setup-status" class="status-pill">Configuração inicial</span>
+                  </div>
+                  <div id="owner-setup-list" class="owner-checklist"></div>
+                </article>
+
+                <article class="panel owner-guidance-card stack">
+                  <div class="panel-header compact-header">
+                    <p class="eyebrow">Atalhos úteis</p>
+                    <h3>Fluxo recomendado</h3>
+                    <p>Cadastre primeiro os dados do salão, monte seu catálogo, configure a equipe e depois compartilhe o link público.</p>
+                  </div>
+                  <div class="owner-guidance-links">
+                    <a href="#salon-panel" class="owner-guidance-link">Atualizar dados do salão</a>
+                    <a href="#services-panel" class="owner-guidance-link">Montar catálogo de serviços</a>
+                    <a href="#team-panel" class="owner-guidance-link">Configurar equipe</a>
+                    <a href="#client-link-panel" class="owner-guidance-link">Publicar link do cliente</a>
+                  </div>
+                </article>
+              </section>
+
+              <section class="dashboard-grid owner-dashboard-grid" aria-label="Indicadores operacionais">
+                <article class="panel stat-card stat-card-identity"><span>Salão</span><strong id="admin-company-name">-</strong></article>
+                <article class="panel stat-card"><span>Profissionais</span><strong id="admin-stats-professionals">0</strong></article>
+                <article class="panel stat-card"><span>Serviços</span><strong id="admin-stats-services">0</strong></article>
+                <article class="panel stat-card"><span>Agendamentos de hoje</span><strong id="admin-stats-today">0</strong></article>
               </section>
 
               <section id="agenda-panel" class="panel stack agenda-panel-highlight">
                 <div class="panel-header">
                   <h3>Agenda</h3>
-                  <p>Cadastre novos horarios, acompanhe o dia e mantenha a operacao organizada.</p>
+                  <p>Cadastre novos horários, acompanhe o dia e mantenha a operação organizada.</p>
                 </div>
 
                 <form id="appointment-form" class="stack">
                   <input type="hidden" name="id">
                   <div class="field-grid">
                     <label class="field"><span>Cliente</span><select name="clientId" required></select></label>
-                    <label class="field"><span>Servico</span><select name="serviceId" required></select></label>
+                    <label class="field"><span>Serviço</span><select name="serviceId" required></select></label>
                     <label class="field"><span>Profissional</span><select name="professionalId" required></select></label>
                     <label class="field"><span>Status</span>
                       <select name="status">
                         <option value="confirmado">Confirmado</option>
                         <option value="pendente">Pendente</option>
-                        <option value="concluido">Concluido</option>
+                        <option value="concluido">Concluído</option>
                         <option value="cancelado">Cancelado</option>
                       </select>
                     </label>
                     <label class="field"><span>Data</span><input name="date" type="date" required></label>
-                    <label class="field"><span>Horario</span><select name="startAt" required></select></label>
-                    <label class="field field-span-2"><span>Observacoes</span><textarea name="notes" rows="2"></textarea></label>
+                    <label class="field"><span>Horário</span><select name="startAt" required></select></label>
+                    <label class="field field-span-2"><span>Observações</span><textarea name="notes" rows="2"></textarea></label>
                   </div>
-                  <div id="appointment-slot-summary" class="hint-card">Escolha servico, profissional e data para listar os horarios livres.</div>
+                  <div id="appointment-slot-summary" class="hint-card">Escolha serviço, profissional e data para listar os horários livres.</div>
                   <div class="action-row">
                     <button type="submit" class="primary-btn">Salvar agendamento</button>
                     <button id="appointment-reset" type="button" class="ghost-btn">Novo agendamento</button>
@@ -119,7 +150,7 @@
                       <option value="">Todos</option>
                       <option value="confirmado">Confirmado</option>
                       <option value="pendente">Pendente</option>
-                      <option value="concluido">Concluido</option>
+                      <option value="concluido">Concluído</option>
                       <option value="cancelado">Cancelado</option>
                     </select>
                   </label>
@@ -134,13 +165,13 @@
               <section id="client-link-panel" class="panel stack">
                 <div class="panel-header">
                   <h3>Link do cliente</h3>
-                  <p>Compartilhe a pagina de agendamento no WhatsApp, Instagram ou bio do estabelecimento.</p>
+                  <p>Compartilhe a página de agendamento no WhatsApp, Instagram ou bio do estabelecimento.</p>
                 </div>
                 <div class="share-link-box">
                   <input id="client-app-link" type="text" readonly>
                   <div class="action-row">
                     <button id="copy-client-link" type="button" class="primary-btn">Copiar link</button>
-                    <a id="open-client-link" href="/cliente" target="_blank" class="ghost-btn">Abrir link de agendamento</a>
+                    <a id="open-client-link" href="/cliente" target="_blank" class="ghost-btn">Abrir página de agendamento</a>
                   </div>
                   <p id="copy-feedback" class="feedback"></p>
                 </div>
@@ -153,7 +184,7 @@
             <article id="team-panel" class="panel stack">
               <div class="panel-header">
                 <h3>Equipe</h3>
-                <p>Vincule cada profissional apenas aos servicos criados pelo seu proprio salao.</p>
+                <p>Vincule cada profissional apenas aos serviços criados pelo seu próprio salão.</p>
               </div>
               <form id="professional-form" class="stack">
                 <input type="hidden" name="id">
@@ -161,12 +192,12 @@
                   <label class="field"><span>Nome</span><input name="name" type="text" required></label>
                   <label class="field"><span>Especialidade</span><input name="specialty" type="text" required></label>
                   <label class="field"><span>Foto</span><input name="photoUrl" type="url" placeholder="https://..."></label>
-                  <label class="field"><span>Folgas especificas</span><input name="daysOff" type="text" placeholder="2026-05-01, 2026-05-10"></label>
+                  <label class="field"><span>Folgas específicas</span><input name="daysOff" type="text" placeholder="2026-05-01, 2026-05-10"></label>
                   <label class="field field-span-2"><span>Bio</span><textarea name="bio" rows="3"></textarea></label>
                 </div>
 
                 <div class="multi-box">
-                  <p>Servicos deste profissional</p>
+                  <p>Serviços deste profissional</p>
                   <div id="professional-services" class="checkbox-grid"></div>
                 </div>
 
@@ -175,11 +206,11 @@
                   <div class="schedule-head">Atendimento</div>
                   <div class="schedule-head">Pausa</div>
                   <div>Segunda</div><input data-day="1" data-type="working" type="text" placeholder="08:00-18:00"><input data-day="1" data-type="breaks" type="text" placeholder="12:00-13:00">
-                  <div>Terca</div><input data-day="2" data-type="working" type="text" placeholder="08:00-18:00"><input data-day="2" data-type="breaks" type="text" placeholder="12:00-13:00">
+                  <div>Terça</div><input data-day="2" data-type="working" type="text" placeholder="08:00-18:00"><input data-day="2" data-type="breaks" type="text" placeholder="12:00-13:00">
                   <div>Quarta</div><input data-day="3" data-type="working" type="text" placeholder="08:00-18:00"><input data-day="3" data-type="breaks" type="text" placeholder="12:00-13:00">
                   <div>Quinta</div><input data-day="4" data-type="working" type="text" placeholder="08:00-18:00"><input data-day="4" data-type="breaks" type="text" placeholder="12:00-13:00">
                   <div>Sexta</div><input data-day="5" data-type="working" type="text" placeholder="08:00-18:00"><input data-day="5" data-type="breaks" type="text" placeholder="12:00-13:00">
-                  <div>Sabado</div><input data-day="6" data-type="working" type="text" placeholder="08:00-13:00"><input data-day="6" data-type="breaks" type="text" placeholder="">
+                  <div>Sábado</div><input data-day="6" data-type="working" type="text" placeholder="08:00-13:00"><input data-day="6" data-type="breaks" type="text" placeholder="">
                   <div>Domingo</div><input data-day="0" data-type="working" type="text" placeholder=""><input data-day="0" data-type="breaks" type="text" placeholder="">
                 </div>
 
@@ -193,8 +224,8 @@
 
               <article id="services-panel" class="panel stack">
                 <div class="panel-header">
-                  <h3>Servicos</h3>
-                  <p>Monte seu catalogo livremente. O Agenda Pro nao fixa servicos predefinidos para o seu negocio.</p>
+                  <h3>Serviços</h3>
+                  <p>Monte seu catálogo livremente. O Agenda Pro não fixa serviços predefinidos para o seu negócio.</p>
                 </div>
               <form id="service-form" class="stack">
                 <input type="hidden" name="id">
@@ -203,10 +234,10 @@
                   <label class="field"><span>Categoria</span><input name="category" type="text" required></label>
                   <label class="field"><span>Duracao (min)</span><input name="duration" type="number" min="5" step="5" required></label>
                   <label class="field"><span>Preco</span><input name="price" type="number" min="0" step="0.01"></label>
-                  <label class="field field-span-2"><span>Descricao</span><textarea name="description" rows="3"></textarea></label>
+                  <label class="field field-span-2"><span>Descrição</span><textarea name="description" rows="3"></textarea></label>
                 </div>
                 <div class="action-row">
-                  <button type="submit" class="primary-btn">Salvar servico</button>
+                  <button type="submit" class="primary-btn">Salvar serviço</button>
                   <button id="service-reset" type="button" class="ghost-btn">Limpar</button>
                 </div>
               </form>
@@ -216,6 +247,7 @@
             <article id="clients-panel" class="panel stack">
               <div class="panel-header">
                 <h3>Clientes</h3>
+                <p>Centralize telefone, observações e histórico para agilizar retorno, confirmação e atendimento.</p>
               </div>
               <form id="client-form" class="stack">
                 <input type="hidden" name="id">
@@ -223,7 +255,7 @@
                   <label class="field"><span>Nome</span><input name="name" type="text" required></label>
                   <label class="field"><span>Telefone</span><input name="phone" type="tel" required></label>
                   <label class="field"><span>E-mail</span><input name="email" type="email"></label>
-                  <label class="field"><span>Observacoes</span><input name="notes" type="text"></label>
+                  <label class="field"><span>Observações</span><input name="notes" type="text"></label>
                 </div>
                 <div class="action-row">
                   <button type="submit" class="primary-btn">Salvar cliente</button>
@@ -236,9 +268,10 @@
             <article id="google-panel" class="panel stack">
               <div class="panel-header">
                 <h3>Google Agenda</h3>
+                <p>Conecte a agenda do estabelecimento para espelhar compromissos e reduzir trabalho manual.</p>
               </div>
               <div class="hint-card">
-                <strong id="google-calendar-status">Nao conectado</strong>
+                <strong id="google-calendar-status">Não conectado</strong>
                 <p id="google-calendar-summary">Nenhuma agenda configurada ainda.</p>
               </div>
               <form id="google-calendar-form" class="stack">
@@ -247,7 +280,7 @@
                   <label class="field"><span>ID da agenda</span><input name="calendarId" type="text" placeholder="primary"></label>
                 </div>
                 <div class="action-row">
-                  <button type="submit" class="primary-btn">Salvar conexao</button>
+                  <button type="submit" class="primary-btn">Salvar conexão</button>
                   <button id="google-calendar-oauth" type="button" class="ghost-btn">Autorizar no Google</button>
                   <button id="google-calendar-disconnect" type="button" class="ghost-btn danger">Desconectar</button>
                 </div>
@@ -257,13 +290,14 @@
 
             <article id="salon-panel" class="panel stack">
               <div class="panel-header">
-                <h3>Dados do salao</h3>
+                <h3>Dados do salão</h3>
+                <p>Defina identidade, canais de contato e dias sem atendimento para refletir a operação real da unidade.</p>
               </div>
               <form id="company-form" class="stack">
                 <div class="field-grid">
                   <label class="field"><span>Nome da empresa</span><input name="name" type="text" required></label>
                   <label class="field"><span>Telefone</span><input name="phone" type="tel" required></label>
-                  <label class="field field-span-2"><span>Endereco</span><input name="address" type="text" required></label>
+                  <label class="field field-span-2"><span>Endereço</span><input name="address" type="text" required></label>
                   <label class="field"><span>Logo ou foto de perfil</span><input name="logoUrl" type="url" placeholder="https://..."></label>
                   <label class="field"><span>Instagram</span><input name="instagram" type="text"></label>
                   <label class="field"><span>Facebook</span><input name="facebook" type="text"></label>
@@ -276,7 +310,7 @@
                     <div class="checkbox-grid weekend-grid">
                       <label class="check-row">
                         <input name="openOnSaturday" type="checkbox">
-                        <span>A unidade atende no sabado</span>
+                        <span>A unidade atende no sábado</span>
                       </label>
                       <label class="check-row">
                         <input name="openOnSunday" type="checkbox">
@@ -293,9 +327,9 @@
                   </div>
                   <input name="holidays" type="hidden">
                   <div class="calendar-toolbar">
-                    <button id="holiday-prev-month" type="button" class="ghost-btn">Mes anterior</button>
+                    <button id="holiday-prev-month" type="button" class="ghost-btn">Mês anterior</button>
                     <strong id="holiday-month-label"></strong>
-                    <button id="holiday-next-month" type="button" class="ghost-btn">Proximo mes</button>
+                    <button id="holiday-next-month" type="button" class="ghost-btn">Próximo mês</button>
                   </div>
                   <div class="calendar-weekdays">
                     <span>Dom</span>

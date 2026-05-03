@@ -7,6 +7,8 @@ const textBindings = {
   supportWhatsAppLabel: siteMeta.supportWhatsAppLabel || "",
   legalNotice: siteMeta.legalNotice || "",
   brandName: siteMeta.brandName || "Agenda Pro",
+  operatorName: siteMeta.operatorName || "Agenda Pro",
+  operatorSummary: siteMeta.operatorSummary || "",
 };
 
 Object.entries(textBindings).forEach(([key, value]) => {
