@@ -46,6 +46,11 @@ const els = {
   ownerSetupProgress: document.getElementById("owner-setup-progress"),
   ownerSetupStatus: document.getElementById("owner-setup-status"),
   ownerSetupList: document.getElementById("owner-setup-list"),
+  ownerNextStepTitle: document.getElementById("owner-next-step-title"),
+  ownerNextStepCopy: document.getElementById("owner-next-step-copy"),
+  ownerNextStepBadge: document.getElementById("owner-next-step-badge"),
+  ownerNextStepHelper: document.getElementById("owner-next-step-helper"),
+  ownerNextStepLink: document.getElementById("owner-next-step-link"),
   adminPlanName: document.getElementById("admin-plan-name"),
   adminPlanCopy: document.getElementById("admin-plan-copy"),
   billingStatusTitle: document.getElementById("billing-status-title"),
@@ -387,6 +392,98 @@ function renderOwnerSetup(stats) {
       `,
     );
   }
+
+  renderOwnerNextStep({
+    hasSalonBase,
+    hasServices,
+    hasProfessionals,
+    canPublishLink,
+    googleConnected,
+    clientsCount: state.clients.length,
+    todayAppointments: stats.today || 0,
+  });
+}
+
+function renderOwnerNextStep(context) {
+  if (
+    !els.ownerNextStepTitle ||
+    !els.ownerNextStepCopy ||
+    !els.ownerNextStepBadge ||
+    !els.ownerNextStepHelper ||
+    !els.ownerNextStepLink
+  ) {
+    return;
+  }
+
+  const nextStep = !context.hasSalonBase
+    ? {
+        title: "Preencha os dados do salão",
+        copy: "Nome, telefone e endereço são a base do painel e ajudam a organizar a operação com mais segurança.",
+        badge: "Etapa 1",
+        helper: "Essa configuração também melhora a apresentação do negócio no ambiente interno.",
+        href: "#salon-panel",
+        action: "Ir para dados do salão",
+      }
+    : !context.hasServices
+      ? {
+          title: "Monte seu catálogo de serviços",
+          copy: "Cadastre os serviços reais do estabelecimento com duração e, se quiser, preço e descrição.",
+          badge: "Etapa 2",
+          helper: "Sem o catálogo, a agenda e o link público não conseguem refletir a operação do salão.",
+          href: "#services-panel",
+          action: "Cadastrar serviços",
+        }
+      : !context.hasProfessionals
+        ? {
+            title: "Configure a equipe",
+            copy: "Adicione os profissionais e vincule o que cada um realiza para liberar a escolha correta no agendamento.",
+            badge: "Etapa 3",
+            helper: "Essa etapa evita confusão no atendimento e melhora a distribuição dos horários.",
+            href: "#team-panel",
+            action: "Configurar equipe",
+          }
+        : !context.canPublishLink
+          ? {
+              title: "Finalize o link público",
+              copy: "O sistema já está quase pronto. Revise equipe e serviços para liberar a divulgação do link ao cliente final.",
+              badge: "Etapa 4",
+              helper: "Assim que o vínculo entre catálogo e equipe estiver consistente, o link pode ser compartilhado com segurança.",
+              href: "#client-link-panel",
+              action: "Revisar link do cliente",
+            }
+          : !context.clientsCount
+            ? {
+                title: "Cadastre o primeiro cliente ou publique o link",
+                copy: "Você já pode operar. Agora vale cadastrar um cliente manualmente ou começar a receber agendamentos pelo link público.",
+                badge: "Painel pronto",
+                helper: "Esse é o melhor momento para testar a experiência completa com um atendimento real.",
+                href: "#client-link-panel",
+                action: "Abrir link do cliente",
+              }
+            : !context.googleConnected
+              ? {
+                  title: "Conecte o Google Agenda",
+                  copy: "Opcionalmente, sincronize a agenda externa para reduzir retrabalho e evitar dependência de atualização manual.",
+                  badge: "Etapa opcional",
+                  helper: "A operação já pode acontecer sem isso, mas a integração costuma economizar tempo no dia a dia.",
+                  href: "#google-panel",
+                  action: "Configurar Google Agenda",
+                }
+              : {
+                  title: "Painel pronto para operar",
+                  copy: `A estrutura principal já está configurada. Hoje você tem ${context.todayAppointments} agendamento(s) para acompanhar e o link do cliente já pode ser divulgado.`,
+                  badge: "Operação ativa",
+                  helper: "Daqui para frente, o foco é atender, confirmar horários e manter equipe, clientes e serviços atualizados.",
+                  href: "#agenda-panel",
+                  action: "Ir para agenda",
+                };
+
+  els.ownerNextStepTitle.textContent = nextStep.title;
+  els.ownerNextStepCopy.textContent = nextStep.copy;
+  els.ownerNextStepBadge.textContent = nextStep.badge;
+  els.ownerNextStepHelper.textContent = nextStep.helper;
+  els.ownerNextStepLink.textContent = nextStep.action;
+  els.ownerNextStepLink.setAttribute("href", nextStep.href);
 }
 
 function renderSubscriptionSummary() {

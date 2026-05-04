@@ -1328,7 +1328,8 @@ ol {
 }
 
 .owner-summary-card,
-.owner-guidance-card {
+.owner-guidance-card,
+.owner-next-step-panel {
   min-height: 100%;
 }
 
@@ -1430,6 +1431,26 @@ ol {
 .owner-guidance-links {
   display: grid;
   gap: 10px;
+}
+
+.owner-next-step-panel {
+  background:
+    radial-gradient(circle at top right, rgba(45,124,91,0.08), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,0.94), rgba(244,249,246,0.82));
+}
+
+.owner-next-step-meta {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.66);
+  border: 1px solid rgba(35, 42, 45, 0.08);
+}
+
+.owner-next-step-link {
+  width: 100%;
+  justify-content: center;
 }
 
 .owner-guidance-link {
