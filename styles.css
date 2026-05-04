@@ -247,7 +247,7 @@ ol {
 
 .owner-header {
   display: grid;
-  grid-template-columns: minmax(94px, 120px) 1fr auto;
+  grid-template-columns: minmax(140px, 180px) 1fr auto;
   align-items: center;
   gap: 18px;
   padding: 14px 18px;
@@ -281,7 +281,7 @@ ol {
 }
 
 .owner-header .brand-logo {
-  width: clamp(82px, 8vw, 98px);
+  width: clamp(124px, 11vw, 158px);
   border-radius: 0;
   box-shadow: none;
   background: transparent;
